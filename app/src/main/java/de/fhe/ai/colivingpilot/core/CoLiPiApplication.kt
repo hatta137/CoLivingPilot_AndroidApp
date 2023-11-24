@@ -5,9 +5,16 @@ import android.util.Log
 
 class CoLiPiApplication : Application() {
 
+    private lateinit var keyValueStore: KeyValueStore
+
     override fun onCreate() {
         super.onCreate()
+        keyValueStore = KeyValueStore(this)
         Log.i(LOG_TAG, "Application initialized.")
+    }
+
+    fun getKeyValueStore(): KeyValueStore {
+        return keyValueStore
     }
 
     companion object {
