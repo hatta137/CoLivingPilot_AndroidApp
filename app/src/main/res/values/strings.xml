@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">CoLivingPilot</string>
+    <string name="label_button_login">Einloggen</string>
+    <string name="label_button_create_account">Account erstellen</string>
+    <string name="label_textview_welcome">Willkommen bei CoLivingPilot!</string>
+    <string name="label_textview_login_title">Login</string>
+    <string name="hint_textfield_password">Passwort</string>
+    <string name="hint_textfield_username">Username</string>
+    <string name="hint_textfield_email">E-Mail</string>
+    <string name="hint_textfield_password_repeat">Passwort wiederholen</string>
 </resources>
