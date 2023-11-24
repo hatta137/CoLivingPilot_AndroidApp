@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "de.fhe.ai.colivingpilot"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "de.fhe.ai.colivingpilot"
