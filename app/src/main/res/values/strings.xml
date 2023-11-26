@@ -8,4 +8,9 @@
     <string name="hint_textfield_username">Username</string>
     <string name="hint_textfield_email">E-Mail</string>
     <string name="hint_textfield_password_repeat">Passwort wiederholen</string>
+    <string name="snackbar_login_successful">Erfolgreich eingeloggt</string>
+    <string name="snackbar_login_unsuccessful">Login fehlgeschlagen</string>
+    <string name="snackbar_something_went_wrong">Etwas ist schiefgelaufen</string>
+    <string name="snackbar_register_successful">Erfolgreich registriert</string>
+    <string name="snackbar_register_unsuccessful">Registrierung fehlgeschlagen</string>
 </resources>
