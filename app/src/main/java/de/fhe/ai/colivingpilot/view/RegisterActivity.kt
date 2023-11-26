@@ -1,13 +1,11 @@
 package de.fhe.ai.colivingpilot.view
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.ProgressBar
-import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import de.fhe.ai.colivingpilot.R
@@ -58,11 +56,11 @@ class RegisterActivity : AppCompatActivity() {
                     response: Response<BackendResponse<JwtData>>
                 ) {
                     if (response.isSuccessful) {
-                        val registerResponse = response.body()
-                        registerResponse?.let {
+                        val body = response.body()
+                        body?.let {
                             val token = it.data.token
                             val app = application as CoLiPiApplication
-                            app.getKeyValueStore().writeString("jwt", token)
+                            app.keyValueStore.writeString("jwt", token)
                             Log.i(CoLiPiApplication.LOG_TAG, "Received JWT: $token")
                         }
 

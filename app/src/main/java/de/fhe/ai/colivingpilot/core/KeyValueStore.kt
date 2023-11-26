@@ -13,24 +13,24 @@ class KeyValueStore(private val app: Application) {
         preferences.edit().putString(key, value).apply()
     }
 
-    fun readString(key: String) {
-        preferences.getString(key, DEFAULT_STRING_VALUE);
+    fun readString(key: String): String {
+        return preferences.getString(key, DEFAULT_STRING_VALUE) ?: DEFAULT_STRING_VALUE
     }
 
     fun writeInt(key: String, value: Int) {
         preferences.edit().putInt(key, value).apply()
     }
 
-    fun readInt(key: String) {
-        preferences.getInt(key, DEFAULT_INT_VALUE);
+    fun readInt(key: String): Int {
+        return preferences.getInt(key, DEFAULT_INT_VALUE)
     }
 
     fun writeBoolean(key: String, value: Boolean) {
         preferences.edit().putBoolean(key, value).apply()
     }
 
-    fun readBoolean(key: String) {
-        preferences.getBoolean(key, DEFAULT_BOOLEAN_VALUE);
+    fun readBoolean(key: String): Boolean {
+        return preferences.getBoolean(key, DEFAULT_BOOLEAN_VALUE)
     }
 
     companion object {
