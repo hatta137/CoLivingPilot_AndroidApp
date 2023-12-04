@@ -7,13 +7,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.model.ShoppingListItem
+import de.fhe.ai.colivingpilot.model.Task
+import de.fhe.ai.colivingpilot.model.TaskAssignedUser
 import de.fhe.ai.colivingpilot.model.User
 
-
-@Database(entities = [ User::class ], version = 1)
+@Database(entities = [ User::class, Task::class, ShoppingListItem::class, TaskAssignedUser::class ], version = 1)
 abstract class WgDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao
+    abstract fun taskDao(): TaskDao
+    abstract fun shoppingListItemDao(): ShoppingListItemDao
+    abstract fun taskAssignedUserDao(): TaskAssignedUserDao
 
     companion object {
 
