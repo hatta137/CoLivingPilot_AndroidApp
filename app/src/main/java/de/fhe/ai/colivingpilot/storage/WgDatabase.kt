@@ -36,7 +36,6 @@ abstract class WgDatabase : RoomDatabase() {
             return instance ?: Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
                 .addCallback(createCallback)
                 .setQueryCallback({ sqlQuery, bindArgs ->
-                    println("SQL Query: $sqlQuery SQL Args: $bindArgs")
                     Log.i("SQL", "Query: $sqlQuery | Args: $bindArgs")
                 }, Executors.newSingleThreadExecutor())
                 .build()

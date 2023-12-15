@@ -5,6 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,5 +21,9 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         setupWithNavController(navView, navController)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            CoLiPiApplication.instance.repository.refresh()
+        }
     }
 }

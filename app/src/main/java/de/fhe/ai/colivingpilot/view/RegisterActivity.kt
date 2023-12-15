@@ -1,5 +1,6 @@
 package de.fhe.ai.colivingpilot.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.http.RetrofitClient
@@ -64,7 +66,8 @@ class RegisterActivity : AppCompatActivity() {
                             Log.i(CoLiPiApplication.LOG_TAG, "Received JWT: $token")
                         }
 
-                        UiUtils.showSnackbar(this@RegisterActivity, registerBtn, R.string.snackbar_register_successful, Snackbar.LENGTH_SHORT, R.color.green)
+                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Log.e(CoLiPiApplication.LOG_TAG, "Register response unsuccessful: ${response.errorBody()?.string()}")
                         UiUtils.showSnackbar(this@RegisterActivity, registerBtn, R.string.snackbar_register_unsuccessful, Snackbar.LENGTH_SHORT, R.color.red)
