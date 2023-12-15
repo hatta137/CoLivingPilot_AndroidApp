@@ -9,6 +9,7 @@ class CoLiPiApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         keyValueStore = KeyValueStore(this)
         Log.i(LOG_TAG, "Application initialized.")
     }
@@ -18,7 +19,12 @@ class CoLiPiApplication : Application() {
     }
 
     companion object {
+
         const val LOG_TAG = "CoLiPi"
+
+        lateinit var instance: CoLiPiApplication
+            private set
+
     }
 
 }
