@@ -4,18 +4,18 @@
 
     <item
         android:id="@+id/navigation_tasks"
-        android:icon="@drawable/baseline_add_task_24"
+        android:icon="@drawable/baseline_task_alt_24"
         android:title="@string/tasks_menu_item" />
     <item
         android:id="@+id/navigation_shoppinglist"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_add_shopping_cart_24"
+        android:icon="@drawable/baseline_shopping_cart_24"
         android:title="@string/shoppinglist_menu_item" />
     <item
         android:id="@+id/navigation_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_display_settings_24"
+        android:icon="@drawable/baseline_settings_24"
         android:title="@string/settings_menu_item" />
 </menu>
