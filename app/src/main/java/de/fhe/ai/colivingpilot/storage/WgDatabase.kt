@@ -11,6 +11,7 @@ import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.model.TaskAssignedUser
 import de.fhe.ai.colivingpilot.model.User
+import java.util.concurrent.Executors
 
 @Database(entities = [ User::class, Task::class, ShoppingListItem::class, TaskAssignedUser::class ], version = 1)
 abstract class WgDatabase : RoomDatabase() {
@@ -34,6 +35,10 @@ abstract class WgDatabase : RoomDatabase() {
         fun getDatabase(context: Context): WgDatabase {
             return instance ?: Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
                 .addCallback(createCallback)
+                .setQueryCallback({ sqlQuery, bindArgs ->
+                    println("SQL Query: $sqlQuery SQL Args: $bindArgs")
+                    Log.i("SQL", "Query: $sqlQuery | Args: $bindArgs")
+                }, Executors.newSingleThreadExecutor())
                 .build()
         }
 

@@ -1,6 +1,9 @@
 package de.fhe.ai.colivingpilot.storage
 
 import android.content.Context
+import android.util.Log
+import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.http.RetrofitClient
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.model.User
@@ -18,9 +21,30 @@ class Repository(
     private val shoppingListItemDao: ShoppingListItemDao = db.shoppingListItemDao()
     private val taskAssignedUserDao: TaskAssignedUserDao = db.taskAssignedUserDao()
 
-    suspend fun updateAll() = withContext(Dispatchers.IO) {
+    suspend fun refresh() = withContext(Dispatchers.IO) {
         userDao.deleteAll() // triggers cascading deletes in all tables
-        // TODO: ... get json data from backend and insert everything
+        val response = RetrofitClient.instance.getWgData().execute()
+
+        if (response.isSuccessful) {
+            val body = response.body()
+            body?.let { resp ->
+                CoLiPiApplication.instance.keyValueStore.writeString("wg_name", resp.data.wg.name)
+                CoLiPiApplication.instance.keyValueStore.writeString("wg_code", resp.data.wg.invitationCode)
+                CoLiPiApplication.instance.keyValueStore.writeInt("wg_max_members", resp.data.wg.maximumMembers)
+                val creator = resp.data.wg.creator
+                resp.data.wg.members.forEach { member ->
+                    db.userDao().insert(User(member.id, member.username, member.beercounter, creator.username == member.username))
+                }
+                resp.data.wg.shoppingList.forEach { item ->
+                    db.shoppingListItemDao().insert(ShoppingListItem(item.id, item.title, item.notes, item.creator.id))
+                }
+                resp.data.wg.tasks.forEach { task ->
+                    db.taskDao().insert(Task(task.id, task.title, task.description, task.beerbonus))
+                }
+            }
+        } else {
+            Log.e(CoLiPiApplication.LOG_TAG, "Failed to fetch WG data")
+        }
     }
 
     fun getUsers(): List<User> {
