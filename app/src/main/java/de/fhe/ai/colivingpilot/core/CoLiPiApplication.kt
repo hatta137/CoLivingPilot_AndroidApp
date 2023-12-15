@@ -10,8 +10,14 @@ import kotlinx.coroutines.launch
 
 class CoLiPiApplication : Application() {
 
-    val keyValueStore: KeyValueStore by lazy {
-        KeyValueStore(this)
+    private lateinit var keyValueStore: KeyValueStore
+
+    override fun onCreate() {
+        super.onCreate()
+        instance = this
+        keyValueStore = KeyValueStore(this)
+        Log.i(LOG_TAG, "Application initialized.")
+        testDatabase()
     }
 
     private fun testDatabase() {
@@ -21,15 +27,17 @@ class CoLiPiApplication : Application() {
         }
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        RetrofitClient.initialize(keyValueStore)
-        Log.i(LOG_TAG, "Application initialized.")
-        testDatabase()
+    fun getKeyValueStore(): KeyValueStore {
+        return keyValueStore
     }
 
     companion object {
+
         const val LOG_TAG = "CoLiPi"
+
+        lateinit var instance: CoLiPiApplication
+            private set
+
     }
 
 }

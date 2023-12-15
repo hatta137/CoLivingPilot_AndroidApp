@@ -13,4 +13,8 @@
     <string name="snackbar_something_went_wrong">Etwas ist schiefgelaufen</string>
     <string name="snackbar_register_successful">Erfolgreich registriert</string>
     <string name="snackbar_register_unsuccessful">Registrierung fehlgeschlagen</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="tasks_menu_item">Aufgaben</string>
+    <string name="shoppinglist_menu_item">Einkaufsliste</string>
+    <string name="settings_menu_item">Einstellungen</string>
 </resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_tasks">
+
+    <fragment
+        android:id="@+id/navigation_tasks"
+        android:name="de.fhe.ai.colivingpilot.tasks.TasksFragment"
+        android:label="fragment_tasks"
+        tools:layout="@layout/fragment_tasks" />
+    <fragment
+        android:id="@+id/navigation_shoppinglist"
+        android:name="de.fhe.ai.colivingpilot.shoppinglist.ShoppinglistFragment"
+        android:label="fragment_shoppinglist"
+        tools:layout="@layout/fragment_shoppinglist"/>
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="de.fhe.ai.colivingpilot.settings.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+</navigation>
