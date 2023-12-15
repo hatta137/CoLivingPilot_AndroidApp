@@ -11,6 +11,10 @@ interface TaskDao {
     @Insert
     fun insert(vararg task: Task)
 
+    // TODO: removable once Task has reference to User
+    @Query("DELETE FROM tasks")
+    fun deleteAll()
+
     @Query("SELECT * FROM tasks")
     fun getTasks(): List<Task>
 

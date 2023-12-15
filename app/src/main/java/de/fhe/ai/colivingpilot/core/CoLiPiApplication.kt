@@ -4,9 +4,6 @@ import android.app.Application
 import android.util.Log
 import de.fhe.ai.colivingpilot.http.RetrofitClient
 import de.fhe.ai.colivingpilot.storage.Repository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class CoLiPiApplication : Application() {
 

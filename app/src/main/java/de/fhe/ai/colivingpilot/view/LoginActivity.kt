@@ -1,5 +1,6 @@
 package de.fhe.ai.colivingpilot.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
+import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.http.RetrofitClient
@@ -15,9 +17,6 @@ import de.fhe.ai.colivingpilot.http.data.request.LoginRequest
 import de.fhe.ai.colivingpilot.http.data.response.BackendResponse
 import de.fhe.ai.colivingpilot.http.data.response.datatypes.JwtData
 import de.fhe.ai.colivingpilot.util.UiUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,12 +62,8 @@ class LoginActivity : AppCompatActivity() {
                             Log.i(CoLiPiApplication.LOG_TAG, "Received JWT: $token")
                         }
 
-                        UiUtils.showSnackbar(this@LoginActivity, loginBtn, R.string.snackbar_login_successful, Snackbar.LENGTH_SHORT, R.color.green)
-
-                        // TODO: remove (just for testing)
-                        CoroutineScope(Dispatchers.IO).launch {
-                            CoLiPiApplication.instance.repository.refresh()
-                        }
+                        val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        startActivity(intent)
                     } else {
                         Log.e(CoLiPiApplication.LOG_TAG, "Login response unsuccessful: ${response.errorBody()?.string()}")
                         UiUtils.showSnackbar(this@LoginActivity, loginBtn, R.string.snackbar_login_unsuccessful, Snackbar.LENGTH_SHORT, R.color.red)
