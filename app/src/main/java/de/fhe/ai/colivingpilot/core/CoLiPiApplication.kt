@@ -10,25 +10,16 @@ import kotlinx.coroutines.launch
 
 class CoLiPiApplication : Application() {
 
-    private lateinit var keyValueStore: KeyValueStore
+    lateinit var keyValueStore: KeyValueStore
+    lateinit var repository: Repository
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         keyValueStore = KeyValueStore(this)
+        repository = Repository(this)
+        RetrofitClient.initialize(keyValueStore)
         Log.i(LOG_TAG, "Application initialized.")
-        testDatabase()
-    }
-
-    private fun testDatabase() {
-        CoroutineScope(Dispatchers.Main).launch {
-            val repo = Repository(this@CoLiPiApplication)
-            repo.updateAll()
-        }
-    }
-
-    fun getKeyValueStore(): KeyValueStore {
-        return keyValueStore
     }
 
     companion object {

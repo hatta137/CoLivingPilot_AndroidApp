@@ -15,6 +15,9 @@ import de.fhe.ai.colivingpilot.http.data.request.LoginRequest
 import de.fhe.ai.colivingpilot.http.data.response.BackendResponse
 import de.fhe.ai.colivingpilot.http.data.response.datatypes.JwtData
 import de.fhe.ai.colivingpilot.util.UiUtils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -61,6 +64,11 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         UiUtils.showSnackbar(this@LoginActivity, loginBtn, R.string.snackbar_login_successful, Snackbar.LENGTH_SHORT, R.color.green)
+
+                        // TODO: remove (just for testing)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            CoLiPiApplication.instance.repository.refresh()
+                        }
                     } else {
                         Log.e(CoLiPiApplication.LOG_TAG, "Login response unsuccessful: ${response.errorBody()?.string()}")
                         UiUtils.showSnackbar(this@LoginActivity, loginBtn, R.string.snackbar_login_unsuccessful, Snackbar.LENGTH_SHORT, R.color.red)
