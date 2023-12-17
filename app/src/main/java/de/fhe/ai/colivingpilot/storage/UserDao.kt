@@ -4,17 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import de.fhe.ai.colivingpilot.model.User
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface UserDao {
 
     @Insert
-    fun insert(vararg user: User)
+    suspend fun insert(vararg user: User)
 
     @Query("DELETE FROM users")
     fun deleteAll()
 
-    @Query("SELECT * FROM users")
-    fun getUsers(): List<User>
+    @Query("SELECT * FROM users ORDER by beer_counter DESC")
+    fun getUsersFlow(): Flow<List<User>>
 
 }

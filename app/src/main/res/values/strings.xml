@@ -4,4 +4,13 @@
     <string name="tasks_menu_item">Aufgaben</string>
     <string name="shoppinglist_menu_item">Einkaufsliste</string>
     <string name="settings_menu_item">Einstellungen</string>
+
+    <string name="text_descr_profile_picture">Profilbild</string>
+
+    //actions
+    <string name="delete">Löschen</string>
+    <string name="edit">Bearbeiten</string>
+    <string name="add">Hinzufügen</string>
+    <string name="save">Speichern</string>
+    <string name="cancel">Abbrechen</string>
 </resources>
