@@ -39,7 +39,7 @@ class UserLongClickDialogFragment(
             val binding = DialogUserLongClickBinding.inflate(inflater)
 
             val emojiArray = resources.getStringArray(R.array.emoji_array)
-            val currentEmoji = CoLiPiApplication.instance.getKeyValueStore().readString(username + "_emoji")
+            val currentEmoji = CoLiPiApplication.instance.keyValueStore.readString(username + "_emoji")
             val selectedEmoji = emojiArray.indexOf(currentEmoji)
             val spinnerSelectEmojiAdapter = ArrayAdapter.createFromResource(requireParentFragment().requireContext(), R.array.emoji_array, android.R.layout.simple_spinner_item).also { adapter ->
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

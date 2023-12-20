@@ -11,20 +11,16 @@ import de.fhe.ai.colivingpilot.storage.WgDatabase
 @HiltAndroidApp
 class CoLiPiApplication : Application() {
 
-    private lateinit var keyValueStore: KeyValueStore
+    lateinit var keyValueStore: KeyValueStore
     lateinit var repository: Repository
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         keyValueStore = KeyValueStore(this)
-        repository = Repository(this)
+        repository = Repository()
         RetrofitClient.initialize(keyValueStore)
         Log.i(LOG_TAG, "Application initialized.")
-    }
-
-    fun getKeyValueStore(): KeyValueStore {
-        return keyValueStore
     }
 
     companion object {

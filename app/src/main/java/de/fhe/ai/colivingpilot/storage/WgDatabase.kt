@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.UUID
-import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Provider
 import java.util.concurrent.Executors
@@ -59,22 +58,26 @@ abstract class WgDatabase : RoomDatabase() {
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Kevin",
-                                                        420
+                                                        420,
+                                                        true
                                                 ),
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Darius",
-                                                        187
+                                                        187,
+                                                        false
                                                 ),
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Hendrik",
-                                                        1337
+                                                        1337,
+                                                        false
                                                 ),
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Florian",
-                                                        69
+                                                        69,
+                                                        false
                                                 ))
                                 }
 

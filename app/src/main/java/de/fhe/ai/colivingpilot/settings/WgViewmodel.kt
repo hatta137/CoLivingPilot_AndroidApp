@@ -50,7 +50,7 @@ class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListe
         get() = _uiEvent
 
     init {
-        keyValueStore = CoLiPiApplication.instance.getKeyValueStore()
+        keyValueStore = CoLiPiApplication.instance.keyValueStore
         keyValueStore.registerOnSharedPreferenceChangeListener(this)
         _wgName.value = keyValueStore.readString("wg_name")
         if(_wgName.value == ""){

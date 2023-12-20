@@ -2,7 +2,6 @@ package de.fhe.ai.colivingpilot.storage
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
-import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import android.util.Log
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.http.RetrofitClient
@@ -14,9 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 
-class Repository(
-
-) {
+class Repository {
     private val db: WgDatabase = WgDatabase.getInstance(CoLiPiApplication.applicationContext())
     private val userDao: UserDao = db.userDao()
     private val taskDao: TaskDao = db.taskDao()
