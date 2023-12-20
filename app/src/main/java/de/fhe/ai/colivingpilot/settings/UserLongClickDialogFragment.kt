@@ -13,23 +13,14 @@ import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.DialogUserLongClickBinding
 
-class UserLongClickDialogFragment() : DialogFragment() {
+class UserLongClickDialogFragment(
+    val onOkClick: (String) -> Unit,
+    val onCancelClick: () -> Unit
+) : DialogFragment() {
 
     private lateinit var username: String
-    lateinit var listener: UserLongClickDialogListener
-    interface UserLongClickDialogListener {
-        fun onDialogCancelClick(dialog: DialogFragment)
-        fun onDialogSaveClick(dialog: DialogFragment, username: String, emoji: String)
-    }
-
     override fun onAttach(context: Context){
         super.onAttach(context)
-        try {
-            // Instantiate the UserLongClickDialogListener so we can send events to the host
-            listener = getParentFragment() as UserLongClickDialogListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException((context.toString() + " must implement UserLongClickDialogListener"))
-        }
     }
 
     override fun onCreateView(
@@ -59,10 +50,11 @@ class UserLongClickDialogFragment() : DialogFragment() {
             }
             builder.setView(binding.root)
                 .setPositiveButton(R.string.save) { dialog, id ->
-                    listener.onDialogSaveClick(this, username, binding.spinnerSelectEmoji.selectedItem.toString())
+                    val currentSelectedEmoji = binding.spinnerSelectEmoji.selectedItem.toString()
+                    onOkClick(currentSelectedEmoji)
                 }
                 .setNegativeButton(R.string.cancel) { dialog, id ->
-                    listener.onDialogCancelClick(this)
+                    onCancelClick()
                 }
             builder.setTitle("Edit " + username)
 
@@ -70,16 +62,9 @@ class UserLongClickDialogFragment() : DialogFragment() {
         } ?: throw IllegalStateException("Activity cannot be null")
     }
 
-    companion object {
-        private val ARG_USERNAME = "username"
-        fun newInstance(username: String): UserLongClickDialogFragment {
-            val args = Bundle()
-            args.putString(ARG_USERNAME, username)
-            val fragment = UserLongClickDialogFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
+
+
+
 }
 
 

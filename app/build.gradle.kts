@@ -80,4 +80,7 @@ dependencies {
     implementation("androidx.emoji2:emoji2:$emojiVersion")
     implementation("androidx.emoji2:emoji2-views:$emojiVersion")
 
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
+
+
 }

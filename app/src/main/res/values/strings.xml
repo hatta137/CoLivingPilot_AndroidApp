@@ -13,4 +13,9 @@
     <string name="add">Hinzufügen</string>
     <string name="save">Speichern</string>
     <string name="cancel">Abbrechen</string>
+
+
+    //settings
+    <string name="wg_name_changed">WG Name geändert</string>
+
 </resources>

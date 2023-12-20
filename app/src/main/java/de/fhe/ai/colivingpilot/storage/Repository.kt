@@ -1,18 +1,20 @@
 package de.fhe.ai.colivingpilot.storage
 
 import android.content.Context
+import dagger.hilt.android.qualifiers.ApplicationContext
+import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.model.User
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 
 class Repository(
-    context: Context
-) {
 
-    private val db: WgDatabase = WgDatabase.getDatabase(context)
+) {
+    private val db: WgDatabase = WgDatabase.getInstance(CoLiPiApplication.applicationContext())
     private val userDao: UserDao = db.userDao()
     private val taskDao: TaskDao = db.taskDao()
     private val shoppingListItemDao: ShoppingListItemDao = db.shoppingListItemDao()
@@ -23,8 +25,8 @@ class Repository(
         // TODO: ... get json data from backend and insert everything
     }
 
-    fun getUsers(): List<User> {
-        return userDao.getUsers()
+    fun getUsersFlow(): Flow<List<User>> {
+        return userDao.getUsersFlow()
     }
 
     fun getTasks(): List<Task> {

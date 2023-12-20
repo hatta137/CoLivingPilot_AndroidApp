@@ -16,6 +16,6 @@
         android:id="@+id/navigation_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:icon="@drawable/baseline_settings_24"
+        android:icon="@drawable/baseline_people_24"
         android:title="@string/settings_menu_item" />
 </menu>

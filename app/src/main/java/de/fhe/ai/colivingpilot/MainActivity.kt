@@ -19,8 +19,6 @@ class MainActivity : AppCompatActivity() {
         val navView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        val sharedPref = CoLiPiApplication.instance.getKeyValueStore().preferences
-        sharedPref.edit().putString("wg_name", "WG 1").apply()
         setupWithNavController(navView, navController)
     }
 }
