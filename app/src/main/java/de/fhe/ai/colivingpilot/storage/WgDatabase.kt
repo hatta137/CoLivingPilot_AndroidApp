@@ -21,6 +21,7 @@ import java.util.UUID
 import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Provider
+import java.util.concurrent.Executors
 
 @Database(entities = [ User::class, Task::class, ShoppingListItem::class, TaskAssignedUser::class ],
         version = 4)
@@ -81,6 +82,14 @@ abstract class WgDatabase : RoomDatabase() {
                 }
         }
 
+        fun getDatabase(context: Context): WgDatabase {
+            return instance ?: Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
+                .addCallback(createCallback)
+                .setQueryCallback({ sqlQuery, bindArgs ->
+                    Log.i("SQL", "Query: $sqlQuery | Args: $bindArgs")
+                }, Executors.newSingleThreadExecutor())
+                .build()
+        }
 
 
 }

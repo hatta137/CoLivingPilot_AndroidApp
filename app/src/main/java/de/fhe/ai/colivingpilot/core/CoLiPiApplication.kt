@@ -3,6 +3,8 @@ package de.fhe.ai.colivingpilot.core
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import de.fhe.ai.colivingpilot.http.RetrofitClient
+import de.fhe.ai.colivingpilot.storage.Repository
 import dagger.hilt.android.HiltAndroidApp
 import de.fhe.ai.colivingpilot.storage.WgDatabase
 
@@ -10,11 +12,14 @@ import de.fhe.ai.colivingpilot.storage.WgDatabase
 class CoLiPiApplication : Application() {
 
     private lateinit var keyValueStore: KeyValueStore
+    lateinit var repository: Repository
 
     override fun onCreate() {
         super.onCreate()
-        keyValueStore = KeyValueStore(this)
         instance = this
+        keyValueStore = KeyValueStore(this)
+        repository = Repository(this)
+        RetrofitClient.initialize(keyValueStore)
         Log.i(LOG_TAG, "Application initialized.")
     }
 
@@ -23,6 +28,7 @@ class CoLiPiApplication : Application() {
     }
 
     companion object {
+
         const val LOG_TAG = "CoLiPi"
         lateinit var instance: CoLiPiApplication
             private set
