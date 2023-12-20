@@ -14,7 +14,7 @@ class CoLiPiApplication : Application() {
         super.onCreate()
         instance = this
         keyValueStore = KeyValueStore(this)
-        repository = Repository(this)
+        repository = Repository()
         RetrofitClient.initialize(keyValueStore)
         Log.i(LOG_TAG, "Application initialized.")
     }
