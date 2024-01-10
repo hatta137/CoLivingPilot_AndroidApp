@@ -77,8 +77,20 @@ class Repository {
         return taskDao.getTasks()
     }
 
-    fun getShoppingListItems(): List<ShoppingListItem> {
-        return shoppingListItemDao.getShoppingListItems()
+    fun getShoppingListItemsFlow(): Flow<List<ShoppingListItem>> {
+        return shoppingListItemDao.getShoppingListItemsFlow()
     }
 
+    fun deleteItemFromShoppingList(shoppingListItem: ShoppingListItem){
+        shoppingListItemDao.deleteItemFromShoppingList(shoppingListItem)
+    }
+
+    fun insertShoppingListItem(shoppingListItem: ShoppingListItem){
+        shoppingListItemDao.insert(shoppingListItem)
+    }
+
+    fun updateItem(shoppingListItem: ShoppingListItem, boolean: Boolean){
+        var updatedItem = shoppingListItem.copy(isChecked = boolean)
+        shoppingListItemDao.updateItem(updatedItem)
+    }
 }

@@ -32,6 +32,8 @@ abstract class WgDatabase : RoomDatabase() {
         abstract fun shoppingListItemDao(): ShoppingListItemDao
         abstract fun taskAssignedUserDao(): TaskAssignedUserDao
 
+
+
         companion object {
                 @Volatile
                 private var instance: WgDatabase? = null
@@ -54,6 +56,10 @@ abstract class WgDatabase : RoomDatabase() {
                                 Log.i(CoLiPiApplication.LOG_TAG, "Database created")
                                 val userDao = getInstance(CoLiPiApplication.applicationContext()).userDao()
                                 CoroutineScope(Dispatchers.IO).launch {
+
+                                        // Test ID damit Constraint klappt -> klappt aber nicht
+                                        val staticId = StaticUUID()
+                                        val testID = staticId.getID()
                                         userDao.insert(
                                                 User(
                                                         UUID.randomUUID().toString(),
@@ -68,7 +74,7 @@ abstract class WgDatabase : RoomDatabase() {
                                                         false
                                                 ),
                                                 User(
-                                                        UUID.randomUUID().toString(),
+                                                        testID,
                                                         "Hendrik",
                                                         1337,
                                                         false
