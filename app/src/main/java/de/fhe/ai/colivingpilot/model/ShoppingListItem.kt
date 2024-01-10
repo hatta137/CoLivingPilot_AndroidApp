@@ -19,5 +19,6 @@ data class ShoppingListItem(
     @PrimaryKey val id: String,
     val title: String,
     val notes: String,
-    val creator: String
+    val creator: String,
+    var isChecked: Boolean //TODO @Kevin @Hendrik Backend?
 )
