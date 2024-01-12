@@ -18,4 +18,6 @@ interface UserDao {
     @Query("SELECT * FROM users ORDER by beer_counter DESC")
     fun getUsersFlow(): Flow<List<User>>
 
+    @Query("SELECT * FROM users WHERE username = 'Hendrik'")
+    fun getTestUser(): User
 }

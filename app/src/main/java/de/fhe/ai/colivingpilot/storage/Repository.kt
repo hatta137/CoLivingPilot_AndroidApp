@@ -49,4 +49,9 @@ class Repository(
         var updatedItem = shoppingListItem.copy(isChecked = boolean)
         shoppingListItemDao.updateItem(updatedItem)
     }
+
+    //TODO später kommt der User aus der Anmeldung
+    fun getTestUser(): User {
+        return userDao.getTestUser()
+    }
 }
