@@ -31,11 +31,11 @@ class ShoppinglistFragment : Fragment() {
         shoppingListAdapter = ShoppingListAdapter(requireContext(), mutableListOf())
 
         // Recycler View
-        val rvShoppingListItemsItems = view.findViewById<RecyclerView>(R.id.rvShoppingListItems)
+        val rvShoppingListItems = view.findViewById<RecyclerView>(R.id.rvShoppingListItems)
 
-        rvShoppingListItemsItems.adapter = shoppingListAdapter
+        rvShoppingListItems.adapter = shoppingListAdapter
 
-        rvShoppingListItemsItems.layoutManager = LinearLayoutManager(requireContext())
+        rvShoppingListItems.layoutManager = LinearLayoutManager(requireContext())
 
         val btnAddItem = view.findViewById<Button>(R.id.btnAddItemToShoppingList)
         val etItemTitle = view.findViewById<EditText>(R.id.etItemTitle)
@@ -52,7 +52,6 @@ class ShoppinglistFragment : Fragment() {
         btnDeleteDoneTodos.setOnClickListener {
             shoppingListViewModel.deleteDoneItems()
         }
-
         return view
     }
 

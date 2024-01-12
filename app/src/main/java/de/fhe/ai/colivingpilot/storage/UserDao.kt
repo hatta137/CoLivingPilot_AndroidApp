@@ -17,4 +17,6 @@ interface UserDao {
     @Query("SELECT * FROM users")
     fun getUsers(): List<User>
 
+    @Query("SELECT * FROM users WHERE username = 'Hendrik'")
+    fun getTestUser(): User
 }

@@ -57,9 +57,7 @@ abstract class WgDatabase : RoomDatabase() {
                                 val userDao = getInstance(CoLiPiApplication.applicationContext()).userDao()
                                 CoroutineScope(Dispatchers.IO).launch {
 
-                                        // Test ID damit Constraint klappt -> klappt aber nicht
-                                        val staticId = StaticUUID()
-                                        val testID = staticId.getID()
+
                                         userDao.insert(
                                                 User(
                                                         UUID.randomUUID().toString(),
@@ -74,7 +72,7 @@ abstract class WgDatabase : RoomDatabase() {
                                                         false
                                                 ),
                                                 User(
-                                                        testID,
+                                                        UUID.randomUUID().toString(),
                                                         "Hendrik",
                                                         1337,
                                                         false

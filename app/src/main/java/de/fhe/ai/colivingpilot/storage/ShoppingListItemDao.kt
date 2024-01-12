@@ -21,10 +21,7 @@ interface ShoppingListItemDao {
     @Delete
     fun deleteItemFromShoppingList(shoppingListItem: ShoppingListItem)
 
-
     // TODO UPDATE isChecked
     @Update
     fun updateItem(shoppingListItem: ShoppingListItem)
-
-
 }

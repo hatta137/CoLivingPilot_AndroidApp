@@ -1,17 +1,12 @@
 package de.fhe.ai.colivingpilot.shoppinglist
 
-import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import de.fhe.ai.colivingpilot.core.KeyValueStore
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.storage.Repository
-import de.fhe.ai.colivingpilot.storage.StaticUUID
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -25,25 +20,26 @@ class ShoppingListViewModel: ViewModel() {
     // Funktion zum Hinzufügen eines Elements zur Einkaufsliste
     fun addItemToShoppingList(itemTitle: String) {
 
-        val staticId = StaticUUID()
-        val testID = staticId.getID()
-
-        val item = ShoppingListItem(
-            UUID.randomUUID().toString(),
-            itemTitle,
-            "notes",
-            testID,
-            false)
-
         viewModelScope.launch(Dispatchers.IO) {
+
+            // TODO @hendrik Notes einfügen
+            val item = ShoppingListItem(
+                UUID.randomUUID().toString(),
+                itemTitle,
+                "notes",
+                repository.getTestUser().id,
+                false)
+
             repository.insertShoppingListItem(item)
         }
     }
 
     // Funktion zum Löschen erledigter Elemente aus der Einkaufsliste
     fun deleteDoneItems() {
+
         viewModelScope.launch(Dispatchers.IO) {
 
+            // TODO @hendrik direktes Löschen einbauen
             shoppingListItems.value?.forEach{
                 if (it.isChecked){
                     repository.deleteItemFromShoppingList(it)

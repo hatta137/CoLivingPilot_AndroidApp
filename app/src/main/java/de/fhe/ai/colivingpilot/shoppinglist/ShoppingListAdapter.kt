@@ -42,8 +42,8 @@ class ShoppingListAdapter(
         holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
             toggleStrikeThrough(holder.tvItemTitle, isChecked)
             curItem.isChecked = !curItem.isChecked
-            //TODO Item auch in DB ändern
-            // Viewmodel holen und Funktion aufrufen toggleChecked
+            // TODO @hendrik item direkt löschen
+            // TODO isChecked entfernen --> nochmal warten lieber...
 
         }
     }
@@ -59,20 +59,5 @@ class ShoppingListAdapter(
     override fun getItemCount(): Int {
         return items.size
     }
-
-    // TODO Ab hier muss in Viewmodel?
-    /*fun addItemToShoppingList(item: ShoppingListItem) {
-        items.add(item)
-        notifyItemInserted(items.size - 1)
-    }*/
-
-    /*@SuppressLint("NotifyDataSetChanged")
-    fun deleteItems() {
-        items.removeAll {
-            it.isChecked
-        }
-        notifyDataSetChanged()
-    }*/
-
 
 }
