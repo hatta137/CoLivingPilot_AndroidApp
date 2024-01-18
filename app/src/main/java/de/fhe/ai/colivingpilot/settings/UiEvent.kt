@@ -10,7 +10,8 @@ sealed class UiEvent {
     ) : UiEvent()
 
     data class ShowUserLongClickDialog(
-        val username: String
+        val username: String,
+        val id: String,
     ) : UiEvent()
 
     data class updateEmoji(
@@ -21,7 +22,8 @@ sealed class UiEvent {
         val wgName: String
     ) : UiEvent()
 
-   object activateEditMode : UiEvent()
+    object activateEditMode : UiEvent()
 
     object deactivateEditMode : UiEvent()
+
 }

@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1"
 }
 
 android {
@@ -82,5 +83,6 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 
-
+    //gemini
+    implementation("com.google.ai.client.generativeai:generativeai:0.1.1")
 }

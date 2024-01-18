@@ -15,10 +15,12 @@ import de.fhe.ai.colivingpilot.databinding.DialogUserLongClickBinding
 
 class UserLongClickDialogFragment(
     val onOkClick: (String) -> Unit,
-    val onCancelClick: () -> Unit
+    val onCancelClick: () -> Unit,
+    val onDeleteClick: (String) -> Unit
 ) : DialogFragment() {
 
     private lateinit var username: String
+    private lateinit var id: String
     override fun onAttach(context: Context){
         super.onAttach(context)
     }
@@ -33,6 +35,7 @@ class UserLongClickDialogFragment(
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         username = arguments?.getString("username").toString()
+        id = arguments?.getString("id").toString()
         return activity?.let{
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
@@ -47,6 +50,9 @@ class UserLongClickDialogFragment(
             binding.apply {
                 spinnerSelectEmoji.adapter = spinnerSelectEmojiAdapter
                 spinnerSelectEmoji.setSelection(selectedEmoji)
+                buttonDeleteUser.setOnClickListener{
+                    onDeleteClick(id)
+                }
             }
             builder.setView(binding.root)
                 .setPositiveButton(R.string.save) { dialog, id ->

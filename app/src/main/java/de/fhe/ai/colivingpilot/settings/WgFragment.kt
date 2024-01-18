@@ -29,7 +29,7 @@ class WgFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        
         return inflater.inflate(R.layout.fragment_wg, container, false)
     }
 
@@ -37,23 +37,56 @@ class WgFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWgBinding.bind(view)
+
+        binding.fabAddUser.setOnClickListener{
+            viewmodel.onEvent(WgEvent.OnSuggestWgNameClick)
+        }
+
         val userAdapter = UserUiItemAdapter(
             onClick = { username ->
                 viewmodel.onEvent(WgEvent.OnClickUser(username))
             },
-            onLongClick = { username ->
-                viewmodel.onEvent(WgEvent.OnLongClickUser(username))
+            onLongClick = { user ->
+                viewmodel.onEvent(WgEvent.OnLongClickUser(user))
             }
         )
 
-        viewmodel.userUiItems.observe(viewLifecycleOwner) {
-            userAdapter.userList = it
+        viewmodel.userUiItems.observe(viewLifecycleOwner) {userList ->
+            userAdapter.userList = userList
             userAdapter.notifyDataSetChanged()
         }
 
         viewmodel.wgName.observe(viewLifecycleOwner) {
             binding.tvGroupName.text = it
             binding.etGroupName.setText(it)
+        }
+        viewmodel.wgFragmentState.observe(viewLifecycleOwner){
+            if(it.isEditMode){
+                Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment: wgFragmentState.isEditMode = true")
+                binding.tvGroupName.visibility = View.GONE
+                binding.etGroupName.visibility = View.VISIBLE
+                binding.ibEdit.visibility = View.GONE
+
+                binding.etGroupName.setSelection(binding.etGroupName.text.length)
+                binding.etGroupName.requestFocus()
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                imm.showSoftInput(
+                    binding.etGroupName,
+                    android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
+                )
+            }
+            else{
+                Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment: wgFragmentState.isEditMode = false")
+
+                binding.tvGroupName.visibility = View.VISIBLE
+                binding.etGroupName.visibility = View.GONE
+                binding.ibEdit.visibility = View.VISIBLE
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+
+            }
         }
 
         viewmodel.uiEvent.observe(viewLifecycleOwner) {
@@ -85,10 +118,14 @@ class WgFragment : Fragment() {
                         },
                         onCancelClick = {
                             viewmodel.onEvent(WgEvent.OnDialogCancelClick)
+                        },
+                        onDeleteClick = { user ->
+                            viewmodel.onEvent(WgEvent.OnDeleteUserClick(user))
                         }
                     )
                     val bundle = Bundle()
                     bundle.putString("username", it.username)
+                    bundle.putString("id", it.id)
                     dialog.arguments = bundle
                     dialog.show(childFragmentManager, "UserLongClickDialogFragment")
                 }
@@ -114,7 +151,6 @@ class WgFragment : Fragment() {
                         android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT
                     )
                 }
-
                 is UiEvent.deactivateEditMode -> {
                     binding.tvGroupName.visibility = View.VISIBLE
                     binding.etGroupName.visibility = View.GONE
