@@ -33,9 +33,6 @@ class LoginActivity : AppCompatActivity() {
 
             val usernameField = findViewById<TextInputLayout>(R.id.textfield_username)
             val passwordField = findViewById<TextInputLayout>(R.id.textfield_password)
-            val username = usernameField.editText?.text.toString()
-            val password = passwordField.editText?.text.toString()
-            val loginRequest = LoginRequest(username, password)
 
             val progressBar = findViewById<ProgressBar>(R.id.progress_login)
 
@@ -47,6 +44,10 @@ class LoginActivity : AppCompatActivity() {
             }
 
             setFormLocked(true)
+
+            val username = usernameField.editText?.text.toString()
+            val password = passwordField.editText?.text.toString()
+            val loginRequest = LoginRequest(username, password)
 
             RetrofitClient.instance.login(loginRequest).enqueue(object : Callback<BackendResponse<JwtData>> {
                 override fun onResponse(
