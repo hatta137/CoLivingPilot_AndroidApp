@@ -33,10 +33,6 @@ class RegisterActivity : AppCompatActivity() {
             val usernameField = findViewById<TextInputLayout>(R.id.textfield_register_username)
             val emailField = findViewById<TextInputLayout>(R.id.textfield_register_email)
             val passwordField = findViewById<TextInputLayout>(R.id.textfield_register_password)
-            val username = usernameField.editText?.text.toString()
-            val email = emailField.editText?.text.toString()
-            val password = passwordField.editText?.text.toString()
-            val registerRequest = RegisterRequest(username, email, password)
 
             val passwordRepeatField = findViewById<TextInputLayout>(R.id.textfield_register_password_again)
             val progressBar = findViewById<ProgressBar>(R.id.progress_register)
@@ -52,6 +48,10 @@ class RegisterActivity : AppCompatActivity() {
 
             setFormLocked(true)
 
+            val username = usernameField.editText?.text.toString()
+            val email = emailField.editText?.text.toString()
+            val password = passwordField.editText?.text.toString()
+            val registerRequest = RegisterRequest(username, email, password)
             RetrofitClient.instance.register(registerRequest).enqueue(object : Callback<BackendResponse<JwtData>> {
                 override fun onResponse(
                     call: Call<BackendResponse<JwtData>>,
