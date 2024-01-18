@@ -4,7 +4,7 @@ import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
 import android.util.Log
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
-import de.fhe.ai.colivingpilot.http.RetrofitClient
+import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.model.User
