@@ -8,14 +8,14 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 class UserUiItemAdapter(
     private val onClick : (String) -> Unit,
-    private val onLongClick : (String) -> Unit
+    private val onLongClick : (UserUiItem) -> Unit
 
 ) : RecyclerView.Adapter<UserUiItemAdapter.UserUiItemViewHolder>(){
 
-    var userList: List<UserUiItemState> = emptyList()
+    var userList: List<UserUiItem> = emptyList()
 
     inner class UserUiItemViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root){
-        fun bind(user: UserUiItemState){
+        fun bind(user: UserUiItem){
             Log.i(CoLiPiApplication.LOG_TAG, "UserAdapter: UserViewHolder.bind()")
             binding.listItemContactName.text = user.username
             binding.listItemContactBeerCount.text = user.beerCount.toString()
@@ -26,7 +26,7 @@ class UserUiItemAdapter(
                 onClick(user.username)
             }
             itemView.setOnLongClickListener{
-                onLongClick(user.username)
+                onLongClick(user)
                 true
             }
         }

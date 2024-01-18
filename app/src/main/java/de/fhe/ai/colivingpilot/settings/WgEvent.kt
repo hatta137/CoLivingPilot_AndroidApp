@@ -2,14 +2,14 @@ package de.fhe.ai.colivingpilot.settings
 
 sealed class WgEvent{
     data class OnClickUser(val username: String) : WgEvent()
-    data class OnLongClickUser(val username: String) : WgEvent()
+    data class OnLongClickUser(val user: UserUiItem) : WgEvent()
     data class OnChangeWgName(val wgName: String) : WgEvent()
     object OnClickEditWgButton : WgEvent()
     object OnClickAddUserButton : WgEvent()
     object OnClickOutsideEditMode : WgEvent()
-
     data class OnDialogOkClick (val user: String, val selectedEmoji : String) : WgEvent()
     object OnDialogCancelClick : WgEvent()
 
-
+    object OnSuggestWgNameClick : WgEvent()
+    data class OnDeleteUserClick(val id: String) : WgEvent()
 }
