@@ -11,13 +11,13 @@ class UnauthenticatedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_unauthenticated)
 
-        val loginBtn = findViewById<Button>(R.id.button_login)
+        val loginBtn = findViewById<Button>(R.id.unauthenticated_activity_button_login)
         loginBtn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
 
-        val registerBtn = findViewById<Button>(R.id.button_create_account)
+        val registerBtn = findViewById<Button>(R.id.unauthenticated_activity_button_create_account)
         registerBtn.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
