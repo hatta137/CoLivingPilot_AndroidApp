@@ -2,7 +2,7 @@ package de.fhe.ai.colivingpilot.core
 
 import android.app.Application
 import android.util.Log
-import de.fhe.ai.colivingpilot.http.RetrofitClient
+import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.storage.Repository
 
 class CoLiPiApplication : Application() {

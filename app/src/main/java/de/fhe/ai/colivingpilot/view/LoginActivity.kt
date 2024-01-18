@@ -12,10 +12,10 @@ import com.google.android.material.textfield.TextInputLayout
 import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
-import de.fhe.ai.colivingpilot.http.RetrofitClient
-import de.fhe.ai.colivingpilot.http.data.request.LoginRequest
-import de.fhe.ai.colivingpilot.http.data.response.BackendResponse
-import de.fhe.ai.colivingpilot.http.data.response.datatypes.JwtData
+import de.fhe.ai.colivingpilot.network.RetrofitClient
+import de.fhe.ai.colivingpilot.network.data.request.LoginRequest
+import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
+import de.fhe.ai.colivingpilot.network.data.response.datatypes.JwtData
 import de.fhe.ai.colivingpilot.util.UiUtils
 import retrofit2.Call
 import retrofit2.Callback

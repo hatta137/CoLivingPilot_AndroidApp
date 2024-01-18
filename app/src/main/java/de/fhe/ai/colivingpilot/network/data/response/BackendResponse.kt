@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.http.data.response
+package de.fhe.ai.colivingpilot.network.data.response
 
 /**
  * Template for responses coming from our backend
@@ -6,4 +6,8 @@ package de.fhe.ai.colivingpilot.http.data.response
 data class BackendResponse<T>(
     val status: String,
     val data: T
+)
+
+data class BackendResponseNoData(
+    val status: String
 )

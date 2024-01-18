@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.http.service
+package de.fhe.ai.colivingpilot.network.auth
 
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)

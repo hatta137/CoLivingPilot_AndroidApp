@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.http.data.request
+package de.fhe.ai.colivingpilot.network.data.request
 
 data class LoginRequest(
     val username: String,

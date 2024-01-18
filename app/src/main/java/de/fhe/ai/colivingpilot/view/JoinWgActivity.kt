@@ -12,8 +12,8 @@ import com.google.android.material.textfield.TextInputLayout
 import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
-import de.fhe.ai.colivingpilot.http.RetrofitClient
-import de.fhe.ai.colivingpilot.http.data.response.BackendResponse
+import de.fhe.ai.colivingpilot.network.RetrofitClient
+import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
 import de.fhe.ai.colivingpilot.util.UiUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -44,10 +44,10 @@ class JoinWgActivity : AppCompatActivity() {
             setFormLocked(true)
             
             val code = codeField.editText?.text.toString()
-            RetrofitClient.instance.joinWg(code).enqueue(object : Callback<BackendResponse<Unit>> {
+            RetrofitClient.instance.joinWg(code).enqueue(object : Callback<BackendResponseNoData> {
                 override fun onResponse(
-                    call: Call<BackendResponse<Unit>>,
-                    response: Response<BackendResponse<Unit>>
+                    call: Call<BackendResponseNoData>,
+                    response: Response<BackendResponseNoData>
                 ) {
                     if (response.isSuccessful) {
                         val intent = Intent(this@JoinWgActivity, MainActivity::class.java)
@@ -62,7 +62,7 @@ class JoinWgActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<BackendResponse<Unit>>, t: Throwable) {
+                override fun onFailure(call: Call<BackendResponseNoData>, t: Throwable) {
                     Log.e(CoLiPiApplication.LOG_TAG, "Request failed: ${t.message}")
                     UiUtils.showSnackbar(this@JoinWgActivity, joinBtn, R.string.snackbar_something_went_wrong, Snackbar.LENGTH_SHORT, R.color.red)
 

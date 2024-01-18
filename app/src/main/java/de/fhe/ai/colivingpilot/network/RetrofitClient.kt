@@ -1,8 +1,8 @@
-package de.fhe.ai.colivingpilot.http
+package de.fhe.ai.colivingpilot.network
 
 import de.fhe.ai.colivingpilot.core.KeyValueStore
-import de.fhe.ai.colivingpilot.http.service.AuthInterceptor
-import de.fhe.ai.colivingpilot.http.service.BackendService
+import de.fhe.ai.colivingpilot.network.auth.AuthInterceptor
+import de.fhe.ai.colivingpilot.network.service.BackendService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
