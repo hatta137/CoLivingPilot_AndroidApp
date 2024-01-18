@@ -42,9 +42,8 @@ class ShoppingListAdapter(
         holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
             toggleStrikeThrough(holder.tvItemTitle, isChecked)
             curItem.isChecked = !curItem.isChecked
-            // TODO @hendrik item direkt löschen
-            // TODO isChecked entfernen --> nochmal warten lieber...
-
+            // TODO @hendrik isChecked in DB schreiben
+            // ViewModel funktion benutzen
         }
     }
 
