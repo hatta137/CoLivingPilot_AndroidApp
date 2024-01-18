@@ -2,7 +2,7 @@
     <string name="app_name">CoLivingPilot</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tasks_menu_item">Aufgaben</string>
-    <string name="shoppinglist_menu_item">Einkaufsliste</string>
+
     <string name="settings_menu_item">Einstellungen</string>
 
     <string name="text_descr_profile_picture">Profilbild</string>
@@ -17,5 +17,12 @@
 
     //settings
     <string name="wg_name_changed">WG Name geändert</string>
+
+    //shoppingList
+    <string name="shoppinglist_menu_item">Einkaufsliste</string>
+    <string name="shoppingList_item_title">Was brauchst du?</string>
+    <string name="shoppingList_item_notes">Etwas genauer bitte!</string>
+    <string name="shoppingList_add_btn">Hinzufügen</string>
+    <string name="shoppingList_cancel">Abbruch!</string>
 
 </resources>
