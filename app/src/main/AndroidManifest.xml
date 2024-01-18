@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- TODO: Domain needs HTTPS, remove usesCleartextTraffic -->
-
     <application
         android:name=".core.CoLiPiApplication"
         android:allowBackup="true"
@@ -18,6 +16,15 @@
         android:theme="@style/Theme.CoLivingPilot"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".view.CreateWgActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.NotInWgActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.JoinWgActivity"
+            android:exported="false" />
         <activity
             android:name=".view.LoginActivity"
             android:exported="false" />
