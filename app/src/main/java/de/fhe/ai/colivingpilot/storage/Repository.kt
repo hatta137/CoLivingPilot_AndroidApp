@@ -27,6 +27,10 @@ class Repository {
             return@withContext
         }
 
+        CoLiPiApplication.instance.keyValueStore.writeString("wg_name", "")
+        CoLiPiApplication.instance.keyValueStore.writeString("wg_code", "")
+        CoLiPiApplication.instance.keyValueStore.writeInt("wg_max_members", -1)
+
         userDao.deleteAll() // triggers cascading deletes in all tables
         taskDao.deleteAll() // TODO: removable once Task has reference to User
 
