@@ -27,14 +27,14 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        val loginBtn = findViewById<Button>(R.id.button_login_login)
+        val loginBtn = findViewById<Button>(R.id.login_activity_button_login)
         loginBtn.setOnClickListener {
             UiUtils.hideKeyboard(this)
 
-            val usernameField = findViewById<TextInputLayout>(R.id.textfield_username)
-            val passwordField = findViewById<TextInputLayout>(R.id.textfield_password)
+            val usernameField = findViewById<TextInputLayout>(R.id.login_activity_textfield_username)
+            val passwordField = findViewById<TextInputLayout>(R.id.login_activity_textfield_password)
 
-            val progressBar = findViewById<ProgressBar>(R.id.progress_login)
+            val progressBar = findViewById<ProgressBar>(R.id.login_activity_progress)
 
             fun setFormLocked(locked: Boolean) {
                 loginBtn.visibility = if (locked) View.GONE else View.VISIBLE
@@ -64,13 +64,14 @@ class LoginActivity : AppCompatActivity() {
                         }
 
                         val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
                     } else {
                         Log.e(CoLiPiApplication.LOG_TAG, "Login response unsuccessful: ${response.errorBody()?.string()}")
                         UiUtils.showSnackbar(this@LoginActivity, loginBtn, R.string.snackbar_login_unsuccessful, Snackbar.LENGTH_SHORT, R.color.red)
-                    }
 
-                    setFormLocked(false)
+                        setFormLocked(false)
+                    }
                 }
 
                 override fun onFailure(call: Call<BackendResponse<JwtData>>, t: Throwable) {

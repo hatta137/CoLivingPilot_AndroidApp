@@ -7,7 +7,7 @@
     tools:context=".view.LoginActivity">
 
     <TextView
-        android:id="@+id/textview_title_login"
+        android:id="@+id/login_activity_textview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -19,12 +19,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textfield_username"
+        android:id="@+id/login_activity_textfield_username"
         style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/hint_textfield_username"
-        app:layout_constraintBottom_toTopOf="@id/textfield_password"
+        app:layout_constraintBottom_toTopOf="@id/login_activity_textfield_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -38,16 +38,16 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textfield_password"
+        android:id="@+id/login_activity_textfield_password"
         style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:hint="@string/hint_textfield_password"
-        app:layout_constraintBottom_toTopOf="@id/button_login_login"
+        app:layout_constraintBottom_toTopOf="@id/login_activity_button_login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textfield_username"
+        app:layout_constraintTop_toBottomOf="@id/login_activity_textfield_username"
         app:layout_constraintWidth_percent="0.75"
         app:passwordToggleEnabled="true">
 
@@ -60,7 +60,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_login_login"
+        android:id="@+id/login_activity_button_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -68,11 +68,11 @@
         app:icon="@drawable/baseline_login_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/progress_login"
-        app:layout_constraintTop_toBottomOf="@+id/textfield_password" />
+        app:layout_constraintBottom_toTopOf="@id/login_activity_progress"
+        app:layout_constraintTop_toBottomOf="@+id/login_activity_textfield_password" />
 
     <ProgressBar
-        android:id="@+id/progress_login"
+        android:id="@+id/login_activity_progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -81,6 +81,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_login_login" />
+        app:layout_constraintTop_toBottomOf="@id/login_activity_button_login" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
