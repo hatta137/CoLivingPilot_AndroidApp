@@ -51,6 +51,8 @@ dependencies {
     //room
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-process:2.7.0")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 
 
     //noinspection KaptUsageInsteadOfKsp
@@ -83,6 +85,4 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 
-    //gemini
-    implementation("com.google.ai.client.generativeai:generativeai:0.1.1")
 }

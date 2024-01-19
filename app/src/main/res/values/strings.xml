@@ -18,4 +18,81 @@
     //settings
     <string name="wg_name_changed">WG Name geändert</string>
 
+    <!-- res/values/strings.xml -->
+
+    <!-- Basic Preferences -->
+    <string name="basic_preferences">Basic Preferences</string>
+    <string name="title_basic_preference">Basic Preference</string>
+    <string name="summary_basic_preference">Summary for Basic Preference</string>
+
+    <string name="title_stylish_preference">Stylish Preference</string>
+    <string name="summary_stylish_preference">Summary for Stylish Preference</string>
+
+    <string name="title_icon_preference">Icon Preference</string>
+    <string name="summary_icon_preference">Summary for Icon Preference</string>
+
+    <string name="title_single_line_title_preference">Single Line Title Preference</string>
+    <string name="summary_single_line_title_preference">Summary for Single Line Title Preference</string>
+
+    <!-- Widgets -->
+    <string name="widgets">Widgets</string>
+
+    <string name="title_checkbox_preference">Checkbox Preference</string>
+    <string name="summary_checkbox_preference">Summary for Checkbox Preference</string>
+
+    <string name="title_switch_preference">Switch Preference</string>
+    <string name="summary_switch_preference">Summary for Switch Preference</string>
+
+    <string name="title_dropdown_preference">Dropdown Preference</string>
+
+    <string-array name="entries">
+        <item>Option 1</item>
+        <item>Option 2</item>
+        <item>Option 3</item>
+    </string-array>
+
+    <string-array name="entry_values">
+        <item>value1</item>
+        <item>value2</item>
+        <item>value3</item>
+    </string-array>
+
+    <string name="title_seekbar_preference">Seekbar Preference</string>
+
+    <!-- Dialogs -->
+    <string name="dialogs">Dialogs</string>
+
+    <string name="title_edittext_preference">EditText Preference</string>
+    <string name="dialog_title_edittext_preference">Edit Text</string>
+
+    <string name="title_list_preference">List Preference</string>
+    <string name="dialog_title_list_preference">List Preference</string>
+
+    <string name="title_multi_list_preference">Multi-List Preference</string>
+    <string name="summary_multi_list_preference">Summary for Multi-List Preference</string>
+    <string name="dialog_title_multi_list_preference">Multi-List Preference</string>
+
+    <!-- Advanced Attributes -->
+    <string name="advanced_attributes">Advanced Attributes</string>
+
+    <string name="title_expandable_preference">Expandable Preference</string>
+    <string name="summary_expandable_preference">Summary for Expandable Preference</string>
+
+    <string name="title_intent_preference">Intent Preference</string>
+    <string name="summary_intent_preference">Summary for Intent Preference</string>
+
+    <string name="title_parent_preference">Parent Preference</string>
+    <string name="summary_parent_preference">Summary for Parent Preference</string>
+
+    <string name="title_child_preference">Child Preference</string>
+    <string name="summary_child_preference">Summary for Child Preference</string>
+
+    <string name="title_toggle_summary_preference">Toggle Summary Preference</string>
+    <string name="summary_on_toggle_summary_preference">On Summary for Toggle Summary Preference</string>
+    <string name="summary_off_toggle_summary_preference">Off Summary for Toggle Summary Preference</string>
+
+    <string name="title_copyable_preference">Copyable Preference</string>
+    <string name="summary_copyable_preference">Summary for Copyable Preference</string>
+
+
 </resources>

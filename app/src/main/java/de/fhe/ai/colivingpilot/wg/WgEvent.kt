@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.settings
+package de.fhe.ai.colivingpilot.wg
 
 sealed class WgEvent{
     data class OnClickUser(val username: String) : WgEvent()
@@ -10,6 +10,7 @@ sealed class WgEvent{
     data class OnDialogOkClick (val user: String, val selectedEmoji : String) : WgEvent()
     object OnDialogCancelClick : WgEvent()
 
-    object OnSuggestWgNameClick : WgEvent()
     data class OnDeleteUserClick(val id: String) : WgEvent()
+
+    object OnSettingsClick : WgEvent()
 }

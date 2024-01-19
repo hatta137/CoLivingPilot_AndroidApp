@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.settings
+package de.fhe.ai.colivingpilot.wg
 
 sealed class UiEvent {
 

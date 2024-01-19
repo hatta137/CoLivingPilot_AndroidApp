@@ -1,8 +1,13 @@
 package de.fhe.ai.colivingpilot.core
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.SavedStateHandle
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class CoLiPiApplication : Application() {
 
     private lateinit var keyValueStore: KeyValueStore
@@ -24,6 +29,10 @@ class CoLiPiApplication : Application() {
 
         lateinit var instance: CoLiPiApplication
             private set
+
+        fun applicationContext() : Context {
+            return instance.applicationContext
+        }
 
     }
 
