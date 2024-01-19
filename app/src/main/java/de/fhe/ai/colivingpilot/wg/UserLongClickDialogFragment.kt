@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.settings
+package de.fhe.ai.colivingpilot.wg
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -67,9 +67,6 @@ class UserLongClickDialogFragment(
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
-
-
-
 
 }
 

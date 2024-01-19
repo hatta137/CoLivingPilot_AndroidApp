@@ -16,8 +16,16 @@
         android:label="fragment_shoppinglist"
         tools:layout="@layout/fragment_shoppinglist"/>
     <fragment
-        android:id="@+id/navigation_settings"
-        android:name="de.fhe.ai.colivingpilot.settings.WgFragment"
+        android:id="@+id/navigation_wg"
+        android:name="de.fhe.ai.colivingpilot.wg.WgFragment"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_wg" />
+        tools:layout="@layout/fragment_wg" >
+        <action
+            android:id="@+id/action_navigation_wg_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="de.fhe.ai.colivingpilot.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

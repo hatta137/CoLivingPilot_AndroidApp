@@ -1,30 +1,29 @@
-package de.fhe.ai.colivingpilot.settings
+package de.fhe.ai.colivingpilot.wg
 
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.content
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.core.KeyValueStore
 import de.fhe.ai.colivingpilot.model.User
 import de.fhe.ai.colivingpilot.storage.Repository
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.io.Serializable
 import java.util.UUID
 
 
 data class WgFragmentState(
-    val isEditMode: Boolean = false,
-
-    )
+    val isEditMode: Boolean,
+) : Serializable
 
 data class UserUiItem(
     val id: String,
@@ -33,10 +32,12 @@ data class UserUiItem(
     val emoji: String
 )
 
-class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
+class WgViewmodel(
+    private val state: SavedStateHandle
+) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
+
     private val repository = Repository()
     private lateinit var keyValueStore: KeyValueStore
-    private lateinit var model: GenerativeModel
 
     private val _wgName = MutableLiveData<String>()
     val wgName: LiveData<String>
@@ -59,15 +60,13 @@ class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListe
         }
     }.asLiveData()
 
-    private val _wgFragmentState = MutableLiveData<WgFragmentState>(
-        WgFragmentState(isEditMode = false)
-    )
+    private val _wgFragmentState = state.getLiveData<WgFragmentState>("wgFragmentState")
     val wgFragmentState: LiveData<WgFragmentState>
         get() = _wgFragmentState
 
-    private val _uiEvent = MutableLiveData<UiEvent>()
-    val uiEvent: LiveData<UiEvent>
-        get() = _uiEvent
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
 
     init {
         keyValueStore = CoLiPiApplication.instance.getKeyValueStore()
@@ -77,16 +76,13 @@ class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListe
             _wgName.value = "WG"
             keyValueStore.writeString("wg_name", "WG")
         }
-        model = GenerativeModel(
-            modelName = "gemini-pro",
-            apiKey = "AIzaSyDsWJwVFRINDNzVDcg5eg_2W9sOwVBGID0"
-        )
+        val wgFragmentState = state.get<WgFragmentState>("wgFragmentState") ?: WgFragmentState(isEditMode = false)
+        _wgFragmentState.value = wgFragmentState
     }
 
     fun onEvent(event: WgEvent) {
         when (event) {
             is WgEvent.OnClickUser -> {
-
                 sendEvent(UiEvent.Navigate("user/${event.username}"))
             }
 
@@ -100,9 +96,10 @@ class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListe
             }
 
             is WgEvent.OnClickEditWgButton -> {
-                _wgFragmentState.value = _wgFragmentState.value?.copy(
-                    isEditMode = true
-                )
+                val isEditMode = state.get<WgFragmentState>("wgFragmentState")?.isEditMode
+                Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment OnCLickEdit: wgFragmentState.isEditMode = $isEditMode")
+                state["wgFragmentState"] = _wgFragmentState.value?.copy(isEditMode = true)
+
             }
 
             is WgEvent.OnChangeWgName -> {
@@ -112,9 +109,10 @@ class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListe
             }
 
             is WgEvent.OnClickOutsideEditMode -> {
-                _wgFragmentState.value = _wgFragmentState.value?.copy(
-                    isEditMode = false
-                )
+                val isEditMode = state.get<WgFragmentState>("wgFragmentState")?.isEditMode
+                Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment OnClickOutside: wgFragmentState.isEditMode = $isEditMode")
+                state["wgFragmentState"] = _wgFragmentState.value?.copy(isEditMode = false)
+
             }
 
             is WgEvent.OnDialogOkClick -> {
@@ -144,44 +142,16 @@ class WgViewmodel : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListe
                     repository.deleteUser(user)
                 }
             }
-
-            is WgEvent.OnSuggestWgNameClick -> {
-                viewModelScope.launch {
-                    val response = try {
-                        model.generateContent(
-                            content {
-                                text("Gib mir einen json array lustiger Namen für eine Wohngemeinschaft")
-                            }
-                        )
-                    } catch (e: Exception) {
-                        Log.e(CoLiPiApplication.LOG_TAG, "Error: ${e.message}")
-                        null
-                    }
-                    response?.let {
-                        try {
-                            // Convert JSON array to List<String> using Gson
-                            val gson = Gson()
-                            val type = object : TypeToken<List<String>>() {}.type
-                            val wgNames: List<String> = gson.fromJson(it.text.toString(), type)
-
-                            // Now you have the list of strings (wgNames)
-                            wgNames.forEach { wgName ->
-                                Log.d(CoLiPiApplication.LOG_TAG, "wgName: $wgName")
-                            }
-                        } catch (e: Exception) {
-                            Log.e(
-                                CoLiPiApplication.LOG_TAG,
-                                "Error parsing JSON array: ${e.message}"
-                            )
-                        }
-                    }
-                }
+            is WgEvent.OnSettingsClick -> {
+                sendEvent(UiEvent.Navigate("settings"))
             }
         }
     }
 
     fun sendEvent(event: UiEvent) {
-        _uiEvent.value = event
+        viewModelScope.launch {
+            _uiEvent.send(event)
+        }
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
