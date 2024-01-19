@@ -113,7 +113,7 @@ class WgFragment : Fragment() {
                             "settings" -> {
                                 //navigate to settings
                                 Log.d(CoLiPiApplication.LOG_TAG, "Navigate to settings")
-                                findNavController().navigate(R.id.action_navigation_wg_to_settingsFragment)
+                                findNavController().navigate(R.id.action_navigation_wg_to_navigation_settings)
                             }
                         }
                     }
