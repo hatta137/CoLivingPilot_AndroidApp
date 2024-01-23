@@ -23,3 +23,4 @@ data class Task(
     val creator: String,
     @ColumnInfo(name = "beer_reward") val beerReward: Int
 )
+ 

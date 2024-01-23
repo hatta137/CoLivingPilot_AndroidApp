@@ -43,10 +43,9 @@ class ShoppingListAdapter(
 
             Log.d("MyAdapter", "onBindViewHolder is checked? ${curItem.isChecked}")
             Log.d("MyAdapter", "onBindViewHolder set on checked Change $position")
-            shoppingListViewModel.toggleIsChecked(position)
+            shoppingListViewModel.toggleIsChecked(curItem)
         }
     }
-    // TODO einmal ohne toggle im Frontend probieren
     private fun toggleStrikeThrough(tvItemTitle: TextView, isChecked: Boolean) {
 
         if(isChecked) {
