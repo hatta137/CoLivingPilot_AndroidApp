@@ -25,6 +25,8 @@ class ShoppingListAdapter(
     class ShoppingListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvItemTitle: TextView = itemView.findViewById(R.id.tvItemTitle)
         val cbDone: CheckBox = itemView.findViewById(R.id.cbDone)
+        val tvNotePreview: TextView = itemView.findViewById(R.id.tvNotePreview)
+        val tvFullNote: TextView = itemView.findViewById(R.id.tvFullNote)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.shoppinglist_item, parent, false)
@@ -37,13 +39,16 @@ class ShoppingListAdapter(
         Log.d("MyAdapter", "onBindViewHolder called for position $position")
         holder.tvItemTitle.text = curItem.title
         holder.cbDone.isChecked = curItem.isChecked
+        holder.tvNotePreview.text = curItem.notes
+        holder.tvFullNote.text = curItem.notes
 
         holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
             toggleStrikeThrough(holder.tvItemTitle, isChecked)
-
-            Log.d("MyAdapter", "onBindViewHolder is checked? ${curItem.isChecked}")
-            Log.d("MyAdapter", "onBindViewHolder set on checked Change $position")
             shoppingListViewModel.toggleIsChecked(curItem)
+        }
+
+        holder.itemView.setOnClickListener {
+            toggleNoteVisibility(holder)
         }
     }
     private fun toggleStrikeThrough(tvItemTitle: TextView, isChecked: Boolean) {
@@ -52,6 +57,19 @@ class ShoppingListAdapter(
             tvItemTitle.paintFlags = tvItemTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         } else {
             tvItemTitle.paintFlags = tvItemTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+        }
+    }
+
+    private fun toggleNoteVisibility(holder: ShoppingListViewHolder) {
+        val notePreviewVisible = holder.tvNotePreview.visibility == View.VISIBLE
+        val fullNoteVisible = holder.tvFullNote.visibility == View.VISIBLE
+
+        if (notePreviewVisible) {
+            holder.tvNotePreview.visibility = View.GONE
+            holder.tvFullNote.visibility = View.VISIBLE
+        } else if (fullNoteVisible) {
+            holder.tvNotePreview.visibility = View.VISIBLE
+            holder.tvFullNote.visibility = View.GONE
         }
     }
 
