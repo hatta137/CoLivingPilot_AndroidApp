@@ -51,23 +51,15 @@ class ShoppingListViewModel: ViewModel() {
         }
     }
 
-    //TODO Checkbox check failt
-    fun toggleIsChecked(position: Int) {
+    //TODO Checkbox check geht gerade mal
+    fun toggleIsChecked(shoppingListItem: ShoppingListItem) {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            val itemList: List<ShoppingListItem>? = shoppingListItems.value
+            Log.d("ShoppingListViewModel", "toggleIsChecked ${shoppingListItem.isChecked}")
 
-            val desiredItem: ShoppingListItem? = itemList?.get(position)
-            //Log.d("ShoppingListViewModel", "desiredItem $desiredItem?")
-            Log.d("ShoppingListViewModel", "toggleIsChecked ${desiredItem?.isChecked}")
-
-            if (desiredItem != null) {
-                if (desiredItem.isChecked){
-                    repository.updateItem(desiredItem, false)
-                } else {
-                    repository.updateItem(desiredItem, true)
-                }
+            if (shoppingListItem != null) {
+                repository.updateItem(shoppingListItem, !shoppingListItem.isChecked)
             }
         }
     }
