@@ -1,6 +1,8 @@
 package de.fhe.ai.colivingpilot.shoppinglist
 
+import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -16,6 +18,7 @@ class ShoppingListViewModel: ViewModel() {
 
     // LiveData für die Shopping-Liste
     val shoppingListItems: LiveData<List<ShoppingListItem>> = repository.getShoppingListItemsFlow().asLiveData()
+
 
     // Funktion zum Hinzufügen eines Elements zur Einkaufsliste
     fun addItemToShoppingList(itemTitle: String) {
@@ -39,8 +42,8 @@ class ShoppingListViewModel: ViewModel() {
 
         viewModelScope.launch(Dispatchers.IO) {
 
-            // TODO @hendrik direktes Löschen einbauen
             shoppingListItems.value?.forEach{
+
                 if (it.isChecked){
                     repository.deleteItemFromShoppingList(it)
                 }
@@ -48,13 +51,23 @@ class ShoppingListViewModel: ViewModel() {
         }
     }
 
-    //TODO upadte aufrufen is checked -> Funktion
-    fun toggleIsChecked(item: ShoppingListItem) {
+    //TODO Checkbox check failt
+    fun toggleIsChecked(position: Int) {
+
         viewModelScope.launch(Dispatchers.IO) {
-            if (item.isChecked) {
-                repository.updateItem(item, false)
-            } else {
-                repository.updateItem(item, true)
+
+            val itemList: List<ShoppingListItem>? = shoppingListItems.value
+
+            val desiredItem: ShoppingListItem? = itemList?.get(position)
+            //Log.d("ShoppingListViewModel", "desiredItem $desiredItem?")
+            Log.d("ShoppingListViewModel", "toggleIsChecked ${desiredItem?.isChecked}")
+
+            if (desiredItem != null) {
+                if (desiredItem.isChecked){
+                    repository.updateItem(desiredItem, false)
+                } else {
+                    repository.updateItem(desiredItem, true)
+                }
             }
         }
     }
