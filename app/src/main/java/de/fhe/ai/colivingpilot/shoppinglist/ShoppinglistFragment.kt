@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,7 +29,7 @@ class ShoppinglistFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_shoppinglist, container, false)
 
-        shoppingListAdapter = ShoppingListAdapter(requireContext(), mutableListOf())
+        shoppingListAdapter = ShoppingListAdapter(requireContext(), shoppingListViewModel, mutableListOf())
 
         // Recycler View
         val rvShoppingListItems = view.findViewById<RecyclerView>(R.id.rvShoppingListItems)
@@ -40,6 +41,7 @@ class ShoppinglistFragment : Fragment() {
         val btnAddItem = view.findViewById<Button>(R.id.btnAddItemToShoppingList)
         val etItemTitle = view.findViewById<EditText>(R.id.etItemTitle)
         val btnDeleteDoneTodos = view.findViewById<Button>(R.id.btnDeleteDoneShoppingItems)
+        val cbDone = view.findViewById<CheckBox>(R.id.cbDone)
 
         btnAddItem.setOnClickListener {
             val itemTitle = etItemTitle.text.toString()
@@ -52,13 +54,17 @@ class ShoppinglistFragment : Fragment() {
         btnDeleteDoneTodos.setOnClickListener {
             shoppingListViewModel.deleteDoneItems()
         }
+
+
         return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         shoppingListViewModel.shoppingListItems.observe(viewLifecycleOwner) {
+
             shoppingListAdapter.items = it
             shoppingListAdapter.notifyDataSetChanged()
         }
