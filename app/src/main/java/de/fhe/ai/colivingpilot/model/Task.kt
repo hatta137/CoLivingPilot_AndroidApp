@@ -7,14 +7,14 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "tasks",
-    foreignKeys = [
+    /*foreignKeys = [
         ForeignKey(
             entity = User::class,
             parentColumns = ["id"],
             childColumns = ["creator"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ]*/
 )
 data class Task(
     @PrimaryKey val id: String,

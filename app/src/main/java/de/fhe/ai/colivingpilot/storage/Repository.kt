@@ -1,7 +1,5 @@
 package de.fhe.ai.colivingpilot.storage
 
-import android.content.Context
-import dagger.hilt.android.qualifiers.ApplicationContext
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
@@ -29,7 +27,15 @@ class Repository(
         return userDao.getUsersFlow()
     }
 
-    fun getTasks(): List<Task> {
+    fun addTask(task: Task) {
+        return taskDao.insert(task)
+    }
+
+    fun deleteTask(task: Task) {
+        return taskDao.delete(task)
+    }
+
+    fun getTasks(): Flow<List<Task>> {
         return taskDao.getTasks()
     }
 
