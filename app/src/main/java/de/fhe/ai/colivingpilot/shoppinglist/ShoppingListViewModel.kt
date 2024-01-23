@@ -21,7 +21,7 @@ class ShoppingListViewModel: ViewModel() {
 
 
     // Funktion zum Hinzufügen eines Elements zur Einkaufsliste
-    fun addItemToShoppingList(itemTitle: String) {
+    fun addItemToShoppingList(itemTitle: String, itemNotes: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
 
@@ -29,7 +29,7 @@ class ShoppingListViewModel: ViewModel() {
             val item = ShoppingListItem(
                 UUID.randomUUID().toString(),
                 itemTitle,
-                "notes",
+                itemNotes,
                 repository.getTestUser().id,
                 false)
 
