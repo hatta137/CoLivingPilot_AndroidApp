@@ -6,55 +6,54 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TasksFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class TasksFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
+class TasksFragment : Fragment(), TaskClickListener {
+
+    private val taskViewModel : TaskViewModel = TaskViewModel()
+    private val taskAdapter = TaskAdapter(mutableListOf())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_tasks, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //val text : TextView = view.findViewById(R.id.textView)
-        //text.text = "Hendrik hasst Unity & Menschen & Android Studio"
-        var customAdapter: Adapter
-        val originalData = arrayListOf("Dario", "Kevin", "Max", "Hendrik", "Niklas", "Flo", "Robin", "Maris", "Yannick")
-        customAdapter = Adapter(ArrayList(originalData)) // Eine kopierte Liste wird dem Adapter übergeben
+
+
+        taskAdapter.setOnItemClickListener(this)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.adapter = customAdapter
+        recyclerView.adapter = taskAdapter
 
-        val resetButton: Button = view.findViewById(R.id.resetButton)
-        resetButton.setOnClickListener {
-            // Erstellen Sie eine neue Liste basierend auf den originalen Daten und setzen Sie den Adapter zurück
-            customAdapter.reset(ArrayList(originalData))
-        }
 
-        resetButton.setOnLongClickListener {
-            customAdapter.clear()
-        }
 
         val nameTextView: TextView = view.findViewById(R.id.nameEditText)
         val joinButton : Button = view.findViewById(R.id.join)
+
         joinButton.setOnClickListener {
-            customAdapter.addBiggi(nameTextView.text.toString())
+            taskViewModel.addTask(nameTextView.text.toString())
         }
+
+        taskViewModel.tasks.observe(viewLifecycleOwner) {
+            taskAdapter.items = it
+            taskAdapter.notifyDataSetChanged()
+        }
+    }
+
+    override fun onButtonClick(position: Int) {
+        taskViewModel.deleteTask(position)
+    }
+
+    override fun onLongItemClick(position: Int) {
+        Toast.makeText(requireContext(), taskAdapter.items[position].notes, Toast.LENGTH_SHORT).show()
     }
 
 }
