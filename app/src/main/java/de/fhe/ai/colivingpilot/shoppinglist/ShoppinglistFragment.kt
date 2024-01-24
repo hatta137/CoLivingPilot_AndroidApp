@@ -7,34 +7,38 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.CheckBox
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
-import java.util.UUID
 
+/***
+ * @author Hendrik Lendeckel
+ */
 class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
+    // Lateinit variables for RecyclerView and Adapter
     private lateinit var shoppingListAdapter: ShoppingListAdapter
-    private val shoppingListViewModel: ShoppingListViewModel by viewModels()
     private lateinit var rvShoppingListItems: RecyclerView
+    private val shoppingListViewModel: ShoppingListViewModel by viewModels()
 
+
+    // Called when the view is created
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflating the layout for this fragment
         return inflater.inflate(R.layout.fragment_shoppinglist, container, false)
     }
 
+    // Called after the view is created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,16 +55,21 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
             shoppingListViewModel.deleteDoneItems()
         }
     }
+
+    // Called when an item is checked in the RecyclerView
     override fun onItemChecked(item: ShoppingListItem) {
         shoppingListViewModel.toggleIsChecked(item)
     }
 
+    // Called when an item is clicked in the RecyclerView
     override fun onItemClicked(item: ShoppingListItem) {
         val itemPosition = shoppingListAdapter.items.indexOf(item)
         val viewHolder = rvShoppingListItems.findViewHolderForAdapterPosition(itemPosition) as? ShoppingListAdapter.ShoppingListViewHolder
         viewHolder?.let { shoppingListAdapter.toggleNoteVisibility(it) }
     }
 
+    // Setting up the RecyclerView and related components
+    @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView(view: View) {
         val itemsList = mutableListOf<ShoppingListItem>()
         shoppingListAdapter = ShoppingListAdapter(requireContext(), this, itemsList)
@@ -76,6 +85,7 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
         }
     }
 
+    // Showing the dialog to add a new shopping item
     private fun showAddItemDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_shoppinglist_add_item, null)
 
