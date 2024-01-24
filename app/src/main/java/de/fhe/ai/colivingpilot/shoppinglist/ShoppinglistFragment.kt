@@ -20,10 +20,11 @@ import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import java.util.UUID
 
-class ShoppinglistFragment : Fragment() {
+class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private val shoppingListViewModel: ShoppingListViewModel by viewModels()
+    private lateinit var rvShoppingListItems: RecyclerView
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -31,21 +32,16 @@ class ShoppinglistFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_shoppinglist, container, false)
+        return inflater.inflate(R.layout.fragment_shoppinglist, container, false)
+    }
 
-        shoppingListAdapter = ShoppingListAdapter(requireContext(), shoppingListViewModel, mutableListOf())
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        // Recycler View
-        val rvShoppingListItems = view.findViewById<RecyclerView>(R.id.rvShoppingListItems)
-
-        rvShoppingListItems.adapter = shoppingListAdapter
-
-        rvShoppingListItems.layoutManager = LinearLayoutManager(requireContext())
+        setupRecyclerView(view)
 
         val btnAddItem = view.findViewById<Button>(R.id.btnAddItemToShoppingList)
         val btnDeleteDoneTodos = view.findViewById<Button>(R.id.btnDeleteDoneShoppingItems)
-        val cvItem = view.findViewById<CardView>(R.id.cardViewDialog)
 
         btnAddItem.setOnClickListener {
             showAddItemDialog()
@@ -54,21 +50,31 @@ class ShoppinglistFragment : Fragment() {
         btnDeleteDoneTodos.setOnClickListener {
             shoppingListViewModel.deleteDoneItems()
         }
-
-        return view
+    }
+    override fun onItemChecked(item: ShoppingListItem) {
+        shoppingListViewModel.toggleIsChecked(item)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onItemClicked(item: ShoppingListItem) {
+        val itemPosition = shoppingListAdapter.items.indexOf(item)
+        val viewHolder = rvShoppingListItems.findViewHolderForAdapterPosition(itemPosition) as? ShoppingListAdapter.ShoppingListViewHolder
+        viewHolder?.let { shoppingListAdapter.toggleNoteVisibility(it) }
+    }
 
-        super.onViewCreated(view, savedInstanceState)
+    private fun setupRecyclerView(view: View) {
+        val itemsList = mutableListOf<ShoppingListItem>()
+        shoppingListAdapter = ShoppingListAdapter(requireContext(), this, itemsList)
+
+        rvShoppingListItems = view.findViewById(R.id.rvShoppingListItems)
+
+        rvShoppingListItems.adapter = shoppingListAdapter
+        rvShoppingListItems.layoutManager = LinearLayoutManager(requireContext())
 
         shoppingListViewModel.shoppingListItems.observe(viewLifecycleOwner) {
-
             shoppingListAdapter.items = it
             shoppingListAdapter.notifyDataSetChanged()
         }
     }
-
 
     private fun showAddItemDialog() {
         val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_shoppinglist_add_item, null)
@@ -92,7 +98,6 @@ class ShoppinglistFragment : Fragment() {
                 shoppingListViewModel.addItemToShoppingList(itemTitle, itemNotes)
                 dialog.dismiss()
             } else {
-                // Handle empty title case if needed
                 Toast.makeText(requireContext(), "Title cannot be empty", Toast.LENGTH_SHORT).show()
             }
         }
@@ -100,6 +105,7 @@ class ShoppinglistFragment : Fragment() {
         btnCancel.setOnClickListener {
             dialog.dismiss()
         }
+
         dialog.show()
     }
 }

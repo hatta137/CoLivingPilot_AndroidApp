@@ -16,11 +16,9 @@ import de.fhe.ai.colivingpilot.model.ShoppingListItem
 
 class ShoppingListAdapter(
     private val context: Context,
-    private val shoppingListViewModel: ShoppingListViewModel,
+    private val listener: ShoppingListActionListener,
     var items: List<ShoppingListItem>
 ) : RecyclerView.Adapter<ShoppingListAdapter.ShoppingListViewHolder>() {
-
-
 
     class ShoppingListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvItemTitle: TextView = itemView.findViewById(R.id.tvItemTitle)
@@ -29,8 +27,8 @@ class ShoppingListAdapter(
         val tvFullNote: TextView = itemView.findViewById(R.id.tvFullNote)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context).inflate(R.layout.shoppinglist_item, parent, false)
-        return ShoppingListViewHolder(adapterLayout)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.shoppinglist_item, parent, false)
+        return ShoppingListViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
@@ -44,11 +42,11 @@ class ShoppingListAdapter(
 
         holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
             toggleStrikeThrough(holder.tvItemTitle, isChecked)
-            shoppingListViewModel.toggleIsChecked(curItem)
+            listener.onItemChecked(curItem)
         }
 
         holder.itemView.setOnClickListener {
-            toggleNoteVisibility(holder)
+            listener.onItemClicked(curItem)
         }
     }
     private fun toggleStrikeThrough(tvItemTitle: TextView, isChecked: Boolean) {
@@ -60,7 +58,7 @@ class ShoppingListAdapter(
         }
     }
 
-    private fun toggleNoteVisibility(holder: ShoppingListViewHolder) {
+    fun toggleNoteVisibility(holder: ShoppingListViewHolder) {
         val notePreviewVisible = holder.tvNotePreview.visibility == View.VISIBLE
         val fullNoteVisible = holder.tvFullNote.visibility == View.VISIBLE
 
