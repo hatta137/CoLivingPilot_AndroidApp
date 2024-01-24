@@ -1,19 +1,19 @@
 package de.fhe.ai.colivingpilot.shoppinglist
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 
+/***
+ * @author Hendrik Lendeckel
+ */
 class ShoppingListAdapter(
     private val context: Context,
     private val listener: ShoppingListActionListener,
@@ -26,29 +26,39 @@ class ShoppingListAdapter(
         val tvNotePreview: TextView = itemView.findViewById(R.id.tvNotePreview)
         val tvFullNote: TextView = itemView.findViewById(R.id.tvFullNote)
     }
+
+    // ViewHolder creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.shoppinglist_item, parent, false)
         return ShoppingListViewHolder(view)
     }
 
+    // Binding data to ViewHolder
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         val curItem = items[position]
 
-        Log.d("MyAdapter", "onBindViewHolder called for position $position")
+        // Log statement for debugging
+        // Log.d("ShoppingListAdapter", "onBindViewHolder called for position $position")
+
+        // Set item data to views
         holder.tvItemTitle.text = curItem.title
         holder.cbDone.isChecked = curItem.isChecked
         holder.tvNotePreview.text = curItem.notes
         holder.tvFullNote.text = curItem.notes
 
+        // Set listener for CheckBox changes
         holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
             toggleStrikeThrough(holder.tvItemTitle, isChecked)
             listener.onItemChecked(curItem)
         }
 
+        // Set listener for item click
         holder.itemView.setOnClickListener {
             listener.onItemClicked(curItem)
         }
     }
+
+    // Toggle strike through for the title TextView
     private fun toggleStrikeThrough(tvItemTitle: TextView, isChecked: Boolean) {
 
         if(isChecked) {
@@ -58,6 +68,7 @@ class ShoppingListAdapter(
         }
     }
 
+    // Toggle tvNotePreview and tvFullNote in the ViewHolder
     fun toggleNoteVisibility(holder: ShoppingListViewHolder) {
         val notePreviewVisible = holder.tvNotePreview.visibility == View.VISIBLE
         val fullNoteVisible = holder.tvFullNote.visibility == View.VISIBLE
