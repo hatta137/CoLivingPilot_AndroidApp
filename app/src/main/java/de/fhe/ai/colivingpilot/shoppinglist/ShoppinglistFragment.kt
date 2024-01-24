@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 
@@ -44,8 +45,8 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
         setupRecyclerView(view)
 
-        val btnAddItem = view.findViewById<Button>(R.id.btnAddItemToShoppingList)
-        val btnDeleteDoneTodos = view.findViewById<Button>(R.id.btnDeleteDoneShoppingItems)
+        val btnAddItem = view.findViewById<FloatingActionButton>(R.id.btnAddItemToShoppingList)
+        val btnDeleteDoneTodos = view.findViewById<FloatingActionButton>(R.id.btnDeleteDoneShoppingItems)
 
         btnAddItem.setOnClickListener {
             showAddItemDialog()
@@ -91,8 +92,8 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
         val editTextTitle = dialogView.findViewById<EditText>(R.id.editTextTitle)
         val editTextNotes = dialogView.findViewById<EditText>(R.id.editTextNotes)
-        val btnAdd = dialogView.findViewById<Button>(R.id.btnAdd)
-        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+        val btnAdd = dialogView.findViewById<FloatingActionButton>(R.id.btnAdd)
+        val btnCancel = dialogView.findViewById<FloatingActionButton>(R.id.btnCancel)
 
         val dialogBuilder = AlertDialog.Builder(requireContext())
             .setView(dialogView)
