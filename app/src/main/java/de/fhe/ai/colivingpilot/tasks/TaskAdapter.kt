@@ -26,14 +26,14 @@ class TaskAdapter (var items: List<Task>)
             button.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    taskClickListener?.onButtonClick(position)
+                    taskClickListener?.onItemButtonClick(position)
                 }
             }
 
             view.setOnLongClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    taskClickListener?.onLongItemClick(position)
+                    taskClickListener?.onItemLongClick(position)
                 }
                 return@setOnLongClickListener true
             }

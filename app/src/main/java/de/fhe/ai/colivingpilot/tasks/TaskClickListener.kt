@@ -1,7 +1,7 @@
 package de.fhe.ai.colivingpilot.tasks
 
 interface TaskClickListener {
-    fun onButtonClick(position: Int)
+    fun onItemButtonClick(position: Int)
 
-    fun onLongItemClick(position: Int)
+    fun onItemLongClick(position: Int)
 }

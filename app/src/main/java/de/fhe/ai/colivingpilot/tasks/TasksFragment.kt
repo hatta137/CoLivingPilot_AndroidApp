@@ -36,10 +36,11 @@ class TasksFragment : Fragment(), TaskClickListener {
 
 
         val nameTextView: TextView = view.findViewById(R.id.nameEditText)
-        val joinButton : Button = view.findViewById(R.id.join)
+        val addButton : Button = view.findViewById(R.id.add)
 
-        joinButton.setOnClickListener {
+        addButton.setOnClickListener {
             taskViewModel.addTask(nameTextView.text.toString())
+            nameTextView.text = ""
         }
 
         taskViewModel.tasks.observe(viewLifecycleOwner) {
@@ -48,11 +49,11 @@ class TasksFragment : Fragment(), TaskClickListener {
         }
     }
 
-    override fun onButtonClick(position: Int) {
+    override fun onItemButtonClick(position: Int) {
         taskViewModel.deleteTask(position)
     }
 
-    override fun onLongItemClick(position: Int) {
+    override fun onItemLongClick(position: Int) {
         Toast.makeText(requireContext(), taskAdapter.items[position].notes, Toast.LENGTH_SHORT).show()
     }
 
