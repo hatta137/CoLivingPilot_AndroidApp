@@ -5,7 +5,8 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".shoppinglist.ShoppinglistFragment">
+    tools:context=".shoppinglist.ShoppinglistFragment"
+    >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvShoppingListItems"
@@ -13,7 +14,8 @@
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 
 

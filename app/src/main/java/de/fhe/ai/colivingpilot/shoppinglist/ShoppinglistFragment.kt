@@ -2,6 +2,8 @@ package de.fhe.ai.colivingpilot.shoppinglist
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -97,9 +99,10 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
         val dialogBuilder = AlertDialog.Builder(requireContext())
             .setView(dialogView)
-            .setTitle(R.string.dialog_title_add_item)
 
         val dialog = dialogBuilder.create()
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
 
         btnAdd.setOnClickListener {
             val itemTitle = editTextTitle.text.toString()
