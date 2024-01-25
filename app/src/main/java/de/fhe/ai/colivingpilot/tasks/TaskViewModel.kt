@@ -10,11 +10,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
 
-class TaskViewModel(
-    private val repository : Repository = Repository(),
-    val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
-    )
+class TaskViewModel()
     : ViewModel() {
+    private val repository : Repository = Repository()
+    val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
 
     fun addTask(taskTitle: String) {
         viewModelScope.launch(Dispatchers.IO) {
