@@ -9,7 +9,11 @@
         android:id="@+id/navigation_tasks"
         android:name="de.fhe.ai.colivingpilot.tasks.TasksFragment"
         android:label="fragment_tasks"
-        tools:layout="@layout/fragment_tasks" />
+        tools:layout="@layout/fragment_tasks" >
+        <action
+            android:id="@+id/action_navigation_tasks_to_navigation_new_task"
+            app:destination="@id/navigation_new_task" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_shoppinglist"
         android:name="de.fhe.ai.colivingpilot.shoppinglist.ShoppinglistFragment"
@@ -20,4 +24,9 @@
         android:name="de.fhe.ai.colivingpilot.settings.WgFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_wg" />
+    <dialog
+        android:id="@+id/navigation_new_task"
+        android:name="de.fhe.ai.colivingpilot.navigation_new_task"
+        android:label="fragment_navigation_new_task_list_dialog"
+        tools:layout="@layout/fragment_navigation_new_task_list_dialog" />
 </navigation>

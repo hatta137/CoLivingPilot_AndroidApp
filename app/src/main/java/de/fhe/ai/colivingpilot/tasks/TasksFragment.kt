@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 
@@ -39,7 +40,9 @@ class TasksFragment : Fragment(), TaskClickListener {
         val addButton : Button = view.findViewById(R.id.add)
 
         addButton.setOnClickListener {
-            taskViewModel.addTask(nameTextView.text.toString())
+            findNavController().navigate(R.id.action_navigation_tasks_to_navigation_new_task)
+
+            //taskViewModel.addTask(nameTextView.text.toString())
             nameTextView.text = ""
         }
 
