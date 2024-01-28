@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_tasks_to_navigation_new_task"
             app:destination="@id/navigation_new_task" />
+        <action
+            android:id="@+id/action_navigation_tasks_to_newTaskFragment"
+            app:destination="@id/newTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_shoppinglist"
@@ -29,4 +32,9 @@
         android:name="de.fhe.ai.colivingpilot.navigation_new_task"
         android:label="fragment_navigation_new_task_list_dialog"
         tools:layout="@layout/fragment_navigation_new_task_list_dialog" />
+    <fragment
+        android:id="@+id/newTaskFragment"
+        android:name="de.fhe.ai.colivingpilot.NewTaskFragment"
+        android:label="fragment_new_task"
+        tools:layout="@layout/fragment_new_task" />
 </navigation>
