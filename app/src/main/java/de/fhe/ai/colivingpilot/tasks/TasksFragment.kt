@@ -40,10 +40,10 @@ class TasksFragment : Fragment(), TaskClickListener {
         val addButton : Button = view.findViewById(R.id.add)
 
         addButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_tasks_to_navigation_new_task)
+            findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
 
             //taskViewModel.addTask(nameTextView.text.toString())
-            nameTextView.text = ""
+            //nameTextView.text = ""
         }
 
         taskViewModel.tasks.observe(viewLifecycleOwner) {
