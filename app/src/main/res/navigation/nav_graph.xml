@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/tasks">
+    app:startDestination="@id/navigation_tasks">
 
-    <include app:graph="@navigation/tasks"/>
-    <include app:graph="@navigation/wg"/>
-    <include app:graph="@navigation/shopping_list"/>
-
+    <fragment
+        android:id="@+id/navigation_tasks"
+        android:name="de.fhe.ai.colivingpilot.tasks.TasksFragment"
+        android:label="fragment_tasks"
+        tools:layout="@layout/fragment_tasks" >
+        <action
+            android:id="@+id/action_navigation_tasks_to_navigation_new_task"
+            app:destination="@id/navigation_new_task" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_shoppinglist"
+        android:name="de.fhe.ai.colivingpilot.shoppinglist.ShoppinglistFragment"
+        android:label="fragment_shoppinglist"
+        tools:layout="@layout/fragment_shoppinglist"/>
+    <fragment
+        android:id="@+id/navigation_settings"
+        android:name="de.fhe.ai.colivingpilot.settings.WgFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_wg" />
+    <dialog
+        android:id="@+id/navigation_new_task"
+        android:name="de.fhe.ai.colivingpilot.navigation_new_task"
+        android:label="fragment_navigation_new_task_list_dialog"
+        tools:layout="@layout/fragment_navigation_new_task_list_dialog" />
 </navigation>
