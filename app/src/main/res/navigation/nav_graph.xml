@@ -36,5 +36,9 @@
         android:id="@+id/newTaskFragment"
         android:name="de.fhe.ai.colivingpilot.NewTaskFragment"
         android:label="fragment_new_task"
-        tools:layout="@layout/fragment_new_task" />
+        tools:layout="@layout/fragment_new_task" >
+        <action
+            android:id="@+id/action_newTaskFragment_to_navigation_tasks"
+            app:destination="@id/navigation_tasks" />
+    </fragment>
 </navigation>

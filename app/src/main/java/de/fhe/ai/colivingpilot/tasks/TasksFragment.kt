@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
 
 
@@ -36,14 +37,11 @@ class TasksFragment : Fragment(), TaskClickListener {
 
 
 
-        val nameTextView: TextView = view.findViewById(R.id.nameEditText)
-        val addButton : Button = view.findViewById(R.id.add)
+
+        val addButton : FloatingActionButton = view.findViewById(R.id.addTask)
 
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
-
-            //taskViewModel.addTask(nameTextView.text.toString())
-            //nameTextView.text = ""
         }
 
         taskViewModel.tasks.observe(viewLifecycleOwner) {
