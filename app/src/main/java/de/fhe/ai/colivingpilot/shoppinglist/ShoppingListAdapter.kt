@@ -48,7 +48,7 @@ class ShoppingListAdapter(
 
         // Set listener for CheckBox changes
         holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
-            toggleStrikeThrough(holder.tvItemTitle, isChecked)
+            //toggleStrikeThrough(holder.tvItemTitle, isChecked)
             listener.onItemChecked(curItem)
         }
 
@@ -56,6 +56,8 @@ class ShoppingListAdapter(
         holder.itemView.setOnClickListener {
             listener.onItemClicked(curItem)
         }
+
+        toggleStrikeThrough(holder.tvItemTitle, holder.cbDone.isChecked)
     }
 
     // Toggle strike through for the title TextView
