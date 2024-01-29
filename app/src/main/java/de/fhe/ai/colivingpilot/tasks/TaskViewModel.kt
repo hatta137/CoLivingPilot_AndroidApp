@@ -15,15 +15,21 @@ class TaskViewModel()
     private val repository : Repository = Repository()
     val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
 
-    fun addTask(taskTitle: String) {
+    data class NewTask (
+        val title: String,
+        val notes: String,
+        val beerCount: Int
+    )
+
+    fun addTask(task : NewTask) {
         viewModelScope.launch(Dispatchers.IO) {
 
             val newTask = Task(
                 UUID.randomUUID().toString(),
-                taskTitle,
-                "notes",
+                task.title,
+                task.notes,
                 "",
-                1)
+                task.beerCount)
 
             repository.addTask(newTask)
         }

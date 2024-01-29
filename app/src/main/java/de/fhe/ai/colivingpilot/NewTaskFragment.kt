@@ -32,7 +32,9 @@ class NewTaskFragment : Fragment() {
 
         addButton.setOnClickListener {
 
-            taskViewModel.addTask(newTaskEditText.text.toString())
+            val newTask : TaskViewModel.NewTask = TaskViewModel.NewTask(newTaskEditText.text.toString(), "", 1)
+
+            taskViewModel.addTask(newTask)
             newTaskEditText.text = ""
             findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
 
