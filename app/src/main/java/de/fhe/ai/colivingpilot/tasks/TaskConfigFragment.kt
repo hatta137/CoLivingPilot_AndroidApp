@@ -1,20 +1,21 @@
-package de.fhe.ai.colivingpilot
+package de.fhe.ai.colivingpilot.tasks
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import de.fhe.ai.colivingpilot.tasks.TaskViewModel
-import de.fhe.ai.colivingpilot.databinding.FragmentNewTaskBinding
+import de.fhe.ai.colivingpilot.R
+import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigBinding
 
 
-class NewTaskFragment : Fragment() {
+class TaskConfigFragment : Fragment() {
 
-    private var _binding: FragmentNewTaskBinding? = null
+    private var _binding: FragmentTaskConfigBinding? = null
     private val binding get() = _binding!!
 
     private val taskViewModel : TaskViewModel = TaskViewModel()
@@ -23,15 +24,22 @@ class NewTaskFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNewTaskBinding.inflate(inflater, container, false)
+        _binding = FragmentTaskConfigBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.addButton.setOnClickListener {
+        val toolbar : Toolbar = binding.toolbar
+        toolbar.title = "Aufgabe hinzufügen" //könnte man aus den Arguments lesen
 
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
+        }
+
+
+        binding.addButton.setOnClickListener {
             var title = binding.taskNameEditText.text.toString()
             var notes = binding.notesTextView.text.toString()
             var beerCountText = binding.editBeerCounter.text.toString()

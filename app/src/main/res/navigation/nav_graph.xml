@@ -29,14 +29,14 @@
         tools:layout="@layout/fragment_wg" />
     <dialog
         android:id="@+id/task_info"
-        android:name="de.fhe.ai.colivingpilot.TaskInfoFragment"
+        android:name="de.fhe.ai.colivingpilot.tasks.TaskInfoFragment"
         android:label="task info"
         tools:layout="@layout/fragment_task_info" />
     <fragment
         android:id="@+id/newTaskFragment"
-        android:name="de.fhe.ai.colivingpilot.NewTaskFragment"
+        android:name="de.fhe.ai.colivingpilot.tasks.TaskConfigFragment"
         android:label="fragment_new_task"
-        tools:layout="@layout/fragment_new_task" >
+        tools:layout="@layout/fragment_task_config" >
         <action
             android:id="@+id/action_newTaskFragment_to_navigation_tasks"
             app:destination="@id/navigation_tasks" />

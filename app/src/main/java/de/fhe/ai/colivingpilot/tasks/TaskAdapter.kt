@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.emoji2.text.EmojiCompat.init
 import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.Task
@@ -18,7 +19,8 @@ class TaskAdapter (var items: List<Task>)
         this.taskClickListener = listener
     }
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
+        var id: String? = null //lateinit?
         val textView: TextView = view.findViewById(R.id.textView)
         val button: Button = view.findViewById(R.id.button)
 
@@ -35,7 +37,7 @@ class TaskAdapter (var items: List<Task>)
                 if (position != RecyclerView.NO_POSITION) {
                     taskClickListener?.onItemLongClick(position)
                 }
-                return@setOnLongClickListener true
+                true
             }
         }
     }
@@ -48,6 +50,7 @@ class TaskAdapter (var items: List<Task>)
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.textView.text = items[position].title
+        viewHolder.id = items[position].id
     }
 
     // Return the size of your dataset (invoked by the layout manager)

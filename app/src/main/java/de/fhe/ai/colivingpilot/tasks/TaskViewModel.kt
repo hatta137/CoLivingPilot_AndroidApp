@@ -16,6 +16,7 @@ class TaskViewModel()
     val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
 
     data class NewTask (
+        //id
         val title: String,
         val notes: String,
         val beerCount: Int
@@ -34,6 +35,8 @@ class TaskViewModel()
             repository.addTask(newTask)
         }
     }
+
+    //Update tsk mit dao UPSERT
 
     fun deleteTask(item: Int) {
         val task : Task? = tasks.value?.get(item)
