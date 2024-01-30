@@ -4,9 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +14,7 @@ import de.fhe.ai.colivingpilot.R
 class TasksFragment : Fragment(), TaskClickListener {
 
     private val taskViewModel : TaskViewModel = TaskViewModel()
-    private val taskAdapter = TaskAdapter(mutableListOf())
+    private val taskAdapter = TaskAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,9 +25,6 @@ class TasksFragment : Fragment(), TaskClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
-        taskAdapter.setOnItemClickListener(this)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.adapter = taskAdapter
@@ -48,16 +42,22 @@ class TasksFragment : Fragment(), TaskClickListener {
         }
     }
 
-    override fun onItemButtonClick(position: Int) {
-        taskViewModel.deleteTask(position)
+    override fun onFinishButtonClick(id: String) {
+        taskViewModel.deleteTask(id)
     }
 
-    override fun onItemLongClick(position: Int) {
-        //Toast.makeText(requireContext(), taskAdapter.items[position].notes, Toast.LENGTH_SHORT).show()
+    override fun onItemClick(id: String) {
         val bundle = Bundle().apply {
-            putInt("selectedTask", position)
+            putString("selectedTask", id)
         }
         findNavController().navigate(R.id.action_navigation_tasks_to_task_info, bundle)
+    }
+
+    override fun onLongItemClick(id: String) {
+        val bundle = Bundle().apply {
+            putString("selectedTask", id)
+        }
+        findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment, bundle)
     }
 
 }

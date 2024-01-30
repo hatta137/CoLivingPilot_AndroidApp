@@ -27,16 +27,24 @@ class Repository(
         return userDao.getUsersFlow()
     }
 
-    fun addTask(task: Task) {
-        return taskDao.insert(task)
+    fun addOrUpdateTask(task: Task) {
+        return taskDao.upsert(task)
     }
 
     fun deleteTask(task: Task) {
         return taskDao.delete(task)
     }
 
+    fun deleteTaskById(id: String) {
+        return taskDao.deleteByID(id)
+    }
+
     fun getTasks(): Flow<List<Task>> {
         return taskDao.getTasks()
+    }
+
+    fun getTask(id: String): Flow<Task> {
+        return taskDao.getTask(id)
     }
 
     fun getShoppingListItems(): List<ShoppingListItem> {

@@ -29,9 +29,9 @@
         tools:layout="@layout/fragment_wg" />
     <dialog
         android:id="@+id/task_info"
-        android:name="de.fhe.ai.colivingpilot.tasks.TaskInfoFragment"
+        android:name="de.fhe.ai.colivingpilot.tasks.detail.TaskDetailFragment"
         android:label="task info"
-        tools:layout="@layout/fragment_task_info" />
+        tools:layout="@layout/fragment_task_detail" />
     <fragment
         android:id="@+id/newTaskFragment"
         android:name="de.fhe.ai.colivingpilot.tasks.TaskConfigFragment"
