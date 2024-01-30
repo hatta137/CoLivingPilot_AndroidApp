@@ -42,6 +42,7 @@ class TasksFragment : Fragment(), TaskClickListener {
 
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
+
         }
 
         taskViewModel.tasks.observe(viewLifecycleOwner) {
@@ -55,7 +56,11 @@ class TasksFragment : Fragment(), TaskClickListener {
     }
 
     override fun onItemLongClick(position: Int) {
-        Toast.makeText(requireContext(), taskAdapter.items[position].notes, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(requireContext(), taskAdapter.items[position].notes, Toast.LENGTH_SHORT).show()
+        val bundle = Bundle().apply {
+            putInt("selectedTask", position)
+        }
+        findNavController().navigate(R.id.action_navigation_tasks_to_task_info, bundle)
     }
 
 }

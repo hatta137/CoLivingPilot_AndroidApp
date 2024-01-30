@@ -11,31 +11,36 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.tasks.TaskViewModel
+import de.fhe.ai.colivingpilot.databinding.FragmentNewTaskBinding
 
 
 class NewTaskFragment : Fragment() {
+
+    private var _binding: FragmentNewTaskBinding? = null
+    private val binding get() = _binding!!
 
     private val taskViewModel : TaskViewModel = TaskViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_new_task, container, false)
+    ): View {
+        _binding = FragmentNewTaskBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val addButton : Button = view.findViewById(R.id.addButton)
-        val newTaskEditText : TextView = view.findViewById(R.id.taskNameEditText)
+        binding.addButton.setOnClickListener {
 
-        addButton.setOnClickListener {
-
-            val newTask : TaskViewModel.NewTask = TaskViewModel.NewTask(newTaskEditText.text.toString(), "", 1)
+            val newTask : TaskViewModel.NewTask = TaskViewModel.NewTask(
+                binding.taskNameEditText.text.toString(),
+                binding.notesTextView.text.toString(),
+                binding.editBeerCounter.text.toString().toInt())
 
             taskViewModel.addTask(newTask)
-            newTaskEditText.text = ""
+            binding.taskNameEditText.setText("")
             findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
 
 
