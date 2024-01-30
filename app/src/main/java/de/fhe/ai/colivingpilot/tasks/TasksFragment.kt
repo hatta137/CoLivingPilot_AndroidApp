@@ -35,9 +35,6 @@ class TasksFragment : Fragment(), TaskClickListener {
         val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
         recyclerView.adapter = taskAdapter
 
-
-
-
         val addButton : FloatingActionButton = view.findViewById(R.id.addTask)
 
         addButton.setOnClickListener {

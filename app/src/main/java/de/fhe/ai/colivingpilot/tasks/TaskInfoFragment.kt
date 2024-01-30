@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot
+package de.fhe.ai.colivingpilot.tasks
 
 import android.os.Bundle
 import android.util.Log
@@ -37,6 +37,7 @@ class TaskInfoFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        //lösen mit id repo funktion aufrufen
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             taskList -> val task = taskList[arguments?.getInt("selectedTask")!!]
             binding.taskTitleTextView.text = task.title
