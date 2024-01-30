@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigBinding
+import de.fhe.ai.colivingpilot.tasks.detail.TaskDetailViewModel
 
 
 class TaskConfigFragment : Fragment() {
@@ -18,7 +19,7 @@ class TaskConfigFragment : Fragment() {
     private var _binding: FragmentTaskConfigBinding? = null
     private val binding get() = _binding!!
 
-    private val taskViewModel : TaskViewModel = TaskViewModel()
+    private val taskViewModel = TaskViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,7 +33,8 @@ class TaskConfigFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val toolbar : Toolbar = binding.toolbar
-        toolbar.title = "Aufgabe hinzufügen" //könnte man aus den Arguments lesen
+
+        //Toolbar title anapassen wenn bearbeiten dann anderer Titel
 
         toolbar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
@@ -40,6 +42,7 @@ class TaskConfigFragment : Fragment() {
 
 
         binding.addButton.setOnClickListener {
+
             var title = binding.taskNameEditText.text.toString()
             var notes = binding.notesTextView.text.toString()
             var beerCountText = binding.editBeerCounter.text.toString()
@@ -49,19 +52,23 @@ class TaskConfigFragment : Fragment() {
             beerCountText = beerCountText.trim()
 
             if(title.isBlank() || notes.isBlank() || beerCountText.isBlank()) {
+
                 val snackbar = Snackbar.make(view, "Bitte alle Felder ausfüllen!", 3000)
                 snackbar.setBackgroundTint(Color.RED)
                 snackbar.show()
+
             }else {
+
                 val beerCount = beerCountText.toInt()
-                val newTask: TaskViewModel.NewTask = TaskViewModel.NewTask(
+                val newTask: ViewTask = ViewTask(
                     title,
                     notes,
                     beerCount
                 )
-                taskViewModel.addTask(newTask)
+                taskViewModel.configTask(newTask)
                 binding.taskNameEditText.setText("")
                 findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
+
             }
 
         }
