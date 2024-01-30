@@ -1,15 +1,13 @@
 package de.fhe.ai.colivingpilot
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.tasks.TaskViewModel
 import de.fhe.ai.colivingpilot.databinding.FragmentNewTaskBinding
 
@@ -34,15 +32,29 @@ class NewTaskFragment : Fragment() {
 
         binding.addButton.setOnClickListener {
 
-            val newTask : TaskViewModel.NewTask = TaskViewModel.NewTask(
-                binding.taskNameEditText.text.toString(),
-                binding.notesTextView.text.toString(),
-                binding.editBeerCounter.text.toString().toInt())
+            var title = binding.taskNameEditText.text.toString()
+            var notes = binding.notesTextView.text.toString()
+            var beerCountText = binding.editBeerCounter.text.toString()
 
-            taskViewModel.addTask(newTask)
-            binding.taskNameEditText.setText("")
-            findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
+            title = title.trim()
+            notes = notes.trim()
+            beerCountText = beerCountText.trim()
 
+            if(title.isBlank() || notes.isBlank() || beerCountText.isBlank()) {
+                val snackbar = Snackbar.make(view, "Bitte alle Felder ausfüllen!", 3000)
+                snackbar.setBackgroundTint(Color.RED)
+                snackbar.show()
+            }else {
+                val beerCount = beerCountText.toInt()
+                val newTask: TaskViewModel.NewTask = TaskViewModel.NewTask(
+                    title,
+                    notes,
+                    beerCount
+                )
+                taskViewModel.addTask(newTask)
+                binding.taskNameEditText.setText("")
+                findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
+            }
 
         }
     }
