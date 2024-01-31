@@ -12,9 +12,6 @@ class TaskDetailFragment : BottomSheetDialogFragment() {
     private var _binding: FragmentTaskDetailBinding? = null
     private val binding get() = _binding!!
 
-    private var taskDetailViewModel : TaskDetailViewModel? = null
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +24,8 @@ class TaskDetailFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        taskDetailViewModel = TaskDetailViewModel(arguments?.getString("selectedTask")!!)
+
+        val taskDetailViewModel = TaskDetailViewModel(arguments?.getString("selectedTask")!!)
 
         taskDetailViewModel?.task?.observe(viewLifecycleOwner) { task ->
             //als viewTask speichern?
