@@ -6,41 +6,41 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
+import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
 
 
 class TasksFragment : Fragment(), TaskClickListener {
 
+    private var _binding: FragmentTasksBinding? = null
+    private val binding get() = _binding!!
+
     private val taskViewModel : TaskViewModel = TaskViewModel()
     private val taskAdapter = TaskAdapter(this)
 
-    //TODO auf binding umbauen
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_tasks, container, false)
+        _binding = FragmentTasksBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.recycler_view)
-        recyclerView.adapter = taskAdapter
-
-        val addButton : FloatingActionButton = view.findViewById(R.id.addTask)
-
-        addButton.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
-        }
+        binding.recyclerView.adapter = taskAdapter
 
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             taskAdapter.items = it
             taskAdapter.notifyDataSetChanged()
         }
+
+        binding.addTask.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
+        }
+
     }
 
     override fun onFinishButtonClick(id: String) {
