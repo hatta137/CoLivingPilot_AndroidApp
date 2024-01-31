@@ -27,8 +27,7 @@ class TaskDetailFragment : BottomSheetDialogFragment() {
 
         val taskDetailViewModel = TaskDetailViewModel(arguments?.getString("selectedTask")!!)
 
-        taskDetailViewModel?.task?.observe(viewLifecycleOwner) { task ->
-            //als viewTask speichern?
+        taskDetailViewModel.task.observe(viewLifecycleOwner) { task ->
             binding.taskTitleTextView.text = task.title
             binding.taskNotesTextView.text = task.notes
             binding.beerCounterTextView.text = task.beerReward.toString().plus(" 🍺")
