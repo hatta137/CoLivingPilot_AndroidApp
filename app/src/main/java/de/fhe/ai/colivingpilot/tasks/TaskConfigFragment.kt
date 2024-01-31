@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigBinding
@@ -34,10 +36,24 @@ class TaskConfigFragment : Fragment() {
 
         val toolbar : Toolbar = binding.toolbar
 
-        //Toolbar title anapassen wenn bearbeiten dann anderer Titel
-
         toolbar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
+        }
+
+        //check ob vorhandener task bearbeitet werden soll
+        val selectedTask = arguments?.getString("selectedTask")
+
+        if(selectedTask != null) {
+            if(selectedTask.isNotBlank()) {
+                toolbar.title = "Aufgabe bearbeiten"
+                val taskDetailViewModel = TaskDetailViewModel(selectedTask)
+                taskDetailViewModel.task.observe(viewLifecycleOwner) {
+                    //als viewtask speichern? mit evtl. funktionen zum be & entstücken der views?
+                    binding.taskNameEditText.setText(it.title)
+                    binding.notesTextView.setText(it.notes)
+                    binding.editBeerCounter.setText(it.beerReward.toString())
+                }
+            }
         }
 
 
@@ -52,20 +68,19 @@ class TaskConfigFragment : Fragment() {
             beerCountText = beerCountText.trim()
 
             if(title.isBlank() || notes.isBlank() || beerCountText.isBlank()) {
-
-                val snackbar = Snackbar.make(view, "Bitte alle Felder ausfüllen!", 3000)
-                snackbar.setBackgroundTint(Color.RED)
-                snackbar.show()
-
+                val taskConfigView = view.findViewById<View>(R.id.taskConfigView)
+                Snackbar.make(taskConfigView, "Bitte alle Felder ausfüllen!", Snackbar.LENGTH_LONG)
+                    .setBackgroundTint(Color.RED)
+                    .show()
             }else {
 
                 val beerCount = beerCountText.toInt()
-                val newTask: ViewTask = ViewTask(
-                    title,
-                    notes,
-                    beerCount
-                )
-                taskViewModel.configTask(newTask)
+
+                val configuredTask = selectedTask?.let {
+                    ViewTask(title, notes, beerCount, it)
+                } ?: ViewTask(title, notes, beerCount)
+
+                taskViewModel.configTask(configuredTask)
                 binding.taskNameEditText.setText("")
                 findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
 

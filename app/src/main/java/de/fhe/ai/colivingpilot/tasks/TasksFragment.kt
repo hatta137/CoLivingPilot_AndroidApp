@@ -16,6 +16,8 @@ class TasksFragment : Fragment(), TaskClickListener {
     private val taskViewModel : TaskViewModel = TaskViewModel()
     private val taskAdapter = TaskAdapter(this)
 
+    //TODO auf binding umbauen
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +35,6 @@ class TasksFragment : Fragment(), TaskClickListener {
 
         addButton.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
-
         }
 
         taskViewModel.tasks.observe(viewLifecycleOwner) {
