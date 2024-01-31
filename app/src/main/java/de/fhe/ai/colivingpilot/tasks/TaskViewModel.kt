@@ -16,7 +16,6 @@ class TaskViewModel()
     val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
 
     //TODO Auslagern in config fragment
-
     fun configTask(task : ViewTask) {
         viewModelScope.launch(Dispatchers.IO) {
 

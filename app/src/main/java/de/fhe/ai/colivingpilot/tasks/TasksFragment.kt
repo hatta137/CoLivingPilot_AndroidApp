@@ -22,7 +22,7 @@ class TasksFragment : Fragment(), TaskClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTasksBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -31,7 +31,6 @@ class TasksFragment : Fragment(), TaskClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerView.adapter = taskAdapter
-
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             taskAdapter.items = it
             taskAdapter.notifyDataSetChanged()
