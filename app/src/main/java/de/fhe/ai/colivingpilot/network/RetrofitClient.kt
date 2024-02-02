@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
 
-    private const val BASE_URL = "http://tool.colivingpilot.de:20013"
+    private const val BASE_URL = "http://192.168.178.22:20013"
     private lateinit var okHttpClient: OkHttpClient
 
     fun initialize(keyValueStore: KeyValueStore) {

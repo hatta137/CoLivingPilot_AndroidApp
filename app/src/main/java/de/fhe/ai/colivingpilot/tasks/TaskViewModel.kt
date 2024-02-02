@@ -3,11 +3,12 @@ package de.fhe.ai.colivingpilot.tasks
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import de.fhe.ai.colivingpilot.model.Task
+import de.fhe.ai.colivingpilot.network.NetworkResult
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class TaskViewModel()
@@ -16,23 +17,16 @@ class TaskViewModel()
     val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
 
     //TODO Auslagern in config fragment
-    fun configTask(task : ViewTask) {
-        viewModelScope.launch(Dispatchers.IO) {
+    fun addTask(title: String, notes: String, beerCount: Int, callback: NetworkResult<String>) {
+        repository.addTask(title, notes, beerCount, callback)
+    }
 
-            val newTask = Task(
-                task.id,
-                task.title,
-                task.notes,
-                task.beerCount)
-
-            repository.addOrUpdateTask(newTask)
-        }
+    fun updateTask(id: String, title: String, notes: String, beerCount: Int, callback: NetworkResultNoData) {
+        repository.updateTask(id, title, notes, beerCount, callback)
     }
 
     fun deleteTask(id: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.deleteTaskById(id)
-        }
+        repository.deleteTaskById(id)
     }
 
 }

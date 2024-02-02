@@ -9,6 +9,7 @@ import de.fhe.ai.colivingpilot.network.data.request.LoginRequest
 import de.fhe.ai.colivingpilot.network.data.request.RegisterRequest
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponseNoData
+import de.fhe.ai.colivingpilot.network.data.response.datatypes.IdData
 import de.fhe.ai.colivingpilot.network.data.response.datatypes.InvitationCodeData
 import de.fhe.ai.colivingpilot.network.data.response.datatypes.JwtData
 import de.fhe.ai.colivingpilot.network.data.response.datatypes.WgData
@@ -63,7 +64,7 @@ interface BackendService {
 
     @AuthRequired
     @POST("api/task")
-    fun addTask(@Body request: AddTaskRequest): Call<BackendResponseNoData>
+    fun addTask(@Body request: AddTaskRequest): Call<BackendResponse<IdData>>
 
     @AuthRequired
     @DELETE("api/task/{id}")

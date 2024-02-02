@@ -3,5 +3,5 @@ package de.fhe.ai.colivingpilot.network.data.request
 data class AddTaskRequest(
     val title: String,
     val description: String,
-    val beerBonus: Int
+    val beerbonus: Int
 )

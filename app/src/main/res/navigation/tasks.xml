@@ -27,7 +27,8 @@
         tools:layout="@layout/fragment_task_detail" >
         <action
             android:id="@+id/action_task_info_to_taskConfigDialogFragment"
-            app:destination="@id/taskConfigDialogFragment" />
+            app:destination="@id/taskConfigDialogFragment"
+            app:popUpTo="@id/navigation_tasks" />
     </dialog>
     <dialog
         android:id="@+id/taskConfigDialogFragment"
