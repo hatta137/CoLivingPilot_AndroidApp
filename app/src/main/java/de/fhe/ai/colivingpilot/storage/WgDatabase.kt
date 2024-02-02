@@ -32,6 +32,8 @@ abstract class WgDatabase : RoomDatabase() {
         abstract fun shoppingListItemDao(): ShoppingListItemDao
         abstract fun taskAssignedUserDao(): TaskAssignedUserDao
 
+
+
         companion object {
                 @Volatile
                 private var instance: WgDatabase? = null
@@ -54,6 +56,8 @@ abstract class WgDatabase : RoomDatabase() {
                                 Log.i(CoLiPiApplication.LOG_TAG, "Database created")
                                 val userDao = getInstance(CoLiPiApplication.applicationContext()).userDao()
                                 CoroutineScope(Dispatchers.IO).launch {
+
+
                                         userDao.insert(
                                                 User(
                                                         UUID.randomUUID().toString(),
