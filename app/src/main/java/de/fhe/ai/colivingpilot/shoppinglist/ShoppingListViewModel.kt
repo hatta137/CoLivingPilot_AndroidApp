@@ -55,5 +55,12 @@ class ShoppingListViewModel: ViewModel() {
     fun toggleIsChecked(shoppingListItem: ShoppingListItem) {
         CoLiPiApplication.instance.repository.checkShoppingListItem(shoppingListItem, !shoppingListItem.isChecked)
     }
+
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            CoLiPiApplication.instance.repository.refresh()
+        }
+    }
+
 }
 
