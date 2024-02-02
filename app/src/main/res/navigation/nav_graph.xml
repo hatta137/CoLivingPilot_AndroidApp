@@ -3,46 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_tasks">
+    app:startDestination="@id/tasks">
 
-    <fragment
-        android:id="@+id/navigation_tasks"
-        android:name="de.fhe.ai.colivingpilot.tasks.TasksFragment"
-        android:label="fragment_tasks"
-        tools:layout="@layout/fragment_tasks" >
-        <action
-            android:id="@+id/action_navigation_tasks_to_task_info"
-            app:destination="@id/task_info" />
-        <action
-            android:id="@+id/action_navigation_tasks_to_taskConfigDialogFragment"
-            app:destination="@id/taskConfigDialogFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/navigation_shoppinglist"
-        android:name="de.fhe.ai.colivingpilot.shoppinglist.ShoppinglistFragment"
-        android:label="fragment_shoppinglist"
-        tools:layout="@layout/fragment_shoppinglist"/>
-    <fragment
-        android:id="@+id/navigation_settings"
-        android:name="de.fhe.ai.colivingpilot.settings.WgFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_wg" />
-    <dialog
-        android:id="@+id/task_info"
-        android:name="de.fhe.ai.colivingpilot.tasks.detail.TaskDetailFragment"
-        android:label="task info"
-        tools:layout="@layout/fragment_task_detail" >
-        <action
-            android:id="@+id/action_task_info_to_taskConfigDialogFragment"
-            app:destination="@id/taskConfigDialogFragment" />
-    </dialog>
-    <dialog
-        android:id="@+id/taskConfigDialogFragment"
-        android:name="de.fhe.ai.colivingpilot.tasks.TaskConfigDialogFragment"
-        android:label="fragment_task_config_dialog"
-        tools:layout="@layout/fragment_task_config_dialog">
-        <action
-            android:id="@+id/action_taskConfigDialogFragment_to_task_info"
-            app:destination="@id/task_info" />
-    </dialog>
+
+    <include app:graph="@navigation/tasks"/>
+    <include app:graph="@navigation/wg"/>
+    <include app:graph="@navigation/shopping_list"/>
+
+
 </navigation>
