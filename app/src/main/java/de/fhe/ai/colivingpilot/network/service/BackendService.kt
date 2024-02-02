@@ -7,6 +7,7 @@ import de.fhe.ai.colivingpilot.network.data.request.CheckShoppingListItemRequest
 import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
 import de.fhe.ai.colivingpilot.network.data.request.LoginRequest
 import de.fhe.ai.colivingpilot.network.data.request.RegisterRequest
+import de.fhe.ai.colivingpilot.network.data.request.RenameWgRequest
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponseNoData
 import de.fhe.ai.colivingpilot.network.data.response.datatypes.IdData
@@ -18,6 +19,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -36,6 +38,10 @@ interface BackendService {
     @AuthRequired
     @POST("api/wg")
     fun createWg(@Body request: CreateWgRequest): Call<BackendResponse<InvitationCodeData>>
+
+    @AuthRequired
+    @PUT("api/wg")
+    fun renameWg(@Body request: RenameWgRequest): Call<BackendResponseNoData>
 
     @AuthRequired
     @GET("api/wg/join")

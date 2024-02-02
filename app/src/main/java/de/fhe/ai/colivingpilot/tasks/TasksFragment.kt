@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 
 
 class TasksFragment : Fragment(), TaskClickListener {
@@ -44,7 +45,14 @@ class TasksFragment : Fragment(), TaskClickListener {
 
     override fun onFinishButtonClick(id: String) {
         // TODO: This will just delete the task without rewarding beers, needs seperation
-        taskViewModel.deleteTask(id)
+        taskViewModel.deleteTask(id, object : NetworkResultNoData {
+            override fun onSuccess() {
+            }
+
+            override fun onFailure(code: String?) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     override fun onItemClick(id: String) {

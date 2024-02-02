@@ -25,8 +25,8 @@ class TaskViewModel()
         repository.updateTask(id, title, notes, beerCount, callback)
     }
 
-    fun deleteTask(id: String) {
-        repository.deleteTaskById(id)
+    fun deleteTask(id: String, callback: NetworkResultNoData) {
+        repository.deleteTaskById(id, callback)
     }
 
 }
