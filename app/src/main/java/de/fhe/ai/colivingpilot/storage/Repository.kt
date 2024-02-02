@@ -59,7 +59,7 @@ class Repository {
                     db.shoppingListItemDao().insert(ShoppingListItem(item.id, item.title, item.notes, item.creator.id, item.isChecked))
                 }
                 resp.data.wg.tasks.forEach { task ->
-                    db.taskDao().insert(Task(task.id, task.title, task.description, task.beerbonus))
+                    db.taskDao().upsert(Task(task.id, task.title, task.description, task.beerbonus))
                 }
             }
             return@withContext Pair(true, "")
