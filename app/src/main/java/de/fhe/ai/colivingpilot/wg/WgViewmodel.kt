@@ -108,7 +108,6 @@ class WgViewmodel(
                 val isEditMode = state.get<WgFragmentState>("wgFragmentState")?.isEditMode
                 Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment OnCLickEdit: wgFragmentState.isEditMode = $isEditMode")
                 state["wgFragmentState"] = _wgFragmentState.value?.copy(isEditMode = true)
-
             }
 
             is WgEvent.OnChangeWgName -> {
@@ -121,7 +120,6 @@ class WgViewmodel(
                 val isEditMode = state.get<WgFragmentState>("wgFragmentState")?.isEditMode
                 Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment OnClickOutside: wgFragmentState.isEditMode = $isEditMode")
                 state["wgFragmentState"] = _wgFragmentState.value?.copy(isEditMode = false)
-
             }
 
             is WgEvent.OnDialogOkClick -> {

@@ -19,6 +19,20 @@
         <action
             android:id="@+id/action_navigation_wg_to_navigation_settings"
             app:destination="@id/navigation_settings" />
+        <action
+            android:id="@+id/action_navigation_wg_to_userLongClickDialogFragment"
+            app:destination="@id/userLongClickDialogFragment" />
+        <action
+            android:id="@+id/action_navigation_wg_to_addUserDialogFragment"
+            app:destination="@id/addUserDialogFragment" />
     </fragment>
+    <dialog
+        android:id="@+id/userLongClickDialogFragment"
+        android:name="de.fhe.ai.colivingpilot.wg.modals.userLongClick.UserLongClickDialogFragment"
+        android:label="UserLongClickDialogFragment" />
+    <dialog
+        android:id="@+id/addUserDialogFragment"
+        android:name="de.fhe.ai.colivingpilot.wg.modals.addUser.AddUserDialogFragment"
+        android:label="AddUserDialogFragment" />
 
 </navigation>

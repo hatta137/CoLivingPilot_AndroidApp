@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.FragmentWgBinding
+import de.fhe.ai.colivingpilot.wg.modals.userLongClick.UserLongClickViewmodel
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -52,7 +53,7 @@ class WgFragment : Fragment() {
         binding = FragmentWgBinding.bind(view)
         binding.apply {
             fabAddUser.setOnClickListener {
-                viewmodel.onEvent(WgEvent.OnClickAddUser)
+                findNavController().navigate(R.id.action_navigation_wg_to_addUserDialogFragment)
             }
             rvSettingsUser.layoutManager =
                 androidx.recyclerview.widget.LinearLayoutManager(requireContext())
@@ -124,17 +125,13 @@ class WgFragment : Fragment() {
                     is UiEvent.PopBackStack -> {
                         Log.d(CoLiPiApplication.LOG_TAG, "PopBackStack")
                     }
-
                     is UiEvent.Navigate -> {
                         Log.d(CoLiPiApplication.LOG_TAG, "Navigate to ${uiEvent.route}")
                         when (uiEvent.route) {
                             "user" -> {
                                 //navigate to user
-
                             }
                             "settings" -> {
-                                //navigate to settings
-                                Log.d(CoLiPiApplication.LOG_TAG, "Navigate to settings")
                                 findNavController().navigate(R.id.action_navigation_wg_to_navigation_settings)
                             }
                         }
@@ -143,15 +140,14 @@ class WgFragment : Fragment() {
                     is UiEvent.ShowSnackbar -> {
                         val message = getString(uiEvent.message)
                         Log.d(CoLiPiApplication.LOG_TAG, "Show snackbar with message $message")
-
                         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
                     }
 
                     is UiEvent.ShowUserLongClickDialog -> {
-                        userLongClickViewmodel.username = uiEvent.username
-                        userLongClickViewmodel.id = uiEvent.id
-                        val dialog = UserLongClickDialogFragment()
-                        dialog.show(childFragmentManager, "UserLongClickDialogFragment")
+                        val bundle = Bundle()
+                        bundle.putString("username", uiEvent.username)
+                        bundle.putString("id", uiEvent.id)
+                        findNavController().navigate(R.id.action_navigation_wg_to_userLongClickDialogFragment, bundle)
                     }
 
                     is UiEvent.updateEmoji -> {

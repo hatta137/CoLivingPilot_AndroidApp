@@ -86,5 +86,7 @@ dependencies {
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
 
+    //qr
+    implementation ("com.google.zxing:core:3.2.0")
 
 }
