@@ -16,7 +16,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private fun tryRefreshAppDatabase() {
+    //TODO @Kevin funktioniert noch nicht
+    /*private fun tryRefreshAppDatabase() {
         CoroutineScope(Dispatchers.IO).launch {
             val result = CoLiPiApplication.instance.repository.refresh()
             val refreshFailedWithStatus = !result.first && result.second.isNotEmpty()
@@ -31,12 +32,13 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        tryRefreshAppDatabase()
+        //TODO @Kevin funktioniert noch nicht
+        //tryRefreshAppDatabase()
 
         setContentView(R.layout.activity_main)
 
