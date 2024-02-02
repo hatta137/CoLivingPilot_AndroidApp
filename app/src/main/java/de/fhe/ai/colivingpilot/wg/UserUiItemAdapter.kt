@@ -16,7 +16,6 @@ class UserUiItemAdapter(
 
     inner class UserUiItemViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(user: UserUiItem){
-            Log.i(CoLiPiApplication.LOG_TAG, "UserAdapter: UserViewHolder.bind()")
             binding.listItemContactName.text = user.username
             binding.listItemContactBeerCount.text = user.beerCount.toString()
             val sharedPrefs = CoLiPiApplication.instance.keyValueStore.preferences

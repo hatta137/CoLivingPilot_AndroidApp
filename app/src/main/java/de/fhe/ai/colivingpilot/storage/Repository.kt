@@ -73,6 +73,18 @@ class Repository {
         return userDao.getUsersFlow()
     }
 
+    suspend fun addUser(user: User) {
+        userDao.insert(user)
+    }
+
+    suspend fun deleteUser(user: User) {
+        userDao.delete(user)
+    }
+
+    suspend fun getUserById(id: String): User {
+        return userDao.getUserById(id)
+    }
+
     fun addOrUpdateTask(task: Task) {
         return taskDao.upsert(task)
     }

@@ -31,9 +31,18 @@ data class UserUiItem(
     val beerCount: Int,
     val emoji: String
 )
+data class UserLongClickDialogState(
+    val show : Boolean,
+    val userLongClickDialog: UserLongClickDialog?
+) : Serializable
+data class UserLongClickDialog(
+    val selectedEmoji: String,
+    val username: String,
+    val id: String
+) : Serializable
 
 class WgViewmodel(
-    private val state: SavedStateHandle
+    val state: SavedStateHandle
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val repository = Repository()
@@ -69,7 +78,7 @@ class WgViewmodel(
 
 
     init {
-        keyValueStore = CoLiPiApplication.instance.getKeyValueStore()
+        keyValueStore = CoLiPiApplication.instance.keyValueStore
         keyValueStore.registerOnSharedPreferenceChangeListener(this)
         _wgName.value = keyValueStore.readString("wg_name")
         if (_wgName.value == "") {
@@ -128,7 +137,8 @@ class WgViewmodel(
                     val user = User(
                         UUID.randomUUID().toString(),
                         "Hendrik",
-                        1337
+                        1337,
+                        false
                     )
                     Log.i(CoLiPiApplication.LOG_TAG, "User created")
                     repository.addUser(user)
@@ -144,6 +154,9 @@ class WgViewmodel(
             }
             is WgEvent.OnSettingsClick -> {
                 sendEvent(UiEvent.Navigate("settings"))
+            }
+            is WgEvent.OnClickAddUser -> {
+                sendEvent(UiEvent.Navigate("addUser"))
             }
         }
     }
