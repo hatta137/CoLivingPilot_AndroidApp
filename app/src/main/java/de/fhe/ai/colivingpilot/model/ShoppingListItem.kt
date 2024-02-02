@@ -1,5 +1,6 @@
 package de.fhe.ai.colivingpilot.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
@@ -20,5 +21,5 @@ data class ShoppingListItem(
     val title: String,
     val notes: String,
     val creator: String,
-    var isChecked: Boolean //TODO @Kevin ins Backend!
+    @ColumnInfo(name = "is_checked") var isChecked: Boolean //TODO @Kevin ins Backend!
 )
