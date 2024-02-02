@@ -8,6 +8,11 @@
     tools:context=".shoppinglist.ShoppinglistFragment"
     >
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvShoppingListItems"
         android:layout_width="match_parent"
@@ -16,6 +21,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 

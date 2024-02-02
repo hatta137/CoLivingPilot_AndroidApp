@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
@@ -49,6 +50,13 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
         val btnAddItem = view.findViewById<FloatingActionButton>(R.id.btnAddItemToShoppingList)
         val btnDeleteDoneTodos = view.findViewById<FloatingActionButton>(R.id.btnDeleteDoneShoppingItems)
+
+        val swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
+
+        swipeRefreshLayout.setOnRefreshListener {
+            shoppingListViewModel.refresh()
+            swipeRefreshLayout.isRefreshing = false
+        }
 
         btnAddItem.setOnClickListener {
             showAddItemDialog()
