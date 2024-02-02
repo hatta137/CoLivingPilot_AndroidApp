@@ -7,7 +7,7 @@
     tools:context=".view.RegisterActivity">
 
     <TextView
-        android:id="@+id/textview_title_register"
+        android:id="@+id/register_activity_textview_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
@@ -19,13 +19,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textfield_register_username"
+        android:id="@+id/register_activity_textfield_username"
         style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/textfield_register_email"
+        app:layout_constraintBottom_toTopOf="@+id/register_activity_textfield_email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,17 +39,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textfield_register_email"
+        android:id="@+id/register_activity_textfield_email"
         style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@id/textfield_register_password"
+        app:layout_constraintBottom_toTopOf="@id/register_activity_textfield_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textfield_register_username"
+        app:layout_constraintTop_toBottomOf="@id/register_activity_textfield_username"
         app:layout_constraintWidth_percent="0.75">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -60,17 +60,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textfield_register_password"
+        android:id="@+id/register_activity_textfield_password"
         style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@id/textfield_register_password_again"
+        app:layout_constraintBottom_toTopOf="@id/register_activity_textfield_password_again"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textfield_register_email"
+        app:layout_constraintTop_toBottomOf="@id/register_activity_textfield_email"
         app:layout_constraintWidth_percent="0.75"
         app:passwordToggleEnabled="true">
 
@@ -82,17 +82,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textfield_register_password_again"
+        android:id="@+id/register_activity_textfield_password_again"
         style="?attr/textInputFilledStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="1dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@id/button_register_register"
+        app:layout_constraintBottom_toTopOf="@id/register_activity_button_register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textfield_register_password"
+        app:layout_constraintTop_toBottomOf="@id/register_activity_textfield_password"
         app:layout_constraintWidth_percent="0.75"
         app:passwordToggleEnabled="true">
 
@@ -104,7 +104,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button_register_register"
+        android:id="@+id/register_activity_button_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -112,11 +112,11 @@
         app:icon="@drawable/baseline_create_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/progress_register"
-        app:layout_constraintTop_toBottomOf="@id/textfield_register_password_again" />
+        app:layout_constraintBottom_toTopOf="@id/register_activity_progress"
+        app:layout_constraintTop_toBottomOf="@id/register_activity_textfield_password_again" />
 
     <ProgressBar
-        android:id="@+id/progress_register"
+        android:id="@+id/register_activity_progress"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -126,6 +126,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_register_register" />
+        app:layout_constraintTop_toBottomOf="@id/register_activity_button_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

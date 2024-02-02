@@ -12,10 +12,10 @@ import com.google.android.material.textfield.TextInputLayout
 import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
-import de.fhe.ai.colivingpilot.http.RetrofitClient
-import de.fhe.ai.colivingpilot.http.data.request.RegisterRequest
-import de.fhe.ai.colivingpilot.http.data.response.BackendResponse
-import de.fhe.ai.colivingpilot.http.data.response.datatypes.JwtData
+import de.fhe.ai.colivingpilot.network.RetrofitClient
+import de.fhe.ai.colivingpilot.network.data.request.RegisterRequest
+import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
+import de.fhe.ai.colivingpilot.network.data.response.datatypes.JwtData
 import de.fhe.ai.colivingpilot.util.UiUtils
 import retrofit2.Call
 import retrofit2.Callback
@@ -26,20 +26,16 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        val registerBtn = findViewById<Button>(R.id.button_register_register)
+        val registerBtn = findViewById<Button>(R.id.register_activity_button_register)
         registerBtn.setOnClickListener {
             UiUtils.hideKeyboard(this)
 
-            val usernameField = findViewById<TextInputLayout>(R.id.textfield_register_username)
-            val emailField = findViewById<TextInputLayout>(R.id.textfield_register_email)
-            val passwordField = findViewById<TextInputLayout>(R.id.textfield_register_password)
-            val username = usernameField.editText?.text.toString()
-            val email = emailField.editText?.text.toString()
-            val password = passwordField.editText?.text.toString()
-            val registerRequest = RegisterRequest(username, email, password)
+            val usernameField = findViewById<TextInputLayout>(R.id.register_activity_textfield_username)
+            val emailField = findViewById<TextInputLayout>(R.id.register_activity_textfield_email)
+            val passwordField = findViewById<TextInputLayout>(R.id.register_activity_textfield_password)
 
-            val passwordRepeatField = findViewById<TextInputLayout>(R.id.textfield_register_password_again)
-            val progressBar = findViewById<ProgressBar>(R.id.progress_register)
+            val passwordRepeatField = findViewById<TextInputLayout>(R.id.register_activity_textfield_password_again)
+            val progressBar = findViewById<ProgressBar>(R.id.register_activity_progress)
 
             fun setFormLocked(locked: Boolean) {
                 registerBtn.visibility = if (locked) View.GONE else View.VISIBLE
@@ -52,6 +48,10 @@ class RegisterActivity : AppCompatActivity() {
 
             setFormLocked(true)
 
+            val username = usernameField.editText?.text.toString()
+            val email = emailField.editText?.text.toString()
+            val password = passwordField.editText?.text.toString()
+            val registerRequest = RegisterRequest(username, email, password)
             RetrofitClient.instance.register(registerRequest).enqueue(object : Callback<BackendResponse<JwtData>> {
                 override fun onResponse(
                     call: Call<BackendResponse<JwtData>>,
@@ -67,13 +67,14 @@ class RegisterActivity : AppCompatActivity() {
                         }
 
                         val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         startActivity(intent)
                     } else {
                         Log.e(CoLiPiApplication.LOG_TAG, "Register response unsuccessful: ${response.errorBody()?.string()}")
                         UiUtils.showSnackbar(this@RegisterActivity, registerBtn, R.string.snackbar_register_unsuccessful, Snackbar.LENGTH_SHORT, R.color.red)
-                    }
 
-                    setFormLocked(false)
+                        setFormLocked(false)
+                    }
                 }
 
                 override fun onFailure(call: Call<BackendResponse<JwtData>>, t: Throwable) {

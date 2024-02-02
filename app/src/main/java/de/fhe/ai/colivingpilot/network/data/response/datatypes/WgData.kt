@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.http.data.response.datatypes
+package de.fhe.ai.colivingpilot.network.data.response.datatypes
 
 import com.google.gson.annotations.SerializedName
 

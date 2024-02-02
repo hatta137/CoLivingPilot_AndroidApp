@@ -1,4 +1,4 @@
-package de.fhe.ai.colivingpilot.http.service
+package de.fhe.ai.colivingpilot.network.auth
 
 import de.fhe.ai.colivingpilot.core.KeyValueStore
 import okhttp3.Interceptor
@@ -11,7 +11,8 @@ class AuthInterceptor(private val keyValueStore: KeyValueStore) : Interceptor {
 
         val newRequestBuilder = request.newBuilder()
 
-        val requestNeedsAuth = request.tag(Invocation::class.java)?.method()?.getAnnotation(AuthRequired::class.java) != null
+        val requestNeedsAuth = request.tag(Invocation::class.java)?.method()?.getAnnotation(
+            AuthRequired::class.java) != null
         if (requestNeedsAuth) {
             val token = keyValueStore.readString("jwt")
             newRequestBuilder.addHeader("Authorization", "Bearer $token")
