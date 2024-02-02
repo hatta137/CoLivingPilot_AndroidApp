@@ -2,23 +2,20 @@ package de.fhe.ai.colivingpilot.tasks
 
 import android.graphics.Color
 import android.os.Bundle
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
-import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigBinding
+import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigDialogBinding
 import de.fhe.ai.colivingpilot.tasks.detail.TaskDetailViewModel
 
 
-class TaskConfigFragment : Fragment() {
+class TaskConfigDialogFragment : BottomSheetDialogFragment() {
 
-    private var _binding: FragmentTaskConfigBinding? = null
+    private var _binding: FragmentTaskConfigDialogBinding? = null
     private val binding get() = _binding!!
 
     private val taskViewModel = TaskViewModel()
@@ -27,26 +24,19 @@ class TaskConfigFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentTaskConfigBinding.inflate(inflater, container, false)
+        _binding = FragmentTaskConfigDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toolbar : Toolbar = binding.toolbar
-
-        toolbar.setNavigationOnClickListener {
-            findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
-        }
-
         //check ob vorhandener task bearbeitet werden soll
-        val selectedTask = arguments?.getString("selectedTask")
+        val taskId = arguments?.getString("selectedTask")
 
-        if(selectedTask != null) {
-            if(selectedTask.isNotBlank()) {
-                toolbar.title = "Aufgabe bearbeiten"
-                val taskDetailViewModel = TaskDetailViewModel(selectedTask)
+        if(taskId != null) {
+            if(taskId.isNotBlank()) {
+                val taskDetailViewModel = TaskDetailViewModel(taskId)
                 taskDetailViewModel.task.observe(viewLifecycleOwner) {
                     //als viewtask speichern? mit evtl. funktionen zum be & entstücken der views?
                     binding.taskNameEditText.setText(it.title)
@@ -54,6 +44,11 @@ class TaskConfigFragment : Fragment() {
                     binding.editBeerCounter.setText(it.beerReward.toString())
                 }
             }
+        }
+
+        binding.abortButton.setOnClickListener {
+            //TODO checken ob das ne gute lösung ist fragment auszublenden?
+            this.dismiss()
         }
 
 
@@ -76,17 +71,24 @@ class TaskConfigFragment : Fragment() {
 
                 val beerCount = beerCountText.toInt()
 
-                val configuredTask = selectedTask?.let {
+                val configuredTask = taskId?.let {
                     ViewTask(title, notes, beerCount, it)
                 } ?: ViewTask(title, notes, beerCount)
 
                 taskViewModel.configTask(configuredTask)
-                findNavController().navigate(R.id.action_newTaskFragment_to_navigation_tasks)
 
+                val bundle = Bundle().apply {
+                    putString("selectedTask", configuredTask.id)
+                }
+                //TODO fixen wen n neu angelegt
+                this.dismiss()
+                findNavController().navigate(R.id.action_taskConfigDialogFragment_to_task_info, bundle)
             }
 
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
