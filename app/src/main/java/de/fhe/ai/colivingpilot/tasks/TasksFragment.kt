@@ -57,7 +57,7 @@ class TasksFragment : Fragment(), TaskClickListener {
         val bundle = Bundle().apply {
             putString("selectedTask", id)
         }
-        findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment, bundle)
+        findNavController().navigate(R.id.action_navigation_tasks_to_taskConfigDialogFragment, bundle)
     }
 
     override fun onDestroyView() {
