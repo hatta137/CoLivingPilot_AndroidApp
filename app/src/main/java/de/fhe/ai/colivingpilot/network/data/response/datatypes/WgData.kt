@@ -20,7 +20,8 @@ data class WgShoppingListItem(
     val id: String,
     val title: String,
     val notes: String,
-    val creator: WgUser
+    val creator: WgUser,
+    val isChecked: Boolean
 )
 
 data class WgTask(

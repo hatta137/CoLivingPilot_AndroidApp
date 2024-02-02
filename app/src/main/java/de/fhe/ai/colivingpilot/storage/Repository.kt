@@ -27,8 +27,7 @@ class Repository {
      *
      * @return A pair indicating the success or failure of the operation and an optional error message.
      */
-    //TODO @Kevin funktikoniert noch nicht
-    /*suspend fun refresh(): Pair<Boolean, String> = withContext(Dispatchers.IO) {
+    suspend fun refresh(): Pair<Boolean, String> = withContext(Dispatchers.IO) {
         try {
             val response = RetrofitClient.instance.getWgData().execute()
             if (!response.isSuccessful) {
@@ -57,7 +56,7 @@ class Repository {
                     db.userDao().insert(User(member.id, member.username, member.beercounter, creator.username == member.username))
                 }
                 resp.data.wg.shoppingList.forEach { item ->
-                    db.shoppingListItemDao().insert(ShoppingListItem(item.id, item.title, item.notes, item.creator.id))
+                    db.shoppingListItemDao().insert(ShoppingListItem(item.id, item.title, item.notes, item.creator.id, item.isChecked))
                 }
                 resp.data.wg.tasks.forEach { task ->
                     db.taskDao().insert(Task(task.id, task.title, task.description, task.beerbonus))
@@ -68,7 +67,7 @@ class Repository {
             Log.e(CoLiPiApplication.LOG_TAG, "Failed to fetch WG data")
             return@withContext Pair(false, "")
         }
-    }*/
+    }
 
     fun getUsersFlow(): Flow<List<User>> {
         return userDao.getUsersFlow()

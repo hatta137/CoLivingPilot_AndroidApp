@@ -5,7 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
+import de.fhe.ai.colivingpilot.network.RetrofitClient
+import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.storage.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,15 +34,13 @@ class ShoppingListViewModel: ViewModel() {
     fun addItemToShoppingList(itemTitle: String, itemNotes: String) {
 
         viewModelScope.launch(Dispatchers.IO) {
+            val response = RetrofitClient.instance.addShoppingListItem(AddShoppingListItemRequest(itemTitle, itemNotes)).execute()
+            if (!response.isSuccessful) {
+                Log.e(CoLiPiApplication.LOG_TAG, "Failed to add shopping list item")
+                return@launch
+            }
 
-            val item = ShoppingListItem(
-                UUID.randomUUID().toString(),
-                itemTitle,
-                itemNotes,
-                repository.getTestUser().id, // TODO Test User austauschen durch den gerade angemeldeten
-                false)
-
-            repository.insertShoppingListItem(item)
+            CoLiPiApplication.instance.repository.refresh()
         }
     }
 
