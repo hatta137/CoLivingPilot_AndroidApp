@@ -23,7 +23,6 @@ class TaskViewModel()
                 task.id,
                 task.title,
                 task.notes,
-                "",
                 task.beerCount)
 
             repository.addOrUpdateTask(newTask)

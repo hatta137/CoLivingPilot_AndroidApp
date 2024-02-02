@@ -20,6 +20,5 @@ data class Task(
     @PrimaryKey val id: String,
     val title: String,
     val notes: String,
-    val creator: String,
     @ColumnInfo(name = "beer_reward") val beerReward: Int
 )
