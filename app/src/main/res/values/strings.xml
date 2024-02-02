@@ -1,8 +1,21 @@
 <resources>
     <string name="app_name">CoLivingPilot</string>
+    <string name="label_button_login">Einloggen</string>
+    <string name="label_button_create_account">Account erstellen</string>
+    <string name="label_textview_welcome">Willkommen bei CoLivingPilot!</string>
+    <string name="label_textview_login_title">Login</string>
+    <string name="hint_textfield_password">Passwort</string>
+    <string name="hint_textfield_username">Username</string>
+    <string name="hint_textfield_email">E-Mail</string>
+    <string name="hint_textfield_password_repeat">Passwort wiederholen</string>
+    <string name="snackbar_login_successful">Erfolgreich eingeloggt</string>
+    <string name="snackbar_login_unsuccessful">Login fehlgeschlagen</string>
+    <string name="snackbar_something_went_wrong">Etwas ist schiefgelaufen</string>
+    <string name="snackbar_register_successful">Erfolgreich registriert</string>
+    <string name="snackbar_register_unsuccessful">Registrierung fehlgeschlagen</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tasks_menu_item">Aufgaben</string>
-    <string name="shoppinglist_menu_item">Einkaufsliste</string>
+
     <string name="settings_menu_item">Einstellungen</string>
 
     <string name="text_descr_profile_picture">Profilbild</string>
@@ -94,5 +107,14 @@
     <string name="title_copyable_preference">Copyable Preference</string>
     <string name="summary_copyable_preference">Summary for Copyable Preference</string>
 
+
+    //shoppingList
+    <string name="shoppinglist_menu_item">Einkaufsliste</string>
+    <string name="shoppingList_item_title">Was brauchst du?</string>
+    <string name="shoppingList_item_notes">Etwas genauer bitte!</string>
+    <string name="shoppingList_add_btn">Hinzufügen</string>
+    <string name="shoppingList_cancel">Abbruch!</string>
+    <string name="dialog_title_add_item">Neues Element hinzufügen</string>
+    <string name="dialog_title_full_note">Vollständige Notiz</string>
 
 </resources>

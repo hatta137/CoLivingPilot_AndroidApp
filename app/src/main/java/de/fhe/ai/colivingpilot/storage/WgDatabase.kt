@@ -18,9 +18,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.UUID
-import java.util.concurrent.Executors
 import javax.inject.Inject
 import javax.inject.Provider
+import java.util.concurrent.Executors
 
 @Database(entities = [ User::class, Task::class, ShoppingListItem::class, TaskAssignedUser::class ],
         version = 4)
@@ -31,6 +31,8 @@ abstract class WgDatabase : RoomDatabase() {
         abstract fun taskDao(): TaskDao
         abstract fun shoppingListItemDao(): ShoppingListItemDao
         abstract fun taskAssignedUserDao(): TaskAssignedUserDao
+
+
 
         companion object {
                 @Volatile
@@ -54,26 +56,32 @@ abstract class WgDatabase : RoomDatabase() {
                                 Log.i(CoLiPiApplication.LOG_TAG, "Database created")
                                 val userDao = getInstance(CoLiPiApplication.applicationContext()).userDao()
                                 CoroutineScope(Dispatchers.IO).launch {
+
+
                                         userDao.insert(
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Kevin",
-                                                        420
+                                                        420,
+                                                        true
                                                 ),
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Darius",
-                                                        187
+                                                        187,
+                                                        false
                                                 ),
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Hendrik",
-                                                        1337
+                                                        1337,
+                                                        false
                                                 ),
                                                 User(
                                                         UUID.randomUUID().toString(),
                                                         "Florian",
-                                                        69
+                                                        69,
+                                                        false
                                                 ))
                                 }
 
@@ -81,6 +89,14 @@ abstract class WgDatabase : RoomDatabase() {
                 }
         }
 
+        fun getDatabase(context: Context): WgDatabase {
+            return instance ?: Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
+                .addCallback(createCallback)
+                .setQueryCallback({ sqlQuery, bindArgs ->
+                    Log.i("SQL", "Query: $sqlQuery | Args: $bindArgs")
+                }, Executors.newSingleThreadExecutor())
+                .build()
+        }
 
 
 }

@@ -25,4 +25,6 @@ interface UserDao {
     @Delete
     suspend fun delete(user: User)
 
+    @Query("SELECT * FROM users WHERE username = 'Hendrik'")
+    fun getTestUser(): User
 }

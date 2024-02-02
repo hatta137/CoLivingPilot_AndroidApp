@@ -19,7 +19,7 @@ class UserUiItemAdapter(
             Log.i(CoLiPiApplication.LOG_TAG, "UserAdapter: UserViewHolder.bind()")
             binding.listItemContactName.text = user.username
             binding.listItemContactBeerCount.text = user.beerCount.toString()
-            val sharedPrefs = CoLiPiApplication.instance.getKeyValueStore().preferences
+            val sharedPrefs = CoLiPiApplication.instance.keyValueStore.preferences
             val emoji = sharedPrefs.getString(user.username.toString() + "_emoji", "")
             binding.listItemContactEmoji.text = emoji
             itemView.setOnClickListener{

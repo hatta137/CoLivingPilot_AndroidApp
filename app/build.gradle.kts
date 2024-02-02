@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
-    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin") version "2.0.1"
 }
 
 android {
@@ -53,6 +52,8 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.lifecycle:lifecycle-process:2.7.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.3.0")
 
 
     //noinspection KaptUsageInsteadOfKsp
@@ -84,5 +85,6 @@ dependencies {
     implementation("androidx.emoji2:emoji2-views:$emojiVersion")
 
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0")
+
 
 }
