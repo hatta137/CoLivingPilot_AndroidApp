@@ -24,10 +24,6 @@ class CoLiPiApplication : Application() {
         Log.i(LOG_TAG, "Application initialized.")
     }
 
-    fun getKeyValueStore(): KeyValueStore {
-        return keyValueStore
-    }
-
     companion object {
 
         const val LOG_TAG = "CoLiPi"

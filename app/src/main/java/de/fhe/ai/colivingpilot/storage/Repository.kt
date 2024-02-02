@@ -2,13 +2,17 @@ package de.fhe.ai.colivingpilot.storage
 
 import android.content.Context
 import dagger.hilt.android.qualifiers.ApplicationContext
+import android.util.Log
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+import java.lang.Exception
 
 
 class Repository(
@@ -71,6 +75,18 @@ class Repository(
         return userDao.getUsersFlow()
     }
 
+    suspend fun addUser(user: User) {
+        userDao.insert(user)
+    }
+
+    suspend fun deleteUser(user: User) {
+        userDao.delete(user)
+    }
+
+    suspend fun getUserById(id: String): User {
+        return userDao.getUserById(id)
+    }
+
     fun addOrUpdateTask(task: Task) {
         return taskDao.upsert(task)
     }
@@ -94,19 +110,6 @@ class Repository(
     fun getShoppingListItemsFlow(): Flow<List<ShoppingListItem>> {
         return shoppingListItemDao.getShoppingListItemsFlow()
     }
-
-    suspend fun addUser(user: User) {
-        userDao.insert(user)
-    }
-
-    suspend fun deleteUser(user: User) {
-        userDao.delete(user)
-    }
-
-    suspend fun getUserById(id: String): User {
-        return userDao.getUserById(id)
-    }
-
 
     fun deleteItemFromShoppingList(shoppingListItem: ShoppingListItem){
         shoppingListItemDao.deleteItemFromShoppingList(shoppingListItem)
