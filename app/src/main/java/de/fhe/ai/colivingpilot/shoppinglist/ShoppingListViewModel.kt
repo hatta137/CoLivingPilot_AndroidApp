@@ -10,6 +10,7 @@ import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.storage.Repository
+import de.fhe.ai.colivingpilot.util.refreshInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.UUID
@@ -17,7 +18,7 @@ import java.util.UUID
 /***
  * @author Hendrik Lendeckel
  */
-class ShoppingListViewModel: ViewModel() {
+class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() {
 
     private val repository: Repository = Repository()
 
@@ -55,5 +56,13 @@ class ShoppingListViewModel: ViewModel() {
     fun toggleIsChecked(shoppingListItem: ShoppingListItem) {
         CoLiPiApplication.instance.repository.checkShoppingListItem(shoppingListItem, !shoppingListItem.isChecked)
     }
+
+    fun refresh() {
+        viewModelScope.launch(Dispatchers.IO) {
+            CoLiPiApplication.instance.repository.refresh()
+            refreshListener.refreshFinish()
+        }
+    }
+
 }
 

@@ -15,20 +15,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
+import de.fhe.ai.colivingpilot.util.refreshInterface
 
 /***
  * @author Hendrik Lendeckel
  */
-class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
+class ShoppinglistFragment : Fragment(), ShoppingListActionListener, refreshInterface {
 
     // Lateinit variables for RecyclerView and Adapter
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var rvShoppingListItems: RecyclerView
-    private val shoppingListViewModel: ShoppingListViewModel by viewModels()
-
+    private val shoppingListViewModel: ShoppingListViewModel = ShoppingListViewModel(this)
+    private var swipeRefreshLayout : SwipeRefreshLayout? = null;
 
     // Called when the view is created
     @SuppressLint("MissingInflatedId")
@@ -49,6 +51,12 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
 
         val btnAddItem = view.findViewById<FloatingActionButton>(R.id.btnAddItemToShoppingList)
         val btnDeleteDoneTodos = view.findViewById<FloatingActionButton>(R.id.btnDeleteDoneShoppingItems)
+
+        swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
+
+        swipeRefreshLayout?.setOnRefreshListener {
+            shoppingListViewModel.refresh()
+        }
 
         btnAddItem.setOnClickListener {
             showAddItemDialog()
@@ -121,5 +129,9 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener {
         }
 
         dialog.show()
+    }
+
+    override fun refreshFinish() {
+        swipeRefreshLayout?.isRefreshing = false
     }
 }
