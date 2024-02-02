@@ -14,9 +14,6 @@
             android:id="@+id/action_navigation_tasks_to_task_info"
             app:destination="@id/task_info" />
         <action
-            android:id="@+id/action_navigation_tasks_to_newTaskFragment"
-            app:destination="@id/taskConfigFragment" />
-        <action
             android:id="@+id/action_navigation_tasks_to_taskConfigDialogFragment"
             app:destination="@id/taskConfigDialogFragment" />
     </fragment>
@@ -39,15 +36,6 @@
             android:id="@+id/action_task_info_to_taskConfigDialogFragment"
             app:destination="@id/taskConfigDialogFragment" />
     </dialog>
-    <fragment
-        android:id="@+id/taskConfigFragment"
-        android:name="de.fhe.ai.colivingpilot.tasks.TaskConfigFragment"
-        android:label="fragment_task_config"
-        tools:layout="@layout/fragment_task_config" >
-        <action
-            android:id="@+id/action_newTaskFragment_to_navigation_tasks"
-            app:destination="@id/navigation_tasks" />
-    </fragment>
     <dialog
         android:id="@+id/taskConfigDialogFragment"
         android:name="de.fhe.ai.colivingpilot.tasks.TaskConfigDialogFragment"
