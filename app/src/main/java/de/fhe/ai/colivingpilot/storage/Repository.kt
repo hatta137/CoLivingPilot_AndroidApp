@@ -8,8 +8,12 @@ import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.model.User
+import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
+import de.fhe.ai.colivingpilot.network.data.request.CheckShoppingListItemRequest
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import java.lang.Exception
@@ -110,11 +114,39 @@ class Repository {
     }
 
     fun deleteItemFromShoppingList(shoppingListItem: ShoppingListItem){
-        shoppingListItemDao.deleteItemFromShoppingList(shoppingListItem)
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = RetrofitClient.instance.removeShoppingListItem(shoppingListItem.id).execute()
+            if (!response.isSuccessful) {
+                Log.e(CoLiPiApplication.LOG_TAG, "Failed to remove shopping list item")
+                return@launch
+            }
+
+            refresh()
+        }
     }
 
-    fun insertShoppingListItem(shoppingListItem: ShoppingListItem){
-        shoppingListItemDao.insert(shoppingListItem)
+    fun addShoppingListItem(itemTitle: String, itemNotes: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = RetrofitClient.instance.addShoppingListItem(AddShoppingListItemRequest(itemTitle, itemNotes)).execute()
+            if (!response.isSuccessful) {
+                Log.e(CoLiPiApplication.LOG_TAG, "Failed to add shopping list item")
+                return@launch
+            }
+
+            refresh()
+        }
+    }
+
+    fun checkShoppingListItem(shoppingListItem: ShoppingListItem, checkState: Boolean) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val response = RetrofitClient.instance.checkShoppingListItem(shoppingListItem.id, CheckShoppingListItemRequest(checkState)).execute()
+            if (!response.isSuccessful) {
+                Log.e(CoLiPiApplication.LOG_TAG, "Failed to change checked state of shopping list item")
+                return@launch
+            }
+
+            refresh()
+        }
     }
 
     fun updateItem(shoppingListItem: ShoppingListItem, boolean: Boolean){

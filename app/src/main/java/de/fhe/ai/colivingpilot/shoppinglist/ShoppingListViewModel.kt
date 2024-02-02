@@ -32,30 +32,16 @@ class ShoppingListViewModel: ViewModel() {
      * @param itemNotes Notes for the shopping list item.
      */
     fun addItemToShoppingList(itemTitle: String, itemNotes: String) {
-
-        viewModelScope.launch(Dispatchers.IO) {
-            val response = RetrofitClient.instance.addShoppingListItem(AddShoppingListItemRequest(itemTitle, itemNotes)).execute()
-            if (!response.isSuccessful) {
-                Log.e(CoLiPiApplication.LOG_TAG, "Failed to add shopping list item")
-                return@launch
-            }
-
-            CoLiPiApplication.instance.repository.refresh()
-        }
+        CoLiPiApplication.instance.repository.addShoppingListItem(itemTitle, itemNotes)
     }
 
     /**
      * Deletes all completed shopping list items.
      */
     fun deleteDoneItems() {
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-            shoppingListItems.value?.forEach{
-
-                if (it.isChecked){
-                    repository.deleteItemFromShoppingList(it)
-                }
+        shoppingListItems.value?.forEach{ item ->
+            if (item.isChecked){
+                repository.deleteItemFromShoppingList(item)
             }
         }
     }
@@ -67,15 +53,7 @@ class ShoppingListViewModel: ViewModel() {
      * @param shoppingListItem The shopping list item to be updated.
      */
     fun toggleIsChecked(shoppingListItem: ShoppingListItem) {
-
-        viewModelScope.launch(Dispatchers.IO) {
-
-            Log.d("ShoppingListViewModel", "toggleIsChecked ${shoppingListItem.isChecked}")
-
-            if (shoppingListItem != null) {
-                repository.updateItem(shoppingListItem, !shoppingListItem.isChecked)
-            }
-        }
+        CoLiPiApplication.instance.repository.checkShoppingListItem(shoppingListItem, !shoppingListItem.isChecked)
     }
 }
 
