@@ -27,7 +27,8 @@ class Repository {
      *
      * @return A pair indicating the success or failure of the operation and an optional error message.
      */
-    suspend fun refresh(): Pair<Boolean, String> = withContext(Dispatchers.IO) {
+    //TODO @Kevin funktikoniert noch nicht
+    /*suspend fun refresh(): Pair<Boolean, String> = withContext(Dispatchers.IO) {
         try {
             val response = RetrofitClient.instance.getWgData().execute()
             if (!response.isSuccessful) {
@@ -67,7 +68,7 @@ class Repository {
             Log.e(CoLiPiApplication.LOG_TAG, "Failed to fetch WG data")
             return@withContext Pair(false, "")
         }
-    }
+    }*/
 
     fun getUsersFlow(): Flow<List<User>> {
         return userDao.getUsersFlow()
