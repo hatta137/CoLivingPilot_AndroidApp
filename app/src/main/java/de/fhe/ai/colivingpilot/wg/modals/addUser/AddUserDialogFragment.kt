@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.FragmentAddUserDialogBinding
-import de.fhe.ai.qrgenerator.QRCodeGenerator
+import de.fhe.ai.colivingpilot.util.QRCodeGenerator
 
 class AddUserDialogFragment : BottomSheetDialogFragment() {
 

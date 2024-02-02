@@ -1,9 +1,7 @@
-package de.fhe.ai.qrgenerator
+package de.fhe.ai.colivingpilot.util
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.widget.Toast
-import android.content.Context
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.qrcode.QRCodeWriter
@@ -11,7 +9,6 @@ import com.google.zxing.qrcode.QRCodeWriter
 object QRCodeGenerator {
 
     fun generateQRCodeBitmap(data: String): Bitmap? {
-
         val writer = QRCodeWriter()
         try {
             val bitMatrix = writer.encode(data, BarcodeFormat.QR_CODE, 512, 512)
@@ -23,10 +20,13 @@ object QRCodeGenerator {
                     bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
                 }
             }
+
             return bitmap
         } catch (e: WriterException) {
             e.printStackTrace()
         }
+
         return null
     }
+
 }
