@@ -11,6 +11,7 @@ import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.network.data.request.AddTaskRequest
 import de.fhe.ai.colivingpilot.network.data.request.CheckShoppingListItemRequest
+import de.fhe.ai.colivingpilot.network.data.request.RenameWgRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -77,8 +78,6 @@ class Repository(
         }
     }
 
-
-
     fun getUsersFlow(): Flow<List<User>> {
         return userDao.getUsersFlow()
     }
@@ -95,6 +94,24 @@ class Repository(
         return userDao.getUserById(id)
     }
 
+    fun renameWg(name: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.renameWg(RenameWgRequest(name)).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
     fun addTask(title: String, notes: String, beerReward: Int, callback: NetworkResult<String>) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -104,14 +121,13 @@ class Repository(
                     return@launch
                 }
 
-                refresh()
-
                 val result = response.body()
                 if (result == null) {
                     withContext(Dispatchers.Main) { callback.onFailure(null) }
                     return@launch
                 }
 
+                refresh()
                 withContext(Dispatchers.Main) { callback.onSuccess(result.data.id) }
             } catch (_: IOException) {
                 withContext(Dispatchers.Main) { callback.onFailure(null) }
@@ -123,6 +139,7 @@ class Repository(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 // TODO
+                refresh()
                 withContext(Dispatchers.Main) { callback.onSuccess() }
             } catch (_: IOException) {
                 withContext(Dispatchers.Main) { callback.onFailure(null) }
@@ -130,15 +147,16 @@ class Repository(
         }
     }
 
-    fun deleteTaskById(id: String) {
+    fun deleteTaskById(id: String, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
             val response = RetrofitClient.instance.removeTask(id).execute()
             if (!response.isSuccessful) {
-                Log.e(CoLiPiApplication.LOG_TAG, "Failed to remove task")
+                withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
                 return@launch
             }
 
             refresh()
+            withContext(Dispatchers.Main) { callback.onSuccess() }
         }
     }
 

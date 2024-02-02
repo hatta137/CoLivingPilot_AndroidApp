@@ -12,6 +12,7 @@ import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.core.KeyValueStore
 import de.fhe.ai.colivingpilot.model.User
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.map
@@ -111,9 +112,17 @@ class WgViewmodel(
             }
 
             is WgEvent.OnChangeWgName -> {
-                sendEvent(UiEvent.ShowSnackbar(R.string.wg_name_changed))
                 sendEvent(UiEvent.deactivateEditMode)
-                keyValueStore.writeString("wg_name", event.wgName)
+                CoLiPiApplication.instance.repository.renameWg(event.wgName,
+                    object : NetworkResultNoData {
+                        override fun onSuccess() {
+                            sendEvent(UiEvent.ShowSnackbar(R.string.wg_name_changed))
+                        }
+
+                        override fun onFailure(code: String?) {
+                            TODO("Not yet implemented")
+                        }
+                    })
             }
 
             is WgEvent.OnClickOutsideEditMode -> {
