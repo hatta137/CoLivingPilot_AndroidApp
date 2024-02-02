@@ -37,7 +37,7 @@ class TasksFragment : Fragment(), TaskClickListener {
         }
 
         binding.addTask.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment)
+            findNavController().navigate(R.id.action_navigation_tasks_to_taskConfigDialogFragment)
         }
 
     }
@@ -58,6 +58,11 @@ class TasksFragment : Fragment(), TaskClickListener {
             putString("selectedTask", id)
         }
         findNavController().navigate(R.id.action_navigation_tasks_to_newTaskFragment, bundle)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
