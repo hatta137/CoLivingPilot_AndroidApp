@@ -33,7 +33,7 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
      * @param itemNotes Notes for the shopping list item.
      */
     fun addItemToShoppingList(itemTitle: String, itemNotes: String) {
-        CoLiPiApplication.instance.repository.addShoppingListItem(itemTitle, itemNotes)
+        repository.addShoppingListItem(itemTitle, itemNotes)
     }
 
     /**
@@ -42,7 +42,7 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
     fun deleteDoneItems() {
         shoppingListItems.value?.forEach{ item ->
             if (item.isChecked){
-                repository.deleteItemFromShoppingList(item)
+                repository.deleteItemFromShoppingList(item.id)
             }
         }
     }
@@ -53,8 +53,8 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
      *
      * @param shoppingListItem The shopping list item to be updated.
      */
-    fun toggleIsChecked(shoppingListItem: ShoppingListItem) {
-        CoLiPiApplication.instance.repository.checkShoppingListItem(shoppingListItem, !shoppingListItem.isChecked)
+    fun toggleIsChecked(id: String, isChecked: Boolean) {
+        repository.checkShoppingListItem(id, !isChecked)
     }
 
     fun refresh() {
