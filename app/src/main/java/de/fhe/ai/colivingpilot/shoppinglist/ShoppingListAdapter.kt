@@ -47,9 +47,8 @@ class ShoppingListAdapter(
         holder.tvFullNote.text = curItem.notes
 
         // Set listener for CheckBox changes
-        holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
-            //toggleStrikeThrough(holder.tvItemTitle, isChecked)
-            listener.onItemChecked(curItem)
+        holder.cbDone.setOnCheckedChangeListener { _, _ ->
+            listener.onItemChecked(curItem.id, curItem.isChecked)
         }
 
         // Set listener for item click

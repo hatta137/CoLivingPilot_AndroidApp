@@ -18,15 +18,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
+import de.fhe.ai.colivingpilot.databinding.FragmentShoppinglistBinding
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.util.refreshInterface
 
 /***
  * @author Hendrik Lendeckel
  */
-class ShoppinglistFragment : Fragment(), ShoppingListActionListener, refreshInterface {
+class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingListActionListener, refreshInterface {
 
     // Lateinit variables for RecyclerView and Adapter
+    private lateinit var binding: FragmentShoppinglistBinding
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var rvShoppingListItems: RecyclerView
     private val shoppingListViewModel: ShoppingListViewModel = ShoppingListViewModel(this)
@@ -47,10 +49,9 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener, refreshInte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerView(view)
+        binding = FragmentShoppinglistBinding.bind(view)
 
-        val btnAddItem = view.findViewById<FloatingActionButton>(R.id.btnAddItemToShoppingList)
-        val btnDeleteDoneTodos = view.findViewById<FloatingActionButton>(R.id.btnDeleteDoneShoppingItems)
+        setupRecyclerView(view)
 
         swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
 
@@ -58,18 +59,18 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener, refreshInte
             shoppingListViewModel.refresh()
         }
 
-        btnAddItem.setOnClickListener {
+        binding.btnAddItemToShoppingList.setOnClickListener {
             showAddItemDialog()
         }
 
-        btnDeleteDoneTodos.setOnClickListener {
+        binding.btnDeleteDoneShoppingItems.setOnClickListener {
             shoppingListViewModel.deleteDoneItems()
         }
     }
 
     // Called when an item is checked in the RecyclerView
-    override fun onItemChecked(item: ShoppingListItem) {
-        shoppingListViewModel.toggleIsChecked(item)
+    override fun onItemChecked(id: String, isChecked: Boolean) {
+        shoppingListViewModel.toggleIsChecked(id, isChecked)
     }
 
     // Called when an item is clicked in the RecyclerView
@@ -85,7 +86,7 @@ class ShoppinglistFragment : Fragment(), ShoppingListActionListener, refreshInte
         val itemsList = mutableListOf<ShoppingListItem>()
         shoppingListAdapter = ShoppingListAdapter(requireContext(), this, itemsList)
 
-        rvShoppingListItems = view.findViewById(R.id.rvShoppingListItems)
+        rvShoppingListItems = binding.rvShoppingListItems
 
         rvShoppingListItems.adapter = shoppingListAdapter
         rvShoppingListItems.layoutManager = LinearLayoutManager(requireContext())
