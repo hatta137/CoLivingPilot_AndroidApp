@@ -18,7 +18,7 @@ import java.util.UUID
 /***
  * @author Hendrik Lendeckel
  */
-class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() {
+class ShoppingListViewModel(val refreshListener: refreshInterface? = null): ViewModel() {
 
     private val repository: Repository = Repository()
 
@@ -47,7 +47,6 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
         }
     }
 
-
     /**
      * Updates the status of the shopping list item (selected/unselected).
      *
@@ -60,9 +59,8 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             CoLiPiApplication.instance.repository.refresh()
-            refreshListener.refreshFinish()
+            refreshListener?.refreshFinish()
         }
     }
-
 }
 
