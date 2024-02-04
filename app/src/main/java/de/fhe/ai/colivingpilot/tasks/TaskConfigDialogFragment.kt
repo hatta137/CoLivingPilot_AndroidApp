@@ -48,6 +48,9 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
             if(taskId.isNotBlank()) {
                 val taskDetailViewModel = TaskDetailViewModel(taskId)
                 taskDetailViewModel.task.observe(viewLifecycleOwner) {
+                    if (it == null)
+                        return@observe
+
                     //als viewtask speichern? mit evtl. funktionen zum be & entstücken der views?
                     binding.taskNameEditText.setText(it.title)
                     binding.notesTextView.setText(it.notes)
