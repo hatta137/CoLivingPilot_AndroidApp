@@ -150,16 +150,37 @@ class Repository {
         }
     }
 
+    fun doneTaskById(id: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.doneTask(id).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
     fun deleteTaskById(id: String, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.removeTask(id).execute()
-            if (!response.isSuccessful) {
-                withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
-                return@launch
-            }
+            try {
+                val response = RetrofitClient.instance.removeTask(id).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
 
-            refresh()
-            withContext(Dispatchers.Main) { callback.onSuccess() }
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
         }
     }
 

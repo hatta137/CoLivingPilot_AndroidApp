@@ -44,8 +44,7 @@ class TasksFragment : Fragment(), TaskClickListener {
     }
 
     override fun onFinishButtonClick(id: String) {
-        // TODO: This will just delete the task without rewarding beers, needs seperation
-        taskViewModel.deleteTask(id, object : NetworkResultNoData {
+        taskViewModel.doneTask(id, object : NetworkResultNoData {
             override fun onSuccess() {
             }
 
