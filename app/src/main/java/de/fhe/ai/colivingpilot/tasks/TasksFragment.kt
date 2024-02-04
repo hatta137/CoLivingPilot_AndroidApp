@@ -1,11 +1,13 @@
 package de.fhe.ai.colivingpilot.tasks
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
@@ -49,7 +51,13 @@ class TasksFragment : Fragment(), TaskClickListener {
             }
 
             override fun onFailure(code: String?) {
-                TODO("Not yet implemented")
+                //TODO("Not yet implemented")
+                //TODO Snackbar über Bottomnavbar bekommen!
+                view?.let {
+                    Snackbar.make(it, "Kein Netz!", Snackbar.LENGTH_LONG)
+                        .setBackgroundTint(Color.RED)
+                        .show()
+                }
             }
         })
     }
