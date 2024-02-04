@@ -127,6 +127,26 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
                 }
             }
         }
+
+        if(taskId != null) {
+
+            binding.deleteButton.visibility = View.VISIBLE
+
+            binding.deleteButton.setOnClickListener {
+                taskViewModel.deleteTask(taskId, object : NetworkResultNoData {
+
+                    override fun onSuccess() {
+                        findNavController().navigate(R.id.action_taskConfigDialogFragment_to_navigation_tasks)
+                    }
+
+                    override fun onFailure(code: String?) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
+            }
+        }
+
     }
 
 
