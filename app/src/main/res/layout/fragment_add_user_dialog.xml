@@ -82,7 +82,6 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="8dp"
-                        android:padding="8dp"
                         app:icon="@drawable/baseline_content_copy_24"
                         />
                 </LinearLayout>

@@ -23,7 +23,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
             android:layout_marginRight="8dp"
-            android:hint="Group Name"
+            android:hint="WG Name"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:maxLines="2"
@@ -39,18 +39,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginRight="8dp"
-            android:text="Group Name"
+            android:maxLines="2"
+            android:text="WG Name"
             android:textSize="30sp"
             android:visibility="visible"
-            android:maxLines="2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_max="200dp"
+            app:layout_constraintWidth_max="200dp" />
 
-            />
-
-        <ImageButton
+        <Button
+            style="?attr/materialIconButtonFilledTonalStyle"
             android:id="@+id/ibEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,23 +57,24 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginLeft="8dp"
-            android:padding="8dp"
-            android:src="@drawable/baseline_edit_24"
+            app:icon="@drawable/baseline_edit_24"
             app:layout_constraintStart_toEndOf="@id/tvGroupName"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
-        <ImageButton
+        <Button
+            style="?attr/materialIconButtonFilledTonalStyle"
             android:id="@+id/ibSettings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_marginRight="8dp"
-            android:padding="8dp"
-            android:src="@drawable/baseline_settings_24"
             app:layout_constraintEnd_toEndOf="@id/llGroupName"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_marginBaseline="100dp" />
+            app:layout_marginBaseline="100dp"
+            app:icon="@drawable/baseline_settings_24"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
