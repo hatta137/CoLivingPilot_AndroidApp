@@ -57,7 +57,7 @@ class UserLongClickDialogFragment(
                 setOnClickListener {
                     viewmodel.onDeleteUserClick(id.toString())
                 }
-                text = "Delete " + username
+                text = username + " aus WG entfernen"
             }
             abortButton.apply {
                 setOnClickListener { dismiss() }
