@@ -136,7 +136,12 @@ class Repository {
     fun updateTask(id: String, title: String, notes: String, beerReward: Int, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // TODO
+                val response = RetrofitClient.instance.updateTask(id, AddTaskRequest(title, notes, beerReward)).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
                 refresh()
                 withContext(Dispatchers.Main) { callback.onSuccess() }
             } catch (_: IOException) {

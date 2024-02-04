@@ -73,6 +73,10 @@ interface BackendService {
     fun addTask(@Body request: AddTaskRequest): Call<BackendResponse<IdData>>
 
     @AuthRequired
+    @PUT("api/task/{id}")
+    fun updateTask(@Path("id") taskId: String, @Body request: AddTaskRequest): Call<BackendResponseNoData>
+
+    @AuthRequired
     @DELETE("api/task/{id}")
     fun removeTask(@Path("id") taskId: String): Call<BackendResponseNoData>
 
