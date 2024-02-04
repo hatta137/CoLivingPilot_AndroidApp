@@ -38,6 +38,9 @@
         <action
             android:id="@+id/action_taskConfigDialogFragment_to_task_info"
             app:destination="@id/task_info" />
+        <action
+            android:id="@+id/action_taskConfigDialogFragment_to_navigation_tasks"
+            app:destination="@id/navigation_tasks" />
     </dialog>
 
 </navigation>
