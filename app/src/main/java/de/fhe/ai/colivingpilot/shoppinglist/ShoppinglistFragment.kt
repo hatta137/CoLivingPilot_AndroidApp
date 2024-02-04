@@ -13,6 +13,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -53,14 +54,12 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
 
         setupRecyclerView(view)
 
-        swipeRefreshLayout = view.findViewById<SwipeRefreshLayout>(R.id.swipeRefreshLayout)
-
-        swipeRefreshLayout?.setOnRefreshListener {
+        binding.swipeRefreshLayout.setOnRefreshListener {
             shoppingListViewModel.refresh()
         }
 
         binding.btnAddItemToShoppingList.setOnClickListener {
-            showAddItemDialog()
+            findNavController().navigate(R.id.action_navigation_shoppinglist_to_shoppingListItemConfigDialogFragment)
         }
 
         binding.btnDeleteDoneShoppingItems.setOnClickListener {
@@ -95,41 +94,6 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
             shoppingListAdapter.items = it
             shoppingListAdapter.notifyDataSetChanged()
         }
-    }
-
-    // Showing the dialog to add a new shopping item
-    private fun showAddItemDialog() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_shoppinglist_add_item, null)
-
-        val editTextTitle = dialogView.findViewById<EditText>(R.id.editTextTitle)
-        val editTextNotes = dialogView.findViewById<EditText>(R.id.editTextNotes)
-        val btnAdd = dialogView.findViewById<FloatingActionButton>(R.id.btnAdd)
-        val btnCancel = dialogView.findViewById<FloatingActionButton>(R.id.btnCancel)
-
-        val dialogBuilder = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-
-        val dialog = dialogBuilder.create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-
-        btnAdd.setOnClickListener {
-            val itemTitle = editTextTitle.text.toString()
-            val itemNotes = editTextNotes.text.toString()
-
-            if (itemTitle.isNotEmpty()) {
-                shoppingListViewModel.addItemToShoppingList(itemTitle, itemNotes)
-                dialog.dismiss()
-            } else {
-                Toast.makeText(requireContext(), "Title cannot be empty", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        btnCancel.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        dialog.show()
     }
 
     override fun refreshFinish() {

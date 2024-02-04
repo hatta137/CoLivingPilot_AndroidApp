@@ -10,7 +10,20 @@
         android:id="@+id/navigation_shoppinglist"
         android:name="de.fhe.ai.colivingpilot.shoppinglist.ShoppinglistFragment"
         android:label="fragment_shoppinglist"
-        tools:layout="@layout/fragment_shoppinglist"/>
+        tools:layout="@layout/fragment_shoppinglist">
+        <action
+            android:id="@+id/action_navigation_shoppinglist_to_shoppingListItemConfigDialogFragment"
+            app:destination="@id/shoppingListItemConfigDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/shoppingListItemConfigDialogFragment"
+        android:name="de.fhe.ai.colivingpilot.shoppinglist.ShoppingListItemConfigDialogFragment"
+        android:label="fragment_shopping_list_item_config_dialog"
+        tools:layout="@layout/fragment_shopping_list_item_config_dialog" >
+        <action
+            android:id="@+id/action_shoppingListItemConfigDialogFragment_to_navigation_shoppinglist"
+            app:destination="@id/navigation_shoppinglist" />
+    </dialog>
 
 
 </navigation>
