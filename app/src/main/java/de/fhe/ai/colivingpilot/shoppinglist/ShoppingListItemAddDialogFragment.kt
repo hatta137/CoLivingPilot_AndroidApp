@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentShoppingListItemAddDialogBinding
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 
 
 class ShoppingListItemAddDialogFragment : BottomSheetDialogFragment() {
@@ -39,8 +40,16 @@ class ShoppingListItemAddDialogFragment : BottomSheetDialogFragment() {
             val itemNotes = binding.editTextNotes.text.toString()
 
             if (itemTitle.isNotEmpty()) {
-                shoppingListViewModel.addItemToShoppingList(itemTitle, itemNotes)
-                findNavController().navigate(R.id.action_shoppingListItemConfigDialogFragment_to_navigation_shoppinglist)
+                shoppingListViewModel.addItemToShoppingList(itemTitle, itemNotes,
+                    object : NetworkResultNoData {
+                        override fun onSuccess() {
+                            findNavController().navigate(R.id.action_shoppingListItemConfigDialogFragment_to_navigation_shoppinglist)
+                        }
+
+                        override fun onFailure(code: String?) {
+                            TODO("Not yet implemented")
+                        }
+                    })
             } else {
                 Snackbar.make(view, "Bitte alle Felder ausfüllen!", Snackbar.LENGTH_LONG)
                     .setBackgroundTint(Color.RED)
