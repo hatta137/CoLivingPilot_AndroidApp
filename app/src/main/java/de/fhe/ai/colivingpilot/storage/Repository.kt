@@ -11,6 +11,7 @@ import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.network.data.request.AddTaskRequest
 import de.fhe.ai.colivingpilot.network.data.request.CheckShoppingListItemRequest
+import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
 import de.fhe.ai.colivingpilot.network.data.request.RenameWgRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -133,6 +134,40 @@ class Repository {
         }
     }
 
+    fun createWg(request: CreateWgRequest, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.createWg(request).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
+    fun joinWg(invitationCode: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.joinWg(invitationCode).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
     fun updateTask(id: String, title: String, notes: String, beerReward: Int, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -241,4 +276,5 @@ class Repository {
     fun getTestUser(): User {
         return userDao.getTestUser()
     }
+
 }

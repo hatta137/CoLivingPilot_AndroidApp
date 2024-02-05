@@ -86,4 +86,6 @@ dependencies {
     //qr
     implementation ("com.google.zxing:core:3.2.0")
 
+    implementation("nl.dionsegijn:konfetti-xml:2.0.4")
+
 }

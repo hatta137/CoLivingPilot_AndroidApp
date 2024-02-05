@@ -27,4 +27,7 @@
     <string name="dialog_title_add_item">Neues Element hinzufügen</string>
     <string name="dialog_title_full_note">Vollständige Notiz</string>
 
+    <string name="joined_wg_title">Du bist der WG \"%s\" beigetreten!</string>
+    <string name="created_wg_title">Du hast die WG \"%s\" erstellt!</string>
+
 </resources>
