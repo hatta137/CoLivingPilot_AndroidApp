@@ -217,7 +217,7 @@ class Repository(
         }
     }
 
-    suspend fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
+    fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
 
         //TODO
     }
