@@ -37,9 +37,6 @@ class ShoppingListAdapter(
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         val curItem = items[position]
 
-        // Log statement for debugging
-        // Log.d("ShoppingListAdapter", "onBindViewHolder called for position $position")
-
         // Set item data to views
         holder.tvItemTitle.text = curItem.title
         holder.cbDone.isChecked = curItem.isChecked
@@ -54,6 +51,12 @@ class ShoppingListAdapter(
         // Set listener for item click
         holder.itemView.setOnClickListener {
             listener.onItemClicked(curItem)
+        }
+
+        // Set listener for long click
+        holder.itemView.setOnLongClickListener{
+            listener.onItemLongClick(curItem.id)
+            true
         }
 
         toggleStrikeThrough(holder.tvItemTitle, holder.cbDone.isChecked)

@@ -12,6 +12,7 @@ import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.storage.Repository
 import de.fhe.ai.colivingpilot.util.refreshInterface
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -59,6 +60,17 @@ class ShoppingListViewModel(val refreshListener: refreshInterface? = null): View
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             CoLiPiApplication.instance.repository.refresh()
+            refreshListener?.refreshFinish()
+        }
+    }
+
+    fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
+        return repository.getShoppingListItemById(id)
+    }
+
+    fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateShoppingListItem(id, newTitle, newNotes)
             refreshListener?.refreshFinish()
         }
     }

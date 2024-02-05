@@ -113,8 +113,9 @@
     <string name="shoppingList_item_title">Was brauchst du?</string>
     <string name="shoppingList_item_notes">Etwas genauer bitte!</string>
     <string name="shoppingList_add_btn">Hinzufügen</string>
-    <string name="shoppingList_cancel">Abbruch!</string>
     <string name="dialog_title_add_item">Neues Element hinzufügen</string>
     <string name="dialog_title_full_note">Vollständige Notiz</string>
+    <string name="dialog_cancel">Abbrechen</string>
+    <string name="dialog_ready">Fertig</string>
 
 </resources>

@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.Settings.Global.putString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,6 +71,14 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
     // Called when an item is checked in the RecyclerView
     override fun onItemChecked(id: String, isChecked: Boolean) {
         shoppingListViewModel.toggleIsChecked(id, isChecked)
+    }
+
+    //Todo fertigstellen
+    override fun onItemLongClick(id: String) {
+        val bundle = Bundle().apply {
+            putString("selectedItem", id)
+        }
+        findNavController().navigate(R.id.action_navigation_shoppinglist_to_shoppingListItemEditDialogFragment, bundle)
     }
 
     // Called when an item is clicked in the RecyclerView
