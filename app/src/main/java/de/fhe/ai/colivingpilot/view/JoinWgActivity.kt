@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponseNoData
 import de.fhe.ai.colivingpilot.util.UiUtils
@@ -24,7 +25,7 @@ class JoinWgActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_wg)
         
-        val scanQrBtn = findViewById<Button>(R.id.join_wg_activity_join_wg_activity_button_join_qr)
+        val scanQrBtn = findViewById<Button>(R.id.join_wg_activity_button_join_qr)
         
         val joinBtn = findViewById<Button>(R.id.join_wg_activity_button_join)
         joinBtn.setOnClickListener { 
@@ -44,28 +45,17 @@ class JoinWgActivity : AppCompatActivity() {
             setFormLocked(true)
             
             val code = codeField.editText?.text.toString()
-            RetrofitClient.instance.joinWg(code).enqueue(object : Callback<BackendResponseNoData> {
-                override fun onResponse(
-                    call: Call<BackendResponseNoData>,
-                    response: Response<BackendResponseNoData>
-                ) {
-                    if (response.isSuccessful) {
-                        val intent = Intent(this@JoinWgActivity, MainActivity::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
-                    } else {
-                        Log.e(CoLiPiApplication.LOG_TAG, "Response unsuccessful: ${response.errorBody()?.string()}")
-                        // TODO: Translate status field
-                        UiUtils.showSnackbar(this@JoinWgActivity, joinBtn, R.string.snackbar_something_went_wrong, Snackbar.LENGTH_SHORT, R.color.red)
-
-                        setFormLocked(false)
-                    }
+            CoLiPiApplication.instance.repository.joinWg(code, object : NetworkResultNoData {
+                override fun onSuccess() {
+                    val intent = Intent(this@JoinWgActivity, JoinedWgActivity::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.putExtra("mode", "joined")
+                    startActivity(intent)
                 }
 
-                override fun onFailure(call: Call<BackendResponseNoData>, t: Throwable) {
-                    Log.e(CoLiPiApplication.LOG_TAG, "Request failed: ${t.message}")
+                override fun onFailure(code: String?) {
+                    // TODO: Translate status field
                     UiUtils.showSnackbar(this@JoinWgActivity, joinBtn, R.string.snackbar_something_went_wrong, Snackbar.LENGTH_SHORT, R.color.red)
-
                     setFormLocked(false)
                 }
             })
