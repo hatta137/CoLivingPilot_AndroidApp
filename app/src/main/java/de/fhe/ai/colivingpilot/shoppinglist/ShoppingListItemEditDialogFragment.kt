@@ -57,6 +57,10 @@ class ShoppingListItemEditDialogFragment : BottomSheetDialogFragment() {
                     }
                     // Sammle die Ergebnisse des Flows, wenn sie verfügbar sind
                     .collect { item ->
+                        @Suppress("SENSELESS_COMPARISON") // this "senseless" comparison prevents crashes when refresh is called
+                        if (item == null)
+                            return@collect
+
                         // Setze den Titel und die Notizen im Binding (UI) basierend auf den Daten des ShoppingListItems
                         binding.editTextTitle.setText(item.title)
                         binding.editTextNotes.setText(item.notes)
