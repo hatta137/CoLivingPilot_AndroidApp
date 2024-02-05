@@ -50,7 +50,4 @@ class TaskAdapter (private var taskClickListener: TaskClickListener)
     }
 
     override fun getItemCount() = items.size
-
-
-
 }

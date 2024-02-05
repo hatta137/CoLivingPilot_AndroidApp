@@ -229,13 +229,22 @@ class Repository(
         return taskDao.getTask(id)
     }
 
+
+    /**
+     *  ShoppingList
+     */
     fun getShoppingListItemsFlow(): Flow<List<ShoppingListItem>> {
         return shoppingListItemDao.getShoppingListItemsFlow()
     }
 
-    fun deleteItemFromShoppingList(shoppingListItem: ShoppingListItem){
+    fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
+        return shoppingListItemDao.getShoppingListItemById(id)
+    }
+
+
+    fun deleteItemFromShoppingList(id: String){
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.removeShoppingListItem(shoppingListItem.id).execute()
+            val response = RetrofitClient.instance.removeShoppingListItem(id).execute()
             if (!response.isSuccessful) {
                 Log.e(CoLiPiApplication.LOG_TAG, "Failed to remove shopping list item")
                 return@launch
@@ -257,9 +266,9 @@ class Repository(
         }
     }
 
-    fun checkShoppingListItem(shoppingListItem: ShoppingListItem, checkState: Boolean) {
+    fun checkShoppingListItem(id: String, checkState: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.checkShoppingListItem(shoppingListItem.id, CheckShoppingListItemRequest(checkState)).execute()
+            val response = RetrofitClient.instance.checkShoppingListItem(id, CheckShoppingListItemRequest(checkState)).execute()
             if (!response.isSuccessful) {
                 Log.e(CoLiPiApplication.LOG_TAG, "Failed to change checked state of shopping list item")
                 return@launch
@@ -269,14 +278,9 @@ class Repository(
         }
     }
 
-    fun updateItem(shoppingListItem: ShoppingListItem, boolean: Boolean){
-        var updatedItem = shoppingListItem.copy(isChecked = boolean)
-        shoppingListItemDao.updateItem(updatedItem)
-    }
+    fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
 
-    //TODO später kommt der User aus der Anmeldung
-    fun getTestUser(): User {
-        return userDao.getTestUser()
+        //TODO
     }
 
 }

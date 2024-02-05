@@ -12,13 +12,14 @@ import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.storage.Repository
 import de.fhe.ai.colivingpilot.util.refreshInterface
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.UUID
 
 /***
  * @author Hendrik Lendeckel
  */
-class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() {
+class ShoppingListViewModel(val refreshListener: refreshInterface? = null): ViewModel() {
 
     private val repository: Repository = Repository()
 
@@ -33,7 +34,7 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
      * @param itemNotes Notes for the shopping list item.
      */
     fun addItemToShoppingList(itemTitle: String, itemNotes: String) {
-        CoLiPiApplication.instance.repository.addShoppingListItem(itemTitle, itemNotes)
+        repository.addShoppingListItem(itemTitle, itemNotes)
     }
 
     /**
@@ -42,27 +43,36 @@ class ShoppingListViewModel(val refreshListener: refreshInterface): ViewModel() 
     fun deleteDoneItems() {
         shoppingListItems.value?.forEach{ item ->
             if (item.isChecked){
-                repository.deleteItemFromShoppingList(item)
+                repository.deleteItemFromShoppingList(item.id)
             }
         }
     }
-
 
     /**
      * Updates the status of the shopping list item (selected/unselected).
      *
      * @param shoppingListItem The shopping list item to be updated.
      */
-    fun toggleIsChecked(shoppingListItem: ShoppingListItem) {
-        CoLiPiApplication.instance.repository.checkShoppingListItem(shoppingListItem, !shoppingListItem.isChecked)
+    fun toggleIsChecked(id: String, isChecked: Boolean) {
+        repository.checkShoppingListItem(id, !isChecked)
     }
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             CoLiPiApplication.instance.repository.refresh()
-            refreshListener.refreshFinish()
+            refreshListener?.refreshFinish()
         }
     }
 
+    fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
+        return repository.getShoppingListItemById(id)
+    }
+
+    fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateShoppingListItem(id, newTitle, newNotes)
+            refreshListener?.refreshFinish()
+        }
+    }
 }
 
