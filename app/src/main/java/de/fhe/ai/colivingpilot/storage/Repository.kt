@@ -49,27 +49,79 @@ class Repository(
                 return@withContext Pair(false, "")
             }
 
-            CoLiPiApplication.instance.keyValueStore.writeString("wg_name", "")
-            CoLiPiApplication.instance.keyValueStore.writeString("wg_code", "")
-            CoLiPiApplication.instance.keyValueStore.writeInt("wg_max_members", -1)
-
-            userDao.deleteAll() // triggers cascading deletes in all tables
-            taskDao.deleteAll() // TODO: removable once Task has reference to User
-
             val body = response.body()
             body?.let { resp ->
-                CoLiPiApplication.instance.keyValueStore.writeString("wg_name", resp.data.wg.name)
-                CoLiPiApplication.instance.keyValueStore.writeString("wg_code", resp.data.wg.invitationCode)
-                CoLiPiApplication.instance.keyValueStore.writeInt("wg_max_members", resp.data.wg.maximumMembers)
+                val wgName = resp.data.wg.name
+                val wgCode = resp.data.wg.invitationCode
+                val wgMaxMembers = resp.data.wg.maximumMembers
                 val creator = resp.data.wg.creator
-                resp.data.wg.members.forEach { member ->
-                    db.userDao().insert(User(member.id, member.username, member.beercounter, creator.username == member.username))
+
+                val existingWgName = CoLiPiApplication.instance.keyValueStore.readString("wg_name")
+                val existingWgCode = CoLiPiApplication.instance.keyValueStore.readString("wg_code")
+                val existingWgMaxMembers = CoLiPiApplication.instance.keyValueStore.readInt("wg_max_members")
+
+                if (wgName != existingWgName || wgCode != existingWgCode || wgMaxMembers != existingWgMaxMembers) {
+                    CoLiPiApplication.instance.keyValueStore.writeString("wg_name", wgName)
+                    CoLiPiApplication.instance.keyValueStore.writeString("wg_code", wgCode)
+                    CoLiPiApplication.instance.keyValueStore.writeInt("wg_max_members", wgMaxMembers)
                 }
-                resp.data.wg.shoppingList.forEach { item ->
-                    db.shoppingListItemDao().insert(ShoppingListItem(item.id, item.title, item.notes, item.creator.id, item.isChecked))
+
+                val existingUsers = db.userDao().getAll()
+                val existingShoppingListItems = db.shoppingListItemDao().getAll()
+                val existingTasks = db.taskDao().getAll()
+
+                val newUsers = resp.data.wg.members.filter { member -> !existingUsers.any { it.id == member.id } }.map { user ->
+                    User(user.id, user.username, user.beercounter, user.id == creator.id)
                 }
-                resp.data.wg.tasks.forEach { task ->
-                    db.taskDao().upsert(Task(task.id, task.title, task.description, task.beerbonus))
+                val updatedUsers = resp.data.wg.members.filter { member -> existingUsers.any { it.id == member.id && (it.username != member.username || it.beerCounter != member.beercounter) } }.map { user ->
+                    User(user.id, user.username, user.beercounter, user.id == creator.id)
+                }
+                val deletedUsers = existingUsers.filter { user -> !resp.data.wg.members.any { it.id == user.id } }
+
+                val newShoppingListItems = resp.data.wg.shoppingList.filter { item -> !existingShoppingListItems.any { it.id == item.id } }.map { item ->
+                    ShoppingListItem(item.id, item.title, item.notes, item.creator.id, item.isChecked)
+                }
+                val updatedShoppingListItems = resp.data.wg.shoppingList.filter { item -> existingShoppingListItems.any { it.id == item.id && (it.title != item.title || it.notes != item.notes || it.isChecked != item.isChecked) } }.map { item ->
+                    ShoppingListItem(item.id, item.title, item.notes, item.creator.id, item.isChecked)
+                }
+                val deletedShoppingListItems = existingShoppingListItems.filter { item -> !resp.data.wg.shoppingList.any { it.id == item.id } }
+
+                val newTasks = resp.data.wg.tasks.filter { task -> !existingTasks.any { it.id == task.id } }.map { task ->
+                    Task(task.id, task.title, task.description, task.beerbonus)
+                }
+                val updatedTasks = resp.data.wg.tasks.filter { task -> existingTasks.any { it.id == task.id && (it.title != task.title || it.notes != task.description || it.beerReward != task.beerbonus) } }.map { task ->
+                    Task(task.id, task.title, task.description, task.beerbonus)
+                }
+                val deletedTasks = existingTasks.filter { task -> !resp.data.wg.tasks.any { it.id == task.id } }
+
+                if (newUsers.isNotEmpty()) {
+                    db.userDao().insert(*newUsers.toTypedArray())
+                }
+                if (updatedUsers.isNotEmpty()) {
+                    db.userDao().update(*updatedUsers.toTypedArray())
+                }
+                if (deletedUsers.isNotEmpty()) {
+                    db.userDao().delete(*deletedUsers.toTypedArray())
+                }
+
+                if (newShoppingListItems.isNotEmpty()) {
+                    db.shoppingListItemDao().insert(*newShoppingListItems.toTypedArray())
+                }
+                if (updatedShoppingListItems.isNotEmpty()) {
+                    db.shoppingListItemDao().update(*updatedShoppingListItems.toTypedArray())
+                }
+                if (deletedShoppingListItems.isNotEmpty()) {
+                    db.shoppingListItemDao().delete(*deletedShoppingListItems.toTypedArray())
+                }
+
+                if (newTasks.isNotEmpty()) {
+                    db.taskDao().insert(*newTasks.toTypedArray())
+                }
+                if (updatedTasks.isNotEmpty()) {
+                    db.taskDao().update(*updatedTasks.toTypedArray())
+                }
+                if (deletedTasks.isNotEmpty()) {
+                    db.taskDao().delete(*deletedTasks.toTypedArray())
                 }
             }
             return@withContext Pair(true, "")
