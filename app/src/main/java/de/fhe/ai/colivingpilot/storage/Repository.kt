@@ -176,9 +176,9 @@ class Repository(
         return shoppingListItemDao.getShoppingListItemsFlow()
     }
 
-    /*fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
+    fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
         return shoppingListItemDao.getShoppingListItemById(id)
-    }*/
+    }
 
 
     fun deleteItemFromShoppingList(id: String){
@@ -215,5 +215,10 @@ class Repository(
 
             refresh()
         }
+    }
+
+    suspend fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
+
+        //TODO
     }
 }
