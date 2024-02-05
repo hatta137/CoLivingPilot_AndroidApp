@@ -9,7 +9,6 @@ import android.provider.Settings.Global.putString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -22,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentShoppinglistBinding
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.util.refreshInterface
 
 /***
@@ -70,7 +70,14 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
 
     // Called when an item is checked in the RecyclerView
     override fun onItemChecked(id: String, isChecked: Boolean) {
-        shoppingListViewModel.toggleIsChecked(id, isChecked)
+        shoppingListViewModel.toggleIsChecked(id, isChecked, object : NetworkResultNoData {
+            override fun onSuccess() {
+            }
+
+            override fun onFailure(code: String?) {
+                TODO("Not yet implemented")
+            }
+        })
     }
 
     //Todo fertigstellen

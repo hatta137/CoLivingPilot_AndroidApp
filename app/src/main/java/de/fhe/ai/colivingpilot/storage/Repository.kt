@@ -13,6 +13,7 @@ import de.fhe.ai.colivingpilot.network.data.request.AddTaskRequest
 import de.fhe.ai.colivingpilot.network.data.request.CheckShoppingListItemRequest
 import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
 import de.fhe.ai.colivingpilot.network.data.request.RenameWgRequest
+import de.fhe.ai.colivingpilot.network.data.request.UpdateShoppingListItemRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -241,46 +242,72 @@ class Repository(
         return shoppingListItemDao.getShoppingListItemById(id)
     }
 
-
-    fun deleteItemFromShoppingList(id: String){
+    fun deleteItemFromShoppingList(id: String, callback: NetworkResultNoData){
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.removeShoppingListItem(id).execute()
-            if (!response.isSuccessful) {
-                Log.e(CoLiPiApplication.LOG_TAG, "Failed to remove shopping list item")
-                return@launch
-            }
+            try {
+                val response = RetrofitClient.instance.removeShoppingListItem(id).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
 
-            refresh()
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
         }
     }
 
-    fun addShoppingListItem(itemTitle: String, itemNotes: String) {
+    fun addShoppingListItem(title: String, notes: String, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.addShoppingListItem(AddShoppingListItemRequest(itemTitle, itemNotes)).execute()
-            if (!response.isSuccessful) {
-                Log.e(CoLiPiApplication.LOG_TAG, "Failed to add shopping list item")
-                return@launch
-            }
+            try {
+                val response = RetrofitClient.instance.addShoppingListItem(AddShoppingListItemRequest(title, notes)).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
 
-            refresh()
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
         }
     }
 
-    fun checkShoppingListItem(id: String, checkState: Boolean) {
+    fun checkShoppingListItem(id: String, checkState: Boolean, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.checkShoppingListItem(id, CheckShoppingListItemRequest(checkState)).execute()
-            if (!response.isSuccessful) {
-                Log.e(CoLiPiApplication.LOG_TAG, "Failed to change checked state of shopping list item")
-                return@launch
-            }
+            try {
+                val response = RetrofitClient.instance.checkShoppingListItem(id, CheckShoppingListItemRequest(checkState)).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
 
-            refresh()
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
         }
     }
 
-    fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
+    fun updateShoppingListItem(id: String, title: String, notes: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.updateShoppingListItem(id, UpdateShoppingListItemRequest(title, notes)).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
 
-        //TODO
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
     }
 
 }

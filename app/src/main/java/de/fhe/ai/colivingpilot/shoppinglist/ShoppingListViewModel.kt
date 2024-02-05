@@ -1,20 +1,17 @@
 package de.fhe.ai.colivingpilot.shoppinglist
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
-import de.fhe.ai.colivingpilot.network.RetrofitClient
-import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
 import de.fhe.ai.colivingpilot.util.refreshInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.util.UUID
 
 /***
  * @author Hendrik Lendeckel
@@ -30,11 +27,15 @@ class ShoppingListViewModel(val refreshListener: refreshInterface? = null): View
     /**
      * Adds a new shopping list item.
      *
-     * @param itemTitle The title of the shopping list item.
-     * @param itemNotes Notes for the shopping list item.
+     * @param title The title of the shopping list item.
+     * @param notes Notes for the shopping list item.
      */
-    fun addItemToShoppingList(itemTitle: String, itemNotes: String) {
-        repository.addShoppingListItem(itemTitle, itemNotes)
+    fun addItemToShoppingList(title: String, notes: String, callback: NetworkResultNoData) {
+        repository.addShoppingListItem(title, notes, callback)
+    }
+
+    fun updateShoppingListItem(id: String, title: String, notes: String, callback: NetworkResultNoData) {
+        repository.updateShoppingListItem(id, title, notes, callback)
     }
 
     /**
@@ -43,7 +44,14 @@ class ShoppingListViewModel(val refreshListener: refreshInterface? = null): View
     fun deleteDoneItems() {
         shoppingListItems.value?.forEach{ item ->
             if (item.isChecked){
-                repository.deleteItemFromShoppingList(item.id)
+                repository.deleteItemFromShoppingList(item.id, object : NetworkResultNoData {
+                    override fun onSuccess() {
+                    }
+
+                    override fun onFailure(code: String?) {
+                        TODO("Not yet implemented")
+                    }
+                })
             }
         }
     }
@@ -53,13 +61,13 @@ class ShoppingListViewModel(val refreshListener: refreshInterface? = null): View
      *
      * @param shoppingListItem The shopping list item to be updated.
      */
-    fun toggleIsChecked(id: String, isChecked: Boolean) {
-        repository.checkShoppingListItem(id, !isChecked)
+    fun toggleIsChecked(id: String, isChecked: Boolean, callback: NetworkResultNoData) {
+        repository.checkShoppingListItem(id, !isChecked, callback)
     }
 
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
-            CoLiPiApplication.instance.repository.refresh()
+            repository.refresh()
             refreshListener?.refreshFinish()
         }
     }
@@ -68,11 +76,5 @@ class ShoppingListViewModel(val refreshListener: refreshInterface? = null): View
         return repository.getShoppingListItemById(id)
     }
 
-    fun updateShoppingListItem(id: String, newTitle: String, newNotes: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.updateShoppingListItem(id, newTitle, newNotes)
-            refreshListener?.refreshFinish()
-        }
-    }
 }
 

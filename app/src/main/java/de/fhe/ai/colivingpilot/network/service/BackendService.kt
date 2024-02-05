@@ -8,6 +8,7 @@ import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
 import de.fhe.ai.colivingpilot.network.data.request.LoginRequest
 import de.fhe.ai.colivingpilot.network.data.request.RegisterRequest
 import de.fhe.ai.colivingpilot.network.data.request.RenameWgRequest
+import de.fhe.ai.colivingpilot.network.data.request.UpdateShoppingListItemRequest
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponseNoData
 import de.fhe.ai.colivingpilot.network.data.response.datatypes.IdData
@@ -61,8 +62,12 @@ interface BackendService {
     fun addShoppingListItem(@Body request: AddShoppingListItemRequest): Call<BackendResponseNoData>
 
     @AuthRequired
-    @POST("api/wg/shoppinglist/check/{id}")
+    @PUT("api/wg/shoppinglist/check/{id}")
     fun checkShoppingListItem(@Path("id") itemId: String, @Body request: CheckShoppingListItemRequest): Call<BackendResponseNoData>
+
+    @AuthRequired
+    @PUT("api/wg/shoppinglist/{id}")
+    fun updateShoppingListItem(@Path("id") itemId: String, @Body request: UpdateShoppingListItemRequest): Call<BackendResponseNoData>
 
     @AuthRequired
     @DELETE("api/wg/shoppinglist/{id}")
