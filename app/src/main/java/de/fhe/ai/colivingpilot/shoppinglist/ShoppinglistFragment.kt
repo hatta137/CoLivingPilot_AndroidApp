@@ -1,23 +1,15 @@
 package de.fhe.ai.colivingpilot.shoppinglist
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.provider.Settings.Global.putString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentShoppinglistBinding
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
@@ -34,7 +26,7 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var rvShoppingListItems: RecyclerView
     private val shoppingListViewModel: ShoppingListViewModel = ShoppingListViewModel(this)
-    private var swipeRefreshLayout : SwipeRefreshLayout? = null;
+    private var swipeRefreshLayout : SwipeRefreshLayout? = null
 
     // Called when the view is created
     @SuppressLint("MissingInflatedId")
@@ -80,7 +72,7 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
         })
     }
 
-    //Todo fertigstellen
+
     override fun onItemLongClick(id: String) {
         val bundle = Bundle().apply {
             putString("selectedItem", id)

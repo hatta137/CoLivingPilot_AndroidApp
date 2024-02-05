@@ -81,7 +81,9 @@ class ShoppingListItemEditDialogFragment : BottomSheetDialogFragment() {
                         }
 
                         override fun onFailure(code: String?) {
-                            TODO("Not yet implemented")
+                            Snackbar.make(view, "Fehler beim Updaten der Online DB!", Snackbar.LENGTH_LONG)
+                                .setBackgroundTint(Color.RED)
+                                .show()
                         }
                     })
             } else {

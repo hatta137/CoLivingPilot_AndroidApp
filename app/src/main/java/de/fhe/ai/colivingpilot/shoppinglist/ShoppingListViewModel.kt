@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
@@ -49,7 +48,7 @@ class ShoppingListViewModel(val refreshListener: refreshInterface? = null): View
                     }
 
                     override fun onFailure(code: String?) {
-                        TODO("Not yet implemented")
+
                     }
                 })
             }
