@@ -15,13 +15,19 @@ interface ShoppingListItemDao {
     @Insert
     fun insert(vararg item: ShoppingListItem)
 
+    @Update
+    fun update(vararg item: ShoppingListItem)
+
+    @Delete
+    fun delete(vararg item: ShoppingListItem)
+
+    @Query("SELECT * FROM shopping_list_items")
+    fun getAll(): List<ShoppingListItem>
+
     @Query("SELECT * FROM shopping_list_items")
     fun getShoppingListItemsFlow(): Flow<List<ShoppingListItem>>
 
     @Query("SELECT * FROM shopping_list_items WHERE id = :id")
     fun getShoppingListItemById(vararg id: String): Flow<ShoppingListItem>
-
-    @Update
-    suspend fun updateShoppingListItem(updatedItem: ShoppingListItem)
 
 }
