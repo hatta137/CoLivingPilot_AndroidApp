@@ -33,8 +33,6 @@ class ShoppingListItemAddDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         binding.btnAdd.setOnClickListener {
 
             val itemTitle = binding.editTextTitle.text.toString()
