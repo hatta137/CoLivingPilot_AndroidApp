@@ -2,21 +2,18 @@ package de.fhe.ai.colivingpilot.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import de.fhe.ai.colivingpilot.MainActivity
+import com.google.zxing.integration.android.IntentIntegrator
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
-import de.fhe.ai.colivingpilot.network.RetrofitClient
-import de.fhe.ai.colivingpilot.network.data.response.BackendResponseNoData
 import de.fhe.ai.colivingpilot.util.UiUtils
-import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
@@ -30,16 +27,25 @@ class JoinWgActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_join_wg)
-        
-        scanQrBtn = findViewById(R.id.join_wg_activity_button_join_qr)
-        
-        joinBtn = findViewById(R.id.join_wg_activity_button_join)
-        joinBtn.setOnClickListener { 
+
+        scanQrBtn = findViewById<Button>(R.id.join_wg_activity_button_join_qr)
+
+        scanQrBtn.setOnClickListener {
+            // Initiieren des QR-Code-Scanners
+            val integrator = IntentIntegrator(this)
+            integrator.setOrientationLocked(false)
+            integrator.initiateScan()
+        }
+
+        joinBtn = findViewById<Button>(R.id.join_wg_activity_button_join)
+
+        codeField = findViewById(R.id.join_wg_activity_textfield_code)
+
+        progressBar = findViewById(R.id.join_wg_activity_progress)
+
+        joinBtn.setOnClickListener {
             UiUtils.hideKeyboard(this)
-            
-            codeField = findViewById(R.id.join_wg_activity_textfield_code)
-            progressBar = findViewById(R.id.join_wg_activity_progress)
-            
+
             setFormLocked(true)
             
             val code = codeField.editText?.text.toString()
@@ -69,6 +75,28 @@ class JoinWgActivity : AppCompatActivity() {
                 setFormLocked(false)
             }
         })
+    }
+
+    //TODO auf neuere Varaiante umstellen!!!
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
+        if (result != null) {
+            if (result.contents != null) {
+                val scannedCode = result.contents
+                // Hier kannst du mit dem gescannten QR-Code-Inhalt arbeiten (z.B. anzeigen)
+                // result.contents enthält den gescannten Text
+                // Beispiel:
+                codeField.editText?.setText(scannedCode)
+                tryJoinWg(scannedCode)
+                //Toast.makeText(this, "Gescannter QR-Code: $scannedCode", Toast.LENGTH_LONG).show()
+            } else {
+                // Wenn der Scan abgebrochen wurde
+
+                Toast.makeText(this, "Scan abgebrochen", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }
