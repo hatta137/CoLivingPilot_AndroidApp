@@ -11,14 +11,15 @@ import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
+import de.fhe.ai.colivingpilot.util.refreshInterface
 
 
-class TasksFragment : Fragment(), TaskClickListener {
+class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
 
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!
 
-    private val taskViewModel : TaskViewModel = TaskViewModel()
+    private val taskViewModel : TaskViewModel = TaskViewModel(this)
     private val taskAdapter = TaskAdapter(this)
 
 
@@ -37,6 +38,10 @@ class TasksFragment : Fragment(), TaskClickListener {
         taskViewModel.tasks.observe(viewLifecycleOwner) {
             taskAdapter.items = it
             taskAdapter.notifyDataSetChanged()
+        }
+
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            taskViewModel.refresh()
         }
 
         binding.addTask.setOnClickListener {
@@ -76,9 +81,15 @@ class TasksFragment : Fragment(), TaskClickListener {
         findNavController().navigate(R.id.action_navigation_tasks_to_taskConfigDialogFragment, bundle)
     }
 
+    override fun refreshFinish() {
+        binding.swipeRefreshLayout.isRefreshing = false
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+
 
 }
