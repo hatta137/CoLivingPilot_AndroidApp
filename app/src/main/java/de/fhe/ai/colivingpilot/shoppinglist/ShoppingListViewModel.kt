@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 /***
  * @author Hendrik Lendeckel
  */
-class ShoppingListViewModel(val refreshListener: refreshInterface? = null): ViewModel() {
+class ShoppingListViewModel(private val refreshListener: refreshInterface? = null): ViewModel() {
 
     private val repository: Repository = Repository()
 

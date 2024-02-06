@@ -105,6 +105,6 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
     }
 
     override fun refreshFinish() {
-        binding.swipeRefreshLayout?.isRefreshing = false
+        binding.swipeRefreshLayout.isRefreshing = false
     }
 }
