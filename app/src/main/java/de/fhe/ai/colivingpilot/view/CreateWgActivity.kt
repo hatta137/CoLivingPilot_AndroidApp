@@ -12,6 +12,7 @@ import com.google.android.material.textfield.TextInputLayout
 import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
 import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
@@ -48,28 +49,17 @@ class CreateWgActivity : AppCompatActivity() {
             val memberCount = maxMembersField.editText?.text.toString().toInt()
             val request = CreateWgRequest(name, memberCount)
             // TODO: response invitation code is unused, remove it?
-            RetrofitClient.instance.createWg(request).enqueue(object : Callback<BackendResponse<InvitationCodeData>> {
-                override fun onResponse(
-                    call: Call<BackendResponse<InvitationCodeData>>,
-                    response: Response<BackendResponse<InvitationCodeData>>
-                ) {
-                    if (response.isSuccessful) {
-                        val intent = Intent(this@CreateWgActivity, MainActivity::class.java)
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
-                    } else {
-                        Log.e(CoLiPiApplication.LOG_TAG, "Response unsuccessful: ${response.errorBody()?.string()}")
-                        // TODO: Translate status field
-                        UiUtils.showSnackbar(this@CreateWgActivity, createBtn, R.string.snackbar_something_went_wrong, Snackbar.LENGTH_SHORT, R.color.red)
-                    }
-
-                    setFormLocked(false)
+            CoLiPiApplication.instance.repository.createWg(request, object : NetworkResultNoData {
+                override fun onSuccess() {
+                    val intent = Intent(this@CreateWgActivity, JoinedWgActivity::class.java)
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    intent.putExtra("mode", "created")
+                    startActivity(intent)
                 }
 
-                override fun onFailure(call: Call<BackendResponse<InvitationCodeData>>, t: Throwable) {
-                    Log.e(CoLiPiApplication.LOG_TAG, "Request failed: ${t.message}")
+                override fun onFailure(code: String?) {
+                    // TODO: Translate status field
                     UiUtils.showSnackbar(this@CreateWgActivity, createBtn, R.string.snackbar_something_went_wrong, Snackbar.LENGTH_SHORT, R.color.red)
-
                     setFormLocked(false)
                 }
             })

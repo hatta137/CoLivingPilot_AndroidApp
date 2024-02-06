@@ -37,9 +37,6 @@ class ShoppingListAdapter(
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
         val curItem = items[position]
 
-        // Log statement for debugging
-        // Log.d("ShoppingListAdapter", "onBindViewHolder called for position $position")
-
         // Set item data to views
         holder.tvItemTitle.text = curItem.title
         holder.cbDone.isChecked = curItem.isChecked
@@ -47,14 +44,19 @@ class ShoppingListAdapter(
         holder.tvFullNote.text = curItem.notes
 
         // Set listener for CheckBox changes
-        holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
-            //toggleStrikeThrough(holder.tvItemTitle, isChecked)
-            listener.onItemChecked(curItem)
+        holder.cbDone.setOnCheckedChangeListener { _, _ ->
+            listener.onItemChecked(curItem.id, curItem.isChecked)
         }
 
         // Set listener for item click
         holder.itemView.setOnClickListener {
             listener.onItemClicked(curItem)
+        }
+
+        // Set listener for long click
+        holder.itemView.setOnLongClickListener{
+            listener.onItemLongClick(curItem.id)
+            true
         }
 
         toggleStrikeThrough(holder.tvItemTitle, holder.cbDone.isChecked)
@@ -86,5 +88,13 @@ class ShoppingListAdapter(
 
     override fun getItemCount(): Int {
         return items.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 }

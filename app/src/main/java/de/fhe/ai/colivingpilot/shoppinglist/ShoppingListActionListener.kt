@@ -6,6 +6,7 @@ import de.fhe.ai.colivingpilot.model.ShoppingListItem
  * @author Hendrik Lendeckel
  */
 interface ShoppingListActionListener {
-    fun onItemChecked(item: ShoppingListItem)
+    fun onItemChecked(id: String, isChecked: Boolean)
+    fun onItemLongClick(id: String)
     fun onItemClicked(item: ShoppingListItem)
 }
