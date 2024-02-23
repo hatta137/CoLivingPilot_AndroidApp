@@ -21,21 +21,18 @@ import de.fhe.ai.colivingpilot.util.refreshInterface
  */
 class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingListActionListener, refreshInterface {
 
-    // Lateinit variables for RecyclerView and Adapter
     private lateinit var binding: FragmentShoppinglistBinding
     private lateinit var shoppingListAdapter: ShoppingListAdapter
     private lateinit var rvShoppingListItems: RecyclerView
     private val shoppingListViewModel: ShoppingListViewModel = ShoppingListViewModel(this)
     private var swipeRefreshLayout : SwipeRefreshLayout? = null
 
-    // Called when the view is created
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflating the layout for this fragment
         return inflater.inflate(R.layout.fragment_shoppinglist, container, false)
     }
 
@@ -72,7 +69,6 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
         })
     }
 
-
     override fun onItemLongClick(id: String) {
         val bundle = Bundle().apply {
             putString("selectedItem", id)
@@ -87,7 +83,7 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
         viewHolder?.let { shoppingListAdapter.toggleNoteVisibility(it) }
     }
 
-    // Setting up the RecyclerView and related components
+
     @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView(view: View) {
         val itemsList = mutableListOf<ShoppingListItem>()
@@ -98,8 +94,8 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
         rvShoppingListItems.adapter = shoppingListAdapter
         rvShoppingListItems.layoutManager = LinearLayoutManager(requireContext())
 
-        shoppingListViewModel.shoppingListItems.observe(viewLifecycleOwner) {
-            shoppingListAdapter.items = it
+        shoppingListViewModel.shoppingListItems.observe(viewLifecycleOwner) { newList ->
+            shoppingListAdapter.items = newList
             shoppingListAdapter.notifyDataSetChanged()
         }
     }
