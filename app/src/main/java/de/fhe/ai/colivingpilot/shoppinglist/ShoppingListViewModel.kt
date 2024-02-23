@@ -46,9 +46,7 @@ class ShoppingListViewModel(private val refreshListener: refreshInterface? = nul
                 repository.deleteItemFromShoppingList(item.id, object : NetworkResultNoData {
                     override fun onSuccess() {
                     }
-
                     override fun onFailure(code: String?) {
-
                     }
                 })
             }
@@ -74,6 +72,5 @@ class ShoppingListViewModel(private val refreshListener: refreshInterface? = nul
     fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
         return repository.getShoppingListItemById(id)
     }
-
 }
 

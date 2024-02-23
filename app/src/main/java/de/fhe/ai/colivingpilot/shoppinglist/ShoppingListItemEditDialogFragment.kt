@@ -44,24 +44,19 @@ class ShoppingListItemEditDialogFragment : BottomSheetDialogFragment() {
 
         val itemId = arguments?.getString("selectedItem") ?: return
 
-        // Starte eine Coroutine im LifecycleScope des Fragments, die ausgeführt wird, wenn der Lifecycle-Status auf STARTED ist
+
         lifecycleScope.launch {
-            // Wiederhole die Coroutine, solange der Lifecycle-Status mindestens STARTED ist
+
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // Rufe das ShoppingListItem von der ViewModel-Methode getShoppingListItemById ab
                 shoppingListViewModel.getShoppingListItemById(itemId)
-                    // Behandle Fehler, die während des Sammelns des Flows auftreten können
                     .catch { e ->
-                        // Logge einen Fehler, wenn das ShoppingListItem nicht abgerufen werden kann
                         Log.e(CoLiPiApplication.LOG_TAG, "Error getting shopping list item by ID", e)
                     }
-                    // Sammle die Ergebnisse des Flows, wenn sie verfügbar sind
                     .collect { item ->
                         @Suppress("SENSELESS_COMPARISON") // this "senseless" comparison prevents crashes when refresh is called
                         if (item == null)
                             return@collect
 
-                        // Setze den Titel und die Notizen im Binding (UI) basierend auf den Daten des ShoppingListItems
                         binding.editTextTitle.setText(item.title)
                         binding.editTextNotes.setText(item.notes)
                     }

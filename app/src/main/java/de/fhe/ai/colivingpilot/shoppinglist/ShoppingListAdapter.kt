@@ -27,33 +27,28 @@ class ShoppingListAdapter(
         val tvFullNote: TextView = itemView.findViewById(R.id.tvFullNote)
     }
 
-    // ViewHolder creation
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.shoppinglist_item, parent, false)
         return ShoppingListViewHolder(view)
     }
 
-    // Binding data to ViewHolder
     override fun onBindViewHolder(holder: ShoppingListViewHolder, position: Int) {
+
         val curItem = items[position]
 
-        // Set item data to views
         holder.tvItemTitle.text = curItem.title
         holder.cbDone.isChecked = curItem.isChecked
         holder.tvNotePreview.text = curItem.notes
         holder.tvFullNote.text = curItem.notes
 
-        // Set listener for CheckBox changes
-        holder.cbDone.setOnCheckedChangeListener { _, _ ->
+        holder.cbDone.setOnCheckedChangeListener { _, isChecked ->
             listener.onItemChecked(curItem.id, curItem.isChecked)
         }
 
-        // Set listener for item click
         holder.itemView.setOnClickListener {
             listener.onItemClicked(curItem)
         }
 
-        // Set listener for long click
         holder.itemView.setOnLongClickListener{
             listener.onItemLongClick(curItem.id)
             true
@@ -62,7 +57,6 @@ class ShoppingListAdapter(
         toggleStrikeThrough(holder.tvItemTitle, holder.cbDone.isChecked)
     }
 
-    // Toggle strike through for the title TextView
     private fun toggleStrikeThrough(tvItemTitle: TextView, isChecked: Boolean) {
 
         if(isChecked) {
@@ -72,8 +66,8 @@ class ShoppingListAdapter(
         }
     }
 
-    // Toggle tvNotePreview and tvFullNote in the ViewHolder
     fun toggleNoteVisibility(holder: ShoppingListViewHolder) {
+
         val notePreviewVisible = holder.tvNotePreview.visibility == View.VISIBLE
         val fullNoteVisible = holder.tvFullNote.visibility == View.VISIBLE
 
@@ -86,15 +80,9 @@ class ShoppingListAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        return items.size
-    }
+    override fun getItemCount(): Int { return this.items.size }
 
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
+    override fun getItemId(position: Int): Long { return position.toLong() }
 
-    override fun getItemViewType(position: Int): Int {
-        return position
-    }
+    override fun getItemViewType(position: Int): Int { return position }
 }
