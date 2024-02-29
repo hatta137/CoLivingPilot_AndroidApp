@@ -120,5 +120,6 @@
 
     <string name="joined_wg_title">Du bist der WG \"%s\" beigetreten!</string>
     <string name="created_wg_title">Du hast die WG \"%s\" erstellt!</string>
+    <string name="done">Erledigt</string>
 
 </resources>
