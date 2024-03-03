@@ -24,14 +24,11 @@ import java.io.IOException
 import java.lang.Exception
 
 
-class Repository(
-
-) {
+class Repository {
     private val db: WgDatabase = WgDatabase.getInstance(CoLiPiApplication.applicationContext())
     private val userDao: UserDao = db.userDao()
     private val taskDao: TaskDao = db.taskDao()
     private val shoppingListItemDao: ShoppingListItemDao = db.shoppingListItemDao()
-    private val taskAssignedUserDao: TaskAssignedUserDao = db.taskAssignedUserDao()
 
     /**
      * Refreshes the app's data by fetching the relevant dataset from the server.
