@@ -2,9 +2,6 @@ package de.fhe.ai.colivingpilot.tasks
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,15 +9,10 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
-import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigDialogBinding
 import de.fhe.ai.colivingpilot.network.NetworkResult
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.tasks.detail.TaskDetailViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 
 class TaskConfigDialogFragment : BottomSheetDialogFragment() {
@@ -41,17 +33,15 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //check ob vorhandener task bearbeitet werden soll
         val taskId = arguments?.getString("selectedTask")
 
-        if(taskId != null) {
-            if(taskId.isNotBlank()) {
+        if (taskId != null) {
+            if (taskId.isNotBlank()) {
                 val taskDetailViewModel = TaskDetailViewModel(taskId)
                 taskDetailViewModel.task.observe(viewLifecycleOwner) {
                     if (it == null)
                         return@observe
 
-                    //als viewtask speichern? mit evtl. funktionen zum be & entstücken der views?
                     binding.taskNameEditText.setText(it.title)
                     binding.notesTextView.setText(it.notes)
                     binding.editBeerCounter.setText(it.beerReward.toString())
@@ -60,10 +50,8 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
         }
 
         binding.abortButton.setOnClickListener {
-            //TODO checken ob das ne gute lösung ist fragment auszublenden?
             findNavController().navigateUp()
         }
-
 
         binding.addButton.setOnClickListener {
 
@@ -128,7 +116,7 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
             }
         }
 
-        if(taskId != null) {
+        if (taskId != null) {
 
             binding.deleteButton.visibility = View.VISIBLE
 
@@ -148,8 +136,6 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
         }
 
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

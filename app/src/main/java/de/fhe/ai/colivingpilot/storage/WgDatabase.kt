@@ -13,90 +13,89 @@ import de.fhe.ai.colivingpilot.model.TaskAssignedUser
 import de.fhe.ai.colivingpilot.model.User
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.util.UUID
-import javax.inject.Inject
-import javax.inject.Provider
 import java.util.concurrent.Executors
 
-@Database(entities = [ User::class, Task::class, ShoppingListItem::class, TaskAssignedUser::class ],
-        version = 4)
+@Database(
+    entities = [User::class, Task::class, ShoppingListItem::class, TaskAssignedUser::class],
+    version = 4
+)
 abstract class WgDatabase : RoomDatabase() {
 
+    private var instance: WgDatabase? = null
+    abstract fun userDao(): UserDao
+    abstract fun taskDao(): TaskDao
+    abstract fun shoppingListItemDao(): ShoppingListItemDao
+    abstract fun taskAssignedUserDao(): TaskAssignedUserDao
+
+
+    companion object {
+        @Volatile
         private var instance: WgDatabase? = null
-        abstract fun userDao(): UserDao
-        abstract fun taskDao(): TaskDao
-        abstract fun shoppingListItemDao(): ShoppingListItemDao
-        abstract fun taskAssignedUserDao(): TaskAssignedUserDao
 
-
-
-        companion object {
-                @Volatile
-                private var instance: WgDatabase? = null
-
-                fun getInstance(context: Context): WgDatabase {
-                        return instance ?: synchronized(this) {
-                                instance ?: buildDatabase(context).also { instance = it }
-                        }
-                }
-
-                private fun buildDatabase(context: Context): WgDatabase {
-                        return Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
-                                .addCallback(createCallback)
-                                .build()
-                }
-
-                private val createCallback = object : Callback() {
-                        override fun onCreate(db: SupportSQLiteDatabase) {
-                                super.onCreate(db)
-                                Log.i(CoLiPiApplication.LOG_TAG, "Database created")
-                                val userDao = getInstance(CoLiPiApplication.applicationContext()).userDao()
-                                CoroutineScope(Dispatchers.IO).launch {
-
-
-                                        userDao.insert(
-                                                User(
-                                                        UUID.randomUUID().toString(),
-                                                        "Kevin",
-                                                        420,
-                                                        true
-                                                ),
-                                                User(
-                                                        UUID.randomUUID().toString(),
-                                                        "Darius",
-                                                        187,
-                                                        false
-                                                ),
-                                                User(
-                                                        UUID.randomUUID().toString(),
-                                                        "Hendrik",
-                                                        1337,
-                                                        false
-                                                ),
-                                                User(
-                                                        UUID.randomUUID().toString(),
-                                                        "Florian",
-                                                        69,
-                                                        false
-                                                ))
-                                }
-
-                        }
-                }
+        fun getInstance(context: Context): WgDatabase {
+            return instance ?: synchronized(this) {
+                instance ?: buildDatabase(context).also { instance = it }
+            }
         }
 
-        fun getDatabase(context: Context): WgDatabase {
-            return instance ?: Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
+        private fun buildDatabase(context: Context): WgDatabase {
+            return Room.databaseBuilder(context.applicationContext, WgDatabase::class.java, "wg_db")
                 .addCallback(createCallback)
-                .setQueryCallback({ sqlQuery, bindArgs ->
-                    Log.i("SQL", "Query: $sqlQuery | Args: $bindArgs")
-                }, Executors.newSingleThreadExecutor())
                 .build()
         }
 
+        private val createCallback = object : Callback() {
+            override fun onCreate(db: SupportSQLiteDatabase) {
+                super.onCreate(db)
+                Log.i(CoLiPiApplication.LOG_TAG, "Database created")
+                val userDao = getInstance(CoLiPiApplication.applicationContext()).userDao()
+                CoroutineScope(Dispatchers.IO).launch {
 
+
+                    userDao.insert(
+                        User(
+                            UUID.randomUUID().toString(),
+                            "Kevin",
+                            420,
+                            true
+                        ),
+                        User(
+                            UUID.randomUUID().toString(),
+                            "Darius",
+                            187,
+                            false
+                        ),
+                        User(
+                            UUID.randomUUID().toString(),
+                            "Hendrik",
+                            1337,
+                            false
+                        ),
+                        User(
+                            UUID.randomUUID().toString(),
+                            "Florian",
+                            69,
+                            false
+                        )
+                    )
+                }
+
+            }
+        }
+    }
+
+    fun getDatabase(context: Context): WgDatabase {
+        return instance ?: Room.databaseBuilder(
+            context.applicationContext,
+            WgDatabase::class.java,
+            "wg_db"
+        )
+            .addCallback(createCallback)
+            .setQueryCallback({ sqlQuery, bindArgs ->
+                Log.i("SQL", "Query: $sqlQuery | Args: $bindArgs")
+            }, Executors.newSingleThreadExecutor())
+            .build()
+    }
 }

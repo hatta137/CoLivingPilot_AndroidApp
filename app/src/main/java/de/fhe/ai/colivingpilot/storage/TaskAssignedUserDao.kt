@@ -9,5 +9,4 @@ interface TaskAssignedUserDao {
 
     @Insert
     fun insert(vararg taskAssignedUser: TaskAssignedUser)
-
 }

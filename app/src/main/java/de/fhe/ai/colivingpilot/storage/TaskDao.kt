@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
-import androidx.room.Upsert
 import de.fhe.ai.colivingpilot.model.Task
 import kotlinx.coroutines.flow.Flow
 
@@ -36,5 +35,4 @@ interface TaskDao {
 
     @Query("DELETE FROM tasks WHERE id = :id")
     fun deleteByID(vararg id: String)
-
 }

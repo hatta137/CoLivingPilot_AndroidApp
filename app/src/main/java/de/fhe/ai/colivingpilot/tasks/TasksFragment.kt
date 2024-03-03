@@ -13,7 +13,6 @@ import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.util.refreshInterface
 
-
 class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
 
     private var _binding: FragmentTasksBinding? = null
@@ -56,8 +55,6 @@ class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
             }
 
             override fun onFailure(code: String?) {
-                //TODO("Not yet implemented")
-                //TODO Snackbar über Bottomnavbar bekommen!
                 view?.let {
                     Snackbar.make(it, "Kein Netz!", Snackbar.LENGTH_LONG)
                         .setBackgroundTint(Color.RED)
@@ -89,7 +86,4 @@ class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
         super.onDestroyView()
         _binding = null
     }
-
-
-
 }

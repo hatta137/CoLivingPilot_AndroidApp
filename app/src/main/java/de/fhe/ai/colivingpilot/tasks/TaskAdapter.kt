@@ -14,7 +14,6 @@ class TaskAdapter (private var taskClickListener: TaskClickListener)
 
     var items: List<Task> = listOf()
 
-    //Bauplan für jeden ViewHolder
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view)  {
         var id: String = ""
         val textView: TextView = view.findViewById(R.id.textView)
@@ -36,14 +35,13 @@ class TaskAdapter (private var taskClickListener: TaskClickListener)
         }
     }
 
-    //Dem ViewHolder das Layout zuweisen
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
             .inflate(R.layout.item_task, viewGroup, false)
         return ViewHolder(view)
     }
 
-    //Den ViewHolder mit Daten füllen
+
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.textView.text = items[position].title
         viewHolder.id = items[position].id

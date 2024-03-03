@@ -11,7 +11,6 @@ import de.fhe.ai.colivingpilot.storage.Repository
 import de.fhe.ai.colivingpilot.util.refreshInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class TaskViewModel(private val refreshListener: refreshInterface? = null)
@@ -42,5 +41,4 @@ class TaskViewModel(private val refreshListener: refreshInterface? = null)
             refreshListener?.refreshFinish()
         }
     }
-
 }
