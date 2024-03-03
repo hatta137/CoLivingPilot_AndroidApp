@@ -1,6 +1,5 @@
 package de.fhe.ai.colivingpilot.wg
 
-import android.util.Log
 import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.ItemUserBinding

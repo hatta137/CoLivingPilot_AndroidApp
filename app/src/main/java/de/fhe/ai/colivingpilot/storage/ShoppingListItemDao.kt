@@ -7,7 +7,6 @@ import androidx.room.Query
 import androidx.room.Update
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import kotlinx.coroutines.flow.Flow
-import retrofit2.http.DELETE
 
 @Dao
 interface ShoppingListItemDao {

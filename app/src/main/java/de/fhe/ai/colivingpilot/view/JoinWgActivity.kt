@@ -14,8 +14,6 @@ import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.util.UiUtils
-import retrofit2.Callback
-import retrofit2.Response
 
 class JoinWgActivity : AppCompatActivity() {
 
@@ -99,5 +97,4 @@ class JoinWgActivity : AppCompatActivity() {
             }
         }
     }
-
 }

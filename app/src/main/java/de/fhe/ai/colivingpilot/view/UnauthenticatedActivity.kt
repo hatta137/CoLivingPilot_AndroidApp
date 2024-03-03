@@ -7,7 +7,6 @@ import android.widget.Button
 import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
-import de.fhe.ai.colivingpilot.network.RetrofitClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
