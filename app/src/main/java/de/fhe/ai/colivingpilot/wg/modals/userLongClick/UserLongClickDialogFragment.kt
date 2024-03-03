@@ -1,7 +1,6 @@
 package de.fhe.ai.colivingpilot.wg.modals.userLongClick
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,14 @@ import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.DialogUserLongClickBinding
 
 
+/**
+ * A BottomSheetDialogFragment for presenting options related to a long-click on a user item.
+ * This dialog allows for actions such as changing a user's emoji or removing the user from the WG.
+ *
+ * It retrieves the username and user ID passed as arguments to display specific information and
+ * perform actions related to the selected user. The dialog includes a spinner for selecting a new emoji,
+ * a button for removing the user, and buttons for confirming or dismissing the dialog.
+ */
 class UserLongClickDialogFragment(
 ) : BottomSheetDialogFragment() {
 
@@ -35,7 +42,6 @@ class UserLongClickDialogFragment(
             username = it.getString("username").toString()
             userId = it.getString("id").toString()
         }
-        Log.i("UserLongClickDialog", "username: " + username + " id: " + userId)
 
         val emojiArray = resources.getStringArray(R.array.emoji_array)
         val currentEmoji =
@@ -64,10 +70,6 @@ class UserLongClickDialogFragment(
             }
             acceptButton.apply {
                 setOnClickListener {
-                    Log.i(
-                        "UserLongClickDialog",
-                        "selectedEmoji: " + spinnerSelectEmoji.selectedItem.toString()
-                    )
                     viewmodel.onDialogOkClick(
                         spinnerSelectEmoji.selectedItem.toString(),
                         username

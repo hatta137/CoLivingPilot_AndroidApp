@@ -11,6 +11,13 @@ import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.FragmentAddUserDialogBinding
 import de.fhe.ai.colivingpilot.util.QRCodeGenerator
 
+
+/**
+ * A [BottomSheetDialogFragment] subclass for adding a new user.
+ * This fragment provides a UI for adding a user either by
+ * copying a WG code to the clipboard,
+ * or using a QR code for a more interactive approach.
+ */
 class AddUserDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentAddUserDialogBinding? = null
@@ -30,7 +37,7 @@ class AddUserDialogFragment : BottomSheetDialogFragment() {
             abortButton.setOnClickListener { dismiss() }
             addButton.setOnClickListener { dismiss() }
             copyToClipboardButton.setOnClickListener {
-                //copy to clipboard
+
                 val clipboard =
                     CoLiPiApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                 val clip = android.content.ClipData.newPlainText(
@@ -38,7 +45,6 @@ class AddUserDialogFragment : BottomSheetDialogFragment() {
                     CoLiPiApplication.instance.keyValueStore.readString("wg_code")
                 )
                 clipboard.setPrimaryClip(clip)
-                //show snackbar
                 val snackbar = com.google.android.material.snackbar.Snackbar.make(
                     it,
                     "Copied to clipboard",
