@@ -9,7 +9,6 @@ sealed class WgEvent{
     data class OnLongClickUser(val user: UserUiItem) : WgEvent()
     data class OnChangeWgName(val wgName: String) : WgEvent()
     object OnClickEditWgButton : WgEvent()
-    object OnClickAddUserButton : WgEvent()
     object OnClickOutsideEditMode : WgEvent()
     data class OnDialogOkClick (val user: String, val selectedEmoji : String) : WgEvent()
     object OnDialogCancelClick : WgEvent()

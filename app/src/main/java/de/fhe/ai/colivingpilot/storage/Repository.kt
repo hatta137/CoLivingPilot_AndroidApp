@@ -232,6 +232,23 @@ class Repository {
         }
     }
 
+    fun leaveWg(callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.leaveWg().execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
     fun updateTask(id: String, title: String, notes: String, beerReward: Int, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
             try {

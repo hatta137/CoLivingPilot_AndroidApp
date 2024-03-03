@@ -114,7 +114,6 @@ class WgViewmodel(
                         }
 
                         override fun onFailure(code: String?) {
-                            TODO("Not yet implemented")
                         }
                     })
             }
@@ -131,20 +130,6 @@ class WgViewmodel(
 
             is WgEvent.OnDialogCancelClick -> {
 
-            }
-
-            is WgEvent.OnClickAddUserButton -> {
-                viewModelScope.launch {
-                    val user = User(
-                        UUID.randomUUID().toString(),
-                        "Hendrik",
-                        1337,
-                        false
-                    )
-                    Log.i(CoLiPiApplication.LOG_TAG, "User created")
-                    repository.addUser(user)
-                }
-                Log.i(CoLiPiApplication.LOG_TAG, "User added")
             }
             is WgEvent.OnSettingsClick -> {
                 sendEvent(UiEvent.Navigate("settings"))

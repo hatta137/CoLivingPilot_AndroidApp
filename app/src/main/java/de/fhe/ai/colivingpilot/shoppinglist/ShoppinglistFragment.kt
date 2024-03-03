@@ -72,7 +72,6 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
             }
 
             override fun onFailure(code: String?) {
-                TODO("Not yet implemented")
             }
         })
     }

@@ -7,6 +7,8 @@ import android.widget.Button
 import androidx.preference.Preference
 import androidx.preference.PreferenceViewHolder
 import de.fhe.ai.colivingpilot.R
+import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 
 class ButtonPreference @JvmOverloads constructor(
     context: Context,
@@ -17,22 +19,20 @@ class ButtonPreference @JvmOverloads constructor(
 
     init {
         widgetLayoutResource = R.layout.custom_button_preference
-
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         val leaveButton: Button = holder.findViewById(R.id.button_leave_wg) as Button
-        val logoutButton: Button = holder.findViewById(R.id.button_logout) as Button
 
         leaveButton.setOnClickListener {
-            Log.d("ButtonPreference", "Leave WG")
-            //todo: implement leave wg
-        }
+            CoLiPiApplication.instance.repository.leaveWg(object : NetworkResultNoData {
+                override fun onSuccess() {
+                }
 
-        logoutButton.setOnClickListener {
-            Log.d("ButtonPreference", "Logout")
-            //todo: implement logout
+                override fun onFailure(code: String?) {
+                }
+            })
         }
     }
 }

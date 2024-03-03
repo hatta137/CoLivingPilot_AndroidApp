@@ -95,7 +95,6 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
                             }
 
                             override fun onFailure(code: String?) {
-                                TODO("Not yet implemented")
                             }
 
                         })
@@ -115,7 +114,6 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
                             }
 
                             override fun onFailure(code: String?) {
-                                TODO("Not yet implemented")
                             }
                         })
                 }
@@ -128,13 +126,11 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
 
             binding.deleteButton.setOnClickListener {
                 taskViewModel.deleteTask(taskId, object : NetworkResultNoData {
-
                     override fun onSuccess() {
                         findNavController().navigate(R.id.action_taskConfigDialogFragment_to_navigation_tasks)
                     }
 
                     override fun onFailure(code: String?) {
-                        TODO("Not yet implemented")
                     }
                 })
             }
