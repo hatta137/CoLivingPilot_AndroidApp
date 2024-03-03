@@ -19,7 +19,14 @@ import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 
-
+/**
+ * BottomSheetDialogFragment for editing an existing shopping list item.
+ *
+ * This dialog allows the user to modify the title and notes of a specific shopping list item.
+ *
+ * @see ShoppingListViewModel
+ * @author Hendrik Lendeckel
+ */
 class ShoppingListItemEditDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentShoppingListItemEditDialogBinding? = null
@@ -39,12 +46,15 @@ class ShoppingListItemEditDialogFragment : BottomSheetDialogFragment() {
 
     }
 
+    /**
+     * Initializes the dialog views and sets up the data based on the selected shopping list item.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val itemId = arguments?.getString("selectedItem") ?: return
 
-
+        // Observe the data changes for the selected item using a coroutine
         lifecycleScope.launch {
 
             repeatOnLifecycle(Lifecycle.State.STARTED) {

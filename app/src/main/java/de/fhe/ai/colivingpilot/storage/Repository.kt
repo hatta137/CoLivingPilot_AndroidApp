@@ -11,6 +11,7 @@ import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.network.data.request.AddShoppingListItemRequest
 import de.fhe.ai.colivingpilot.network.data.request.AddTaskRequest
 import de.fhe.ai.colivingpilot.network.data.request.CheckShoppingListItemRequest
+import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
 import de.fhe.ai.colivingpilot.network.data.request.RenameWgRequest
 import de.fhe.ai.colivingpilot.network.data.request.UpdateShoppingListItemRequest
 import kotlinx.coroutines.CoroutineScope
@@ -188,10 +189,66 @@ class Repository(
         }
     }
 
+    fun createWg(request: CreateWgRequest, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.createWg(request).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
+    fun joinWg(invitationCode: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.joinWg(invitationCode).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
     fun updateTask(id: String, title: String, notes: String, beerReward: Int, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                // TODO
+                val response = RetrofitClient.instance.updateTask(id, AddTaskRequest(title, notes, beerReward)).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
+    }
+
+    fun doneTaskById(id: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.doneTask(id).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
                 refresh()
                 withContext(Dispatchers.Main) { callback.onSuccess() }
             } catch (_: IOException) {
@@ -202,14 +259,18 @@ class Repository(
 
     fun deleteTaskById(id: String, callback: NetworkResultNoData) {
         CoroutineScope(Dispatchers.IO).launch {
-            val response = RetrofitClient.instance.removeTask(id).execute()
-            if (!response.isSuccessful) {
-                withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
-                return@launch
-            }
+            try {
+                val response = RetrofitClient.instance.removeTask(id).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
 
-            refresh()
-            withContext(Dispatchers.Main) { callback.onSuccess() }
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
         }
     }
 
@@ -300,4 +361,5 @@ class Repository(
             }
         }
     }
+
 }

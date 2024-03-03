@@ -2,9 +2,6 @@ package de.fhe.ai.colivingpilot.tasks
 
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,17 +9,19 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
-import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.FragmentTaskConfigDialogBinding
 import de.fhe.ai.colivingpilot.network.NetworkResult
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.tasks.detail.TaskDetailViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-
+/**
+ * BottomSheetDialogFragment for configuring tasks.
+ *
+ * This dialog allows users to add, update, or delete tasks. It also displays pre-filled data for updating tasks.
+ *
+ * @see TaskViewModel
+ * @author Dario Daßler
+ */
 class TaskConfigDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentTaskConfigDialogBinding? = null
@@ -41,30 +40,26 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //check ob vorhandener task bearbeitet werden soll
         val taskId = arguments?.getString("selectedTask")
 
-        if(taskId != null) {
-            if(taskId.isNotBlank()) {
-                val taskDetailViewModel = TaskDetailViewModel(taskId)
-                taskDetailViewModel.task.observe(viewLifecycleOwner) {
-                    if (it == null)
-                        return@observe
-
-                    //als viewtask speichern? mit evtl. funktionen zum be & entstücken der views?
-                    binding.taskNameEditText.setText(it.title)
-                    binding.notesTextView.setText(it.notes)
-                    binding.editBeerCounter.setText(it.beerReward.toString())
+        // Populate the dialog with existing task data for updating
+        if (!taskId.isNullOrBlank()) {
+            val taskDetailViewModel = TaskDetailViewModel(taskId)
+            taskDetailViewModel.task.observe(viewLifecycleOwner) { task ->
+                if (task != null) {
+                    binding.taskNameEditText.setText(task.title)
+                    binding.notesTextView.setText(task.notes)
+                    binding.editBeerCounter.setText(task.beerReward.toString())
                 }
             }
         }
 
+        // Handle "Abort" button click
         binding.abortButton.setOnClickListener {
-            //TODO checken ob das ne gute lösung ist fragment auszublenden?
             findNavController().navigateUp()
         }
 
-
+        // Handle "Add" or "Update" button click
         binding.addButton.setOnClickListener {
 
             var title = binding.taskNameEditText.text.toString()
@@ -122,13 +117,12 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
                             override fun onFailure(code: String?) {
                                 TODO("Not yet implemented")
                             }
-
                         })
                 }
             }
         }
 
-        if(taskId != null) {
+        if (taskId != null) {
 
             binding.deleteButton.visibility = View.VISIBLE
 
@@ -142,14 +136,11 @@ class TaskConfigDialogFragment : BottomSheetDialogFragment() {
                     override fun onFailure(code: String?) {
                         TODO("Not yet implemented")
                     }
-
                 })
             }
         }
 
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

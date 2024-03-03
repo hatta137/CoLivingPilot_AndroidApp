@@ -12,7 +12,14 @@ import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentShoppingListItemAddDialogBinding
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 
-
+/**
+ * BottomSheetDialogFragment for adding a new item to the shopping list.
+ *
+ * This dialog allows the user to input a title and notes for a new shopping list item and adds it to the list.
+ *
+ * @see ShoppingListViewModel
+ * @author Hendrik Lendeckel
+ */
 class ShoppingListItemAddDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentShoppingListItemAddDialogBinding? = null
@@ -32,18 +39,20 @@ class ShoppingListItemAddDialogFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Handle "Add" button click
         binding.btnAdd.setOnClickListener {
 
             val itemTitle = binding.editTextTitle.text.toString()
             val itemNotes = binding.editTextNotes.text.toString()
 
+            // Validate and add the item to the shopping list
             if (itemTitle.isNotEmpty()) {
                 shoppingListViewModel.addItemToShoppingList(itemTitle, itemNotes,
                     object : NetworkResultNoData {
                         override fun onSuccess() {
+                            // Navigate to the shopping list after a successful addition
                             findNavController().navigate(R.id.action_shoppingListItemConfigDialogFragment_to_navigation_shoppinglist)
                         }
-
                         override fun onFailure(code: String?) {
                             Snackbar.make(view, "Fehler beim Schreiben der Online DB!", Snackbar.LENGTH_LONG)
                                 .setBackgroundTint(Color.RED)

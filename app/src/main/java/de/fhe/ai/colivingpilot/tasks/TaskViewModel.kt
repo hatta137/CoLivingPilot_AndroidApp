@@ -11,15 +11,22 @@ import de.fhe.ai.colivingpilot.storage.Repository
 import de.fhe.ai.colivingpilot.util.refreshInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-
+/**
+ * ViewModel for managing tasks.
+ *
+ * This ViewModel provides data and business logic related to tasks, such as adding, updating, and deleting tasks.
+ *
+ * @param refreshListener The listener to notify when a data refresh operation has finished.
+ * @see Task
+ * @see Repository
+ * @author Dario Daßler
+ */
 class TaskViewModel(private val refreshListener: refreshInterface? = null)
     : ViewModel() {
     private val repository : Repository = Repository()
     val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
 
-    //TODO Auslagern in config fragment
     fun addTask(title: String, notes: String, beerCount: Int, callback: NetworkResult<String>) {
         repository.addTask(title, notes, beerCount, callback)
     }
@@ -36,11 +43,13 @@ class TaskViewModel(private val refreshListener: refreshInterface? = null)
         repository.deleteTaskById(id, callback)
     }
 
+    /**
+     * Initiates a data refresh operation.
+     */
     fun refresh() {
         viewModelScope.launch(Dispatchers.IO) {
             repository.refresh()
             refreshListener?.refreshFinish()
         }
     }
-
 }

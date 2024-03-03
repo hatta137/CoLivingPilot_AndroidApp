@@ -11,7 +11,14 @@ import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 
-/***
+/**
+ * Adapter class for the shopping list RecyclerView.
+ *
+ * This class handles the binding of shopping list items to the corresponding views in the RecyclerView.
+ *
+ * @param context The context of the calling activity or fragment.
+ * @param listener The listener to handle user actions on shopping list items.
+ * @param items List of shopping list items to be displayed.
  * @author Hendrik Lendeckel
  */
 class ShoppingListAdapter(
@@ -54,9 +61,13 @@ class ShoppingListAdapter(
             true
         }
 
+        // Toggle strike-through based on item's checked status
         toggleStrikeThrough(holder.tvItemTitle, holder.cbDone.isChecked)
     }
 
+    /**
+     * Toggles the strike-through effect on the item title based on the checked status.
+     */
     private fun toggleStrikeThrough(tvItemTitle: TextView, isChecked: Boolean) {
 
         if(isChecked) {
@@ -66,6 +77,9 @@ class ShoppingListAdapter(
         }
     }
 
+    /**
+     * Toggles the visibility of item notes between preview and full view.
+     */
     fun toggleNoteVisibility(holder: ShoppingListViewHolder) {
 
         val notePreviewVisible = holder.tvNotePreview.visibility == View.VISIBLE
