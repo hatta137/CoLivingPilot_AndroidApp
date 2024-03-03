@@ -34,6 +34,7 @@ class JoinWgActivity : AppCompatActivity() {
             // Initiieren des QR-Code-Scanners
             val integrator = IntentIntegrator(this)
             integrator.setOrientationLocked(false)
+            integrator.setBeepEnabled(false)
             integrator.initiateScan()
         }
 
