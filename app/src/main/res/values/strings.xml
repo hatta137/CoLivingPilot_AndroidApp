@@ -121,5 +121,21 @@
     <string name="joined_wg_title">Du bist der WG \"%s\" beigetreten!</string>
     <string name="created_wg_title">Du hast die WG \"%s\" erstellt!</string>
     <string name="done">Erledigt</string>
+    <string name="join_wg">Tritt einer WG bei</string>
+    <string name="qr_code_scan">QR-Code scannen</string>
+    <string name="or">– oder –</string>
+    <string name="invite">Einladungs-Code</string>
+    <string name="join_wg_btn">Beitreten</string>
+    <string name="create_wg">Erstelle eine WG</string>
+    <string name="number_of_members">Anzahl der Mitglieder</string>
+    <string name="create">Erstellen</string>
+    <string name="in_ein_besseres_nwg_leben_starten">In ein besseres\nWG-Leben starten</string>
+    <string name="erstelle_eine_wg_oder_tritt_einer_bestehenden_wg_bei">Erstelle eine WG oder tritt einer bestehenden WG bei.</string>
+    <string name="new_task">Neue Aufgabe</string>
+    <string name="notes">Notizen</string>
+    <string name="number_of_beerchens">Bierchen:</string>
+    <string name="title">Title</string>
+    <string name="notes_preview">Notizvorschau...</string>
+    <string name="notes_full_view">Volle Notiz...</string>
 
 </resources>
