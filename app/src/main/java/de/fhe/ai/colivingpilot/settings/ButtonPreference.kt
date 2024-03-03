@@ -17,7 +17,6 @@ class ButtonPreference @JvmOverloads constructor(
 
     init {
         widgetLayoutResource = R.layout.custom_button_preference
-
     }
 
     override fun onBindViewHolder(holder: PreferenceViewHolder) {

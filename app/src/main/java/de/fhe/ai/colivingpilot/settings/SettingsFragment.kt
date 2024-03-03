@@ -12,7 +12,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
         val themePreference = findPreference<ListPreference>("theme_preference")
 
-        val currentValue = themePreference?.value
+        val currentValue = themePreference?.value ?: run {
+            val defaultValue = "system" // Assuming "system" is the value for follow system theme
+            themePreference?.value = defaultValue
+            defaultValue
+        }
         updateThemePreferenceIcon(themePreference, currentValue)
 
         themePreference?.setOnPreferenceChangeListener { _, newValue ->

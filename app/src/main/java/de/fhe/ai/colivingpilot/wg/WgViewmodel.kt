@@ -191,3 +191,9 @@ class WgViewmodel(
         keyValueStore.unregisterOnSharedPreferenceChangeListener(this)
     }
 }
+
+//Das WgFragment sendet WgEvents an das ViewModel, um auf Benutzerinteraktionen zu reagieren,
+//z.B. Das ViewModel verarbeitet diese Events und kann daraufhin UiEvents über einen Channel
+//zurück an das Fragment senden, um UI-Änderungen anzustoßen. Dies ermöglicht eine bidirektionale
+//Kommunikation zwischen UI (Fragment) und Logik (ViewModel) in einer sauberen, entkoppelten Architektur.
+//
