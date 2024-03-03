@@ -16,7 +16,12 @@ import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.util.refreshInterface
 
-/***
+/**
+ * Fragment for displaying and managing the shopping list.
+ *
+ * This fragment handles the UI for the shopping list, including the RecyclerView for displaying items,
+ * refresh functionality, and interaction with the view model.
+ *
  * @author Hendrik Lendeckel
  */
 class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingListActionListener, refreshInterface {
@@ -44,14 +49,17 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
 
         setupRecyclerView(view)
 
+        // Set up SwipeRefreshLayout for manual refresh
         binding.swipeRefreshLayout.setOnRefreshListener {
             shoppingListViewModel.refresh()
         }
 
+        // Navigate to add item dialog
         binding.btnAddItemToShoppingList.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_shoppinglist_to_shoppingListItemConfigDialogFragment)
         }
 
+        // Delete completed shopping items
         binding.btnDeleteDoneShoppingItems.setOnClickListener {
             shoppingListViewModel.deleteDoneItems()
         }
@@ -83,7 +91,9 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
         viewHolder?.let { shoppingListAdapter.toggleNoteVisibility(it) }
     }
 
-
+    /**
+     * Initializes and sets up the RecyclerView for displaying shopping list items.
+     */
     @SuppressLint("NotifyDataSetChanged")
     private fun setupRecyclerView(view: View) {
         val itemsList = mutableListOf<ShoppingListItem>()
@@ -100,6 +110,9 @@ class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingL
         }
     }
 
+    /**
+     * Implementation of the refreshInterface callback to signal the end of the refresh operation.
+     */
     override fun refreshFinish() {
         binding.swipeRefreshLayout.isRefreshing = false
     }

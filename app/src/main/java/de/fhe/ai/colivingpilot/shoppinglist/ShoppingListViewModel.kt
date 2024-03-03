@@ -12,7 +12,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-/***
+/**
+ * ViewModel class for managing the shopping list data and interactions.
+ *
+ * @param refreshListener Interface to notify the UI about the completion of a data refresh.
  * @author Hendrik Lendeckel
  */
 class ShoppingListViewModel(private val refreshListener: refreshInterface? = null): ViewModel() {
@@ -28,11 +31,20 @@ class ShoppingListViewModel(private val refreshListener: refreshInterface? = nul
      *
      * @param title The title of the shopping list item.
      * @param notes Notes for the shopping list item.
+     * @param callback Callback to handle the network result.
      */
     fun addItemToShoppingList(title: String, notes: String, callback: NetworkResultNoData) {
         repository.addShoppingListItem(title, notes, callback)
     }
 
+    /**
+     * Updates an existing shopping list item.
+     *
+     * @param id The ID of the shopping list item to be updated.
+     * @param title The new title for the shopping list item.
+     * @param notes The new notes for the shopping list item.
+     * @param callback Callback to handle the network result.
+     */
     fun updateShoppingListItem(id: String, title: String, notes: String, callback: NetworkResultNoData) {
         repository.updateShoppingListItem(id, title, notes, callback)
     }
@@ -54,9 +66,11 @@ class ShoppingListViewModel(private val refreshListener: refreshInterface? = nul
     }
 
     /**
-     * Updates the status of the shopping list item (selected/unselected).
+     * Toggles the checked status of a shopping list item.
      *
-     * @param shoppingListItem The shopping list item to be updated.
+     * @param id The ID of the shopping list item to be updated.
+     * @param isChecked The new checked status for the shopping list item.
+     * @param callback Callback to handle the network result.
      */
     fun toggleIsChecked(id: String, isChecked: Boolean, callback: NetworkResultNoData) {
         repository.checkShoppingListItem(id, !isChecked, callback)
@@ -69,6 +83,12 @@ class ShoppingListViewModel(private val refreshListener: refreshInterface? = nul
         }
     }
 
+    /**
+     * Retrieves a specific shopping list item by its ID.
+     *
+     * @param id The ID of the shopping list item to be retrieved.
+     * @return Flow representing the requested shopping list item.
+     */
     fun getShoppingListItemById(id: String): Flow<ShoppingListItem> {
         return repository.getShoppingListItemById(id)
     }
