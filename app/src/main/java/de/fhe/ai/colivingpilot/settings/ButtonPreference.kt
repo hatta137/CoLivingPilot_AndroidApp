@@ -22,16 +22,10 @@ class ButtonPreference @JvmOverloads constructor(
     override fun onBindViewHolder(holder: PreferenceViewHolder) {
         super.onBindViewHolder(holder)
         val leaveButton: Button = holder.findViewById(R.id.button_leave_wg) as Button
-        val logoutButton: Button = holder.findViewById(R.id.button_logout) as Button
 
         leaveButton.setOnClickListener {
             Log.d("ButtonPreference", "Leave WG")
             //todo: implement leave wg
-        }
-
-        logoutButton.setOnClickListener {
-            Log.d("ButtonPreference", "Logout")
-            //todo: implement logout
         }
     }
 }

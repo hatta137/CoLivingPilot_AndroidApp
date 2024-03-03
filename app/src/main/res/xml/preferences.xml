@@ -11,7 +11,7 @@
         app:useSimpleSummaryProvider="true" />
 
     <de.fhe.ai.colivingpilot.settings.ButtonPreference
-        android:key="logout_button"
+        android:key="leave_wg_button"
         android:layout="@layout/custom_button_preference" />
 
 
