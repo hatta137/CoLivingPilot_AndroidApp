@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.core.KeyValueStore
-import de.fhe.ai.colivingpilot.model.User
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
 import kotlinx.coroutines.channels.Channel
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.io.Serializable
-import java.util.UUID
 
 
 data class WgFragmentState(

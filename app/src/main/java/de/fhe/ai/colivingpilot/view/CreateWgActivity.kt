@@ -3,24 +3,16 @@ package de.fhe.ai.colivingpilot.view
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import de.fhe.ai.colivingpilot.MainActivity
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
-import de.fhe.ai.colivingpilot.network.RetrofitClient
 import de.fhe.ai.colivingpilot.network.data.request.CreateWgRequest
-import de.fhe.ai.colivingpilot.network.data.response.BackendResponse
-import de.fhe.ai.colivingpilot.network.data.response.datatypes.InvitationCodeData
 import de.fhe.ai.colivingpilot.util.UiUtils
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class CreateWgActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
