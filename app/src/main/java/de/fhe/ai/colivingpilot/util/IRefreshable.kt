@@ -1,6 +1,6 @@
 package de.fhe.ai.colivingpilot.util
 
-interface IRefreshInterface {
+interface IRefreshable {
 
     fun refreshFinish()
 

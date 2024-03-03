@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
-import de.fhe.ai.colivingpilot.util.IRefreshInterface
+import de.fhe.ai.colivingpilot.util.IRefreshable
 
 /**
  * Fragment for displaying and managing tasks.
@@ -22,7 +22,7 @@ import de.fhe.ai.colivingpilot.util.IRefreshInterface
  * @see TaskViewModel
  * @author Dario Daßler
  */
-class TasksFragment : Fragment(), TaskClickListener, IRefreshInterface {
+class TasksFragment : Fragment(), TaskClickListener, IRefreshable {
 
     private var _binding: FragmentTasksBinding? = null
     private val binding get() = _binding!!

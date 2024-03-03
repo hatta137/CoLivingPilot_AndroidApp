@@ -8,7 +8,7 @@ import de.fhe.ai.colivingpilot.model.Task
 import de.fhe.ai.colivingpilot.network.NetworkResult
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
-import de.fhe.ai.colivingpilot.util.IRefreshInterface
+import de.fhe.ai.colivingpilot.util.IRefreshable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
  * @see Repository
  * @author Dario Daßler
  */
-class TaskViewModel(private val refreshListener: IRefreshInterface? = null)
+class TaskViewModel(private val refreshListener: IRefreshable? = null)
     : ViewModel() {
     private val repository : Repository = Repository()
     val tasks : LiveData<List<Task>> = repository.getTasks().asLiveData()
