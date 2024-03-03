@@ -122,15 +122,17 @@ class WgFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            viewmodel.uiEvent.collect {uiEvent ->
+            viewmodel.uiEvent.collect { uiEvent ->
                 when (uiEvent) {
                     is UiEvent.PopBackStack -> {
                     }
+
                     is UiEvent.Navigate -> {
                         when (uiEvent.route) {
                             "user" -> {
                                 //navigate to user
                             }
+
                             "settings" -> {
                                 findNavController().navigate(R.id.action_navigation_wg_to_navigation_settings)
                             }
@@ -182,8 +184,6 @@ class WgFragment : Fragment() {
                 }
             }
         }
-
     }
-
 }
 

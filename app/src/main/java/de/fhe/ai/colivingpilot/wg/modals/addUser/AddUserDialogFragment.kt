@@ -68,5 +68,4 @@ class AddUserDialogFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
