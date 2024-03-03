@@ -24,14 +24,11 @@ import java.io.IOException
 import java.lang.Exception
 
 
-class Repository(
-
-) {
+class Repository {
     private val db: WgDatabase = WgDatabase.getInstance(CoLiPiApplication.applicationContext())
     private val userDao: UserDao = db.userDao()
     private val taskDao: TaskDao = db.taskDao()
     private val shoppingListItemDao: ShoppingListItemDao = db.shoppingListItemDao()
-    private val taskAssignedUserDao: TaskAssignedUserDao = db.taskAssignedUserDao()
 
     /**
      * Refreshes the app's data by fetching the relevant dataset from the server.
@@ -140,8 +137,21 @@ class Repository(
         userDao.insert(user)
     }
 
-    suspend fun deleteUser(user: User) {
-        userDao.delete(user)
+    suspend fun kickUser(username: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.kickFromWg(username).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
     }
 
     suspend fun getUserById(id: String): User {

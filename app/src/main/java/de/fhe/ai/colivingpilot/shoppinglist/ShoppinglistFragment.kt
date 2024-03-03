@@ -14,7 +14,7 @@ import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.databinding.FragmentShoppinglistBinding
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
-import de.fhe.ai.colivingpilot.util.refreshInterface
+import de.fhe.ai.colivingpilot.util.IRefreshable
 
 /**
  * Fragment for displaying and managing the shopping list.
@@ -24,7 +24,7 @@ import de.fhe.ai.colivingpilot.util.refreshInterface
  *
  * @author Hendrik Lendeckel
  */
-class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingListActionListener, refreshInterface {
+class ShoppinglistFragment : Fragment(R.layout.fragment_shoppinglist), ShoppingListActionListener, IRefreshable {
 
     private lateinit var binding: FragmentShoppinglistBinding
     private lateinit var shoppingListAdapter: ShoppingListAdapter

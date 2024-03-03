@@ -1,10 +1,11 @@
 package de.fhe.ai.colivingpilot.wg.modals.userLongClick
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import de.fhe.ai.colivingpilot.core.CoLiPiApplication
+import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
+import de.fhe.ai.colivingpilot.util.UiUtils
 import kotlinx.coroutines.launch
 
 class UserLongClickViewmodel : ViewModel(){
@@ -21,11 +22,15 @@ class UserLongClickViewmodel : ViewModel(){
     fun onDialogCancelClick(){
         // do nothing
     }
-    fun onDeleteUserClick(id: String){
+    fun onDeleteUserClick(username: String){
         viewModelScope.launch {
-            val user = repository.getUserById(id)
-            repository.deleteUser(user)
-            Log.d("UserLongClickViewmodel", "User deleted: " + user.username)
+            repository.kickUser(username, object : NetworkResultNoData {
+                override fun onSuccess() {
+                }
+
+                override fun onFailure(code: String?) {
+                }
+            })
         }
     }
 
