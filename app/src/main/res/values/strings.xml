@@ -33,7 +33,6 @@
     <string name="title_theme_preference">Theme</string>
     <string name="summary_theme_preference">Choose between dark or light theme</string>
     <string name="dialog_title_theme_preference">Select Theme</string>
-    <string name="button_logout_text">Logout</string>
     <string name="button_leave_wg_text">WG verlassen</string>
 
 
