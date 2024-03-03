@@ -25,5 +25,4 @@ sealed class UiEvent {
     object activateEditMode : UiEvent()
 
     object deactivateEditMode : UiEvent()
-
 }

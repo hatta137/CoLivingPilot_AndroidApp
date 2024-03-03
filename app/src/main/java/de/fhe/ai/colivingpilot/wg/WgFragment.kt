@@ -114,23 +114,26 @@ class WgFragment : Fragment() {
                 binding.tvGroupName.visibility = View.VISIBLE
                 binding.etGroupName.visibility = View.GONE
                 binding.ibEdit.visibility = View.VISIBLE
-                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+                val imm =
+                    requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
                 imm.hideSoftInputFromWindow(view.windowToken, 0)
             }
         }
 
         lifecycleScope.launch {
-            viewmodel.uiEvent.collect {uiEvent ->
+            viewmodel.uiEvent.collect { uiEvent ->
                 when (uiEvent) {
                     is UiEvent.PopBackStack -> {
                         Log.d(CoLiPiApplication.LOG_TAG, "PopBackStack")
                     }
+
                     is UiEvent.Navigate -> {
                         Log.d(CoLiPiApplication.LOG_TAG, "Navigate to ${uiEvent.route}")
                         when (uiEvent.route) {
                             "user" -> {
                                 //navigate to user
                             }
+
                             "settings" -> {
                                 findNavController().navigate(R.id.action_navigation_wg_to_navigation_settings)
                             }
@@ -147,7 +150,10 @@ class WgFragment : Fragment() {
                         val bundle = Bundle()
                         bundle.putString("username", uiEvent.username)
                         bundle.putString("id", uiEvent.id)
-                        findNavController().navigate(R.id.action_navigation_wg_to_userLongClickDialogFragment, bundle)
+                        findNavController().navigate(
+                            R.id.action_navigation_wg_to_userLongClickDialogFragment,
+                            bundle
+                        )
                     }
 
                     is UiEvent.updateEmoji -> {
@@ -183,12 +189,11 @@ class WgFragment : Fragment() {
                 }
             }
         }
-
     }
+
     override fun onDestroy() {
         Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment: onDestroy()")
         super.onDestroy()
     }
-
 }
 

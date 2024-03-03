@@ -29,13 +29,21 @@ class AddUserDialogFragment : BottomSheetDialogFragment() {
         binding.apply {
             abortButton.setOnClickListener { dismiss() }
             addButton.setOnClickListener { dismiss() }
-            copyToClipboardButton.setOnClickListener{
+            copyToClipboardButton.setOnClickListener {
                 //copy to clipboard
-                val clipboard = CoLiPiApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clip = android.content.ClipData.newPlainText("wg_code", CoLiPiApplication.instance.keyValueStore.readString("wg_code"))
+                val clipboard =
+                    CoLiPiApplication.instance.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                val clip = android.content.ClipData.newPlainText(
+                    "wg_code",
+                    CoLiPiApplication.instance.keyValueStore.readString("wg_code")
+                )
                 clipboard.setPrimaryClip(clip)
                 //show snackbar
-                val snackbar = com.google.android.material.snackbar.Snackbar.make(it, "Copied to clipboard", com.google.android.material.snackbar.Snackbar.LENGTH_SHORT)
+                val snackbar = com.google.android.material.snackbar.Snackbar.make(
+                    it,
+                    "Copied to clipboard",
+                    com.google.android.material.snackbar.Snackbar.LENGTH_SHORT
+                )
                 snackbar.show()
             }
             qrCodeImageView.setImageBitmap(
@@ -54,5 +62,4 @@ class AddUserDialogFragment : BottomSheetDialogFragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }
