@@ -52,7 +52,6 @@ interface BackendService {
     @GET("api/wg/leave")
     fun leaveWg(): Call<BackendResponseNoData>
 
-    // TODO: either use id as path param or username as query param
     @AuthRequired
     @GET("api/wg/kick/{username}")
     fun kickFromWg(@Path("username") username: String): Call<BackendResponseNoData>

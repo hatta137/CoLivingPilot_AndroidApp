@@ -152,13 +152,6 @@ class WgViewmodel(
                 }
                 Log.i(CoLiPiApplication.LOG_TAG, "User added")
             }
-
-            is WgEvent.OnDeleteUserClick -> {
-                viewModelScope.launch {
-                    val user = repository.getUserById(event.id)
-                    repository.deleteUser(user)
-                }
-            }
             is WgEvent.OnSettingsClick -> {
                 sendEvent(UiEvent.Navigate("settings"))
             }

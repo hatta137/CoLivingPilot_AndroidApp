@@ -137,8 +137,21 @@ class Repository {
         userDao.insert(user)
     }
 
-    suspend fun deleteUser(user: User) {
-        userDao.delete(user)
+    suspend fun kickUser(username: String, callback: NetworkResultNoData) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = RetrofitClient.instance.kickFromWg(username).execute()
+                if (!response.isSuccessful) {
+                    withContext(Dispatchers.Main) { callback.onFailure(response.errorBody()?.string()) }
+                    return@launch
+                }
+
+                refresh()
+                withContext(Dispatchers.Main) { callback.onSuccess() }
+            } catch (_: IOException) {
+                withContext(Dispatchers.Main) { callback.onFailure(null) }
+            }
+        }
     }
 
     suspend fun getUserById(id: String): User {

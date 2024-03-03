@@ -18,7 +18,7 @@ class UserLongClickDialogFragment(
 
     private val viewmodel: UserLongClickViewmodel by viewModels()
     private lateinit var username: String
-    private lateinit var id: String
+    private lateinit var userId: String
     private var _binding: DialogUserLongClickBinding? = null
     private val binding get() = _binding!!
 
@@ -33,9 +33,9 @@ class UserLongClickDialogFragment(
         super.onViewCreated(view, savedInstanceState)
         arguments?.let {
             username = it.getString("username").toString()
-            id = it.getString("id").toString()
+            userId = it.getString("id").toString()
         }
-        Log.i("UserLongClickDialog", "username: " + username + " id: " + id)
+        Log.i("UserLongClickDialog", "username: " + username + " id: " + userId)
 
         val emojiArray = resources.getStringArray(R.array.emoji_array)
         val currentEmoji =
@@ -55,7 +55,7 @@ class UserLongClickDialogFragment(
             }
             buttonDeleteUser.apply {
                 setOnClickListener {
-                    viewmodel.onDeleteUserClick(id.toString())
+                    viewmodel.onDeleteUserClick(username)
                 }
                 text = username + " aus WG entfernen"
             }
