@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import de.fhe.ai.colivingpilot.model.ShoppingListItem
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.storage.Repository
-import de.fhe.ai.colivingpilot.util.refreshInterface
+import de.fhe.ai.colivingpilot.util.IRefreshInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
  * @param refreshListener Interface to notify the UI about the completion of a data refresh.
  * @author Hendrik Lendeckel
  */
-class ShoppingListViewModel(private val refreshListener: refreshInterface? = null): ViewModel() {
+class ShoppingListViewModel(private val refreshListener: IRefreshInterface? = null): ViewModel() {
 
     private val repository: Repository = Repository()
 
