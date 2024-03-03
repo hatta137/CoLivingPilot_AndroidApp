@@ -13,6 +13,15 @@ import de.fhe.ai.colivingpilot.databinding.FragmentTasksBinding
 import de.fhe.ai.colivingpilot.network.NetworkResultNoData
 import de.fhe.ai.colivingpilot.util.refreshInterface
 
+/**
+ * Fragment for displaying and managing tasks.
+ *
+ * This fragment includes a RecyclerView to display tasks, a swipe-to-refresh layout for manual refreshing,
+ * and buttons for adding new tasks.
+ *
+ * @see TaskViewModel
+ * @author Dario Daßler
+ */
 class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
 
     private var _binding: FragmentTasksBinding? = null
@@ -49,6 +58,11 @@ class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
 
     }
 
+    /**
+     * Handles the click event when the "Finish" button is clicked for a task.
+     *
+     * @param id The ID of the clicked task.
+     */
     override fun onFinishButtonClick(id: String) {
         taskViewModel.doneTask(id, object : NetworkResultNoData {
             override fun onSuccess() {
@@ -64,6 +78,11 @@ class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
         })
     }
 
+    /**
+     * Handles the click event when a task item is clicked in the RecyclerView.
+     *
+     * @param id The ID of the clicked task.
+     */
     override fun onItemClick(id: String) {
         val bundle = Bundle().apply {
             putString("selectedTask", id)
@@ -71,6 +90,11 @@ class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
         findNavController().navigate(R.id.action_navigation_tasks_to_task_info, bundle)
     }
 
+    /**
+     * Handles the long click event when a task item is long-pressed in the RecyclerView.
+     *
+     * @param id The ID of the long-pressed task.
+     */
     override fun onLongItemClick(id: String) {
         val bundle = Bundle().apply {
             putString("selectedTask", id)
@@ -78,6 +102,9 @@ class TasksFragment : Fragment(), TaskClickListener, refreshInterface {
         findNavController().navigate(R.id.action_navigation_tasks_to_taskConfigDialogFragment, bundle)
     }
 
+    /**
+     * Notifies the UI that the data refresh operation has finished.
+     */
     override fun refreshFinish() {
         binding.swipeRefreshLayout.isRefreshing = false
     }

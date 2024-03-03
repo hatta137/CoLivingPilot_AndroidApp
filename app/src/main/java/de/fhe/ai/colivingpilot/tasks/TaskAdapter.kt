@@ -9,6 +9,14 @@ import androidx.recyclerview.widget.RecyclerView
 import de.fhe.ai.colivingpilot.R
 import de.fhe.ai.colivingpilot.model.Task
 
+/**
+ * Adapter class for the RecyclerView displaying tasks.
+ *
+ * This adapter binds task data to the corresponding views in the RecyclerView.
+ *
+ * @param taskClickListener The listener to handle user interactions with tasks.
+ * @author Dario Daßler
+ */
 class TaskAdapter (private var taskClickListener: TaskClickListener)
     : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
