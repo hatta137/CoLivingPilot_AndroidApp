@@ -23,7 +23,6 @@ import org.json.JSONObject
 import java.io.IOException
 import java.lang.Exception
 
-
 class Repository {
     private val db: WgDatabase = WgDatabase.getInstance(CoLiPiApplication.applicationContext())
     private val userDao: UserDao = db.userDao()

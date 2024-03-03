@@ -1,5 +1,9 @@
 package de.fhe.ai.colivingpilot.wg
 
+
+/**
+ * Represents UI events that can be emitted from the WgViewModel to trigger actions in the WgFragment.
+ */
 sealed class UiEvent {
 
     object PopBackStack : UiEvent()

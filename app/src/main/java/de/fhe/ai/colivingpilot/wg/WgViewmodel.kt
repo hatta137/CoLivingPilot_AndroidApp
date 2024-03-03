@@ -32,16 +32,6 @@ data class UserUiItem(
     val beerCount: Int,
     val emoji: String
 )
-data class UserLongClickDialogState(
-    val show : Boolean,
-    val userLongClickDialog: UserLongClickDialog?
-) : Serializable
-data class UserLongClickDialog(
-    val selectedEmoji: String,
-    val username: String,
-    val id: String
-) : Serializable
-
 class WgViewmodel(
     val state: SavedStateHandle
 ) : ViewModel(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -53,6 +43,10 @@ class WgViewmodel(
     val wgName: LiveData<String>
         get() = _wgName
 
+    /**
+     * LiveData for the list of users in the WG.
+     * Maps the list of users from the repository to a list of UserUiItems.
+     */
     val userUiItems: LiveData<List<UserUiItem>> = repository.getUsersFlow().map { users ->
         users.map {
             UserUiItem(
@@ -161,12 +155,20 @@ class WgViewmodel(
         }
     }
 
+    /**
+     * Sends UI events to be processed.
+     *
+     * @param event The UiEvent to send.
+     */
     fun sendEvent(event: UiEvent) {
         viewModelScope.launch {
             _uiEvent.send(event)
         }
     }
 
+    /**
+     * Responds to changes in shared preferences, updating WG name or emoji as needed.
+     */
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         key?.let {
             if (key == "wg_name") {

@@ -3,7 +3,6 @@ package de.fhe.ai.colivingpilot.wg
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,23 +11,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import dagger.hilt.android.AndroidEntryPoint
 import de.fhe.ai.colivingpilot.R
-import de.fhe.ai.colivingpilot.core.CoLiPiApplication
 import de.fhe.ai.colivingpilot.databinding.FragmentWgBinding
-import de.fhe.ai.colivingpilot.wg.modals.userLongClick.UserLongClickViewmodel
 import kotlinx.coroutines.launch
 
-@AndroidEntryPoint
 class WgFragment : Fragment() {
 
     private val viewmodel: WgViewmodel by viewModels()
-    private val userLongClickViewmodel: UserLongClickViewmodel by viewModels()
 
     private lateinit var binding: FragmentWgBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +29,18 @@ class WgFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_wg, container, false)
     }
 
+    /**
+     * Initializes the UI and sets up event handlers for user interactions.
+     *
+     * Configures the user list RecyclerView with adapters and click listeners, allowing for user
+     * interaction long clicks on user items. It also handles UI changes for
+     * group name editing, including showing and hiding input fields and buttons based on the edit mode.
+     *
+     * Listens for touch events on the root view to exit edit mode when clicking outside editable areas.
+     * Observes ViewModel states for updating UI components such as user list, group name, and edit mode.
+     * Collects UI events from the ViewModel to execute actions like navigation, showing snackbars,
+     * dialogues, and updating emojis or group names.
+     */
     @SuppressLint("ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -97,7 +100,6 @@ class WgFragment : Fragment() {
         }
         viewmodel.wgFragmentState.observe(viewLifecycleOwner) {
             if (it.isEditMode) {
-                //Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment: wgFragmentState.isEditMode = true")
                 binding.tvGroupName.visibility = View.GONE
                 binding.etGroupName.visibility = View.VISIBLE
                 binding.ibEdit.visibility = View.GONE
@@ -123,10 +125,8 @@ class WgFragment : Fragment() {
             viewmodel.uiEvent.collect {uiEvent ->
                 when (uiEvent) {
                     is UiEvent.PopBackStack -> {
-                        Log.d(CoLiPiApplication.LOG_TAG, "PopBackStack")
                     }
                     is UiEvent.Navigate -> {
-                        Log.d(CoLiPiApplication.LOG_TAG, "Navigate to ${uiEvent.route}")
                         when (uiEvent.route) {
                             "user" -> {
                                 //navigate to user
@@ -139,7 +139,6 @@ class WgFragment : Fragment() {
 
                     is UiEvent.ShowSnackbar -> {
                         val message = getString(uiEvent.message)
-                        Log.d(CoLiPiApplication.LOG_TAG, "Show snackbar with message $message")
                         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT).show()
                     }
 
@@ -184,10 +183,6 @@ class WgFragment : Fragment() {
             }
         }
 
-    }
-    override fun onDestroy() {
-        Log.d(CoLiPiApplication.LOG_TAG, "SettingsFragment: onDestroy()")
-        super.onDestroy()
     }
 
 }
