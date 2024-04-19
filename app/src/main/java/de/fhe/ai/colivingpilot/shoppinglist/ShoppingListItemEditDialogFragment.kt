@@ -101,7 +101,6 @@ class ShoppingListItemEditDialogFragment : BottomSheetDialogFragment() {
         binding.btnCancel.setOnClickListener {
             findNavController().navigateUp()
         }
-
     }
 
     override fun onDestroyView() {

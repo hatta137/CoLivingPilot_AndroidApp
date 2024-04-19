@@ -69,14 +69,12 @@ class JoinWgActivity : AppCompatActivity() {
             }
 
             override fun onFailure(code: String?) {
-                // TODO: Translate status field
                 UiUtils.showSnackbar(this@JoinWgActivity, joinBtn, R.string.snackbar_something_went_wrong, Snackbar.LENGTH_SHORT, R.color.red)
                 setFormLocked(false)
             }
         })
     }
 
-    //TODO auf neuere Varaiante umstellen!!!
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
